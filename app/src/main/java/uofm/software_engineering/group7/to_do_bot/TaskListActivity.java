@@ -9,5 +9,8 @@ public class TaskListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_list);
+
+        ComponentsCreator creator = new ComponentsCreator();
+        creator.run();
     }
 }
