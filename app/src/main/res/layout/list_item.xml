@@ -10,12 +10,12 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"/>
 
-    <TextView
+    <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/list_item_String"
         android:textSize="17dp"
-        android:layout_weight="10"/>
+        android:layout_weight="10" />
 
     <ImageButton
         android:layout_width="25dp"
@@ -25,7 +25,8 @@
         android:layout_weight="1"
         android:layout_centerHorizontal="true"
         android:background="#00000000"
-        android:scaleType="fitXY"/>
+        android:scaleType="fitXY"
+        android:layout_gravity="center|right"/>
 
 
 </LinearLayout>
