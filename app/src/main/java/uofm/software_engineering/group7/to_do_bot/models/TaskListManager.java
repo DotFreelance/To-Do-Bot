@@ -1,26 +1,22 @@
 package uofm.software_engineering.group7.to_do_bot.models;
 
 
-import uofm.software_engineering.group7.to_do_bot.models.ListItem;
-import uofm.software_engineering.group7.to_do_bot.models.TaskList;
-import uofm.software_engineering.group7.to_do_bot.models.TaskListItem;
-
 /**
  * Created by Faye on 1/22/2016.
  */
 
 public class TaskListManager {
-    private String categoryName;
+    private String category;
     private TaskList list;
     private int counter; //TODO: keep or not? for ID
 
     public TaskListManager(String newName) {
-        categoryName = newName;
+        category = newName;
         counter = 0;
     }
 
     public void editCategoryName(String newName) {
-        categoryName = newName;
+        category = newName;
     }
 
     public void addTask(String value) {
