@@ -9,6 +9,7 @@ import uofm.software_engineering.group7.to_do_bot.models.ListItem;
  */
 public class TaskListItem implements ListItem {
     private String value;
+    private boolean checked = false;
 
     public TaskListItem(String newValue) {
         value = newValue;
@@ -24,6 +25,10 @@ public class TaskListItem implements ListItem {
 
     public void clear() {
         value = "";
+    }
+
+    public void check() {
+        checked = true;
     }
 
 }
