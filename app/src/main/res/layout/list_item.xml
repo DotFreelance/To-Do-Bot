@@ -5,8 +5,12 @@
     android:layout_height="match_parent">
 
 
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"/>
 
-    <TextView
+    <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/list_item_String"
@@ -17,10 +21,12 @@
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:id="@+id/deleteButton"
-        android:src="@mipmap/delete"
+        android:src="@drawable/delete"
         android:layout_weight="1"
+        android:layout_centerHorizontal="true"
         android:background="#00000000"
-        android:scaleType="fitXY"/>
+        android:scaleType="fitXY"
+        android:layout_gravity="center|right"/>
 
 
 </LinearLayout>
