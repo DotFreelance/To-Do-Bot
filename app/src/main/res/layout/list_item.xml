@@ -16,6 +16,7 @@
         android:id="@+id/list_item_String"
         android:textSize="17sp"
         android:layout_weight="10"/>
+        android:autoText="true" />
 
     <ImageButton
         android:layout_width="25dp"
