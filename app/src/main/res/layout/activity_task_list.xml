@@ -8,7 +8,7 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="16dp"
-
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.softeng1.todolist.MainActivity"
     android:orientation="vertical">
 
@@ -22,12 +22,12 @@
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:id="@+id/addButton"
-        android:src="@drawable/plus"
+        android:src="@mipmap/plus"
         android:layout_weight="1"
-        android:layout_centerHorizontal="true"
-        android:background="#00000000"
-        android:scaleType="fitXY"/>
+        android:background="#00ffffff"
+        android:scaleType="fitXY"
+        android:contentDescription="@string/add_button_description" />
 
-    <!-- app:layout_behavior="@string/appbar_scrolling_view_behavior" -->
+
 </LinearLayout>
 
