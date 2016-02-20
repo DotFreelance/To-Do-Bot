@@ -19,6 +19,6 @@ public class TaskListActivity extends AppCompatActivity
     }
 
     public void onAddClick(View v){
-        creator.listManager.addTask("");
+        creator.listManager.addTask("A default description for testing");
     }
 }

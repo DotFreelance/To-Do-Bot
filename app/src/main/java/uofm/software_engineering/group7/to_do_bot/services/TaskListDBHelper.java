@@ -12,22 +12,25 @@ public class TaskListDBHelper extends SQLiteOpenHelper{
     private static final int DATABASE_VERSION = 3;
 
     private String tableName;
-    private String TABLE_CREATE_QUERY = "CREATE TABLE " + tableName + " (" +
-            TaskListContract.TaskListItemSchema._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
-            TaskListContract.TaskListItemSchema.COL_NAME_CREATED + " DATETIME DEFAULT CURRENT_TIMESTAMP" +
-            TaskListContract.TaskListItemSchema.COL_NAME_DESCRIPTION + " TEXT NOT NULL," +
-            TaskListContract.TaskListItemSchema.COL_NAME_CHECKED + " BOOLEAN NOT NULL CHECK " +
-            "(" + TaskListContract.TaskListItemSchema.COL_NAME_CHECKED + " IN (0,1))" +
-            TaskListContract.TaskListItemSchema.COL_NAME_ALARM + " DATETIME DEFAULT NULL";
+    private String tableCreateQuery;
 
     public TaskListDBHelper(Context context, String newTableName){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.tableName = newTableName;
+        // The table name is dynamic, so we need to assign at run-time
+        this.tableCreateQuery = "CREATE TABLE " + tableName + " (" +
+            TaskListContract.TaskListItemSchema._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            TaskListContract.TaskListItemSchema.COL_NAME_CREATED + " DATETIME DEFAULT CURRENT_TIMESTAMP," +
+            TaskListContract.TaskListItemSchema.COL_NAME_DESCRIPTION + " TEXT NOT NULL," +
+            TaskListContract.TaskListItemSchema.COL_NAME_CHECKED + " BOOLEAN NOT NULL" +
+            " CHECK (" + TaskListContract.TaskListItemSchema.COL_NAME_CHECKED + " IN (0,1))," +
+            TaskListContract.TaskListItemSchema.COL_NAME_ALARM + " DATETIME DEFAULT NULL" +
+        ");";
     }
 
     @Override
     public void onCreate(SQLiteDatabase db){
-        db.execSQL(TABLE_CREATE_QUERY);
+        db.execSQL(tableCreateQuery);
     }
 
     @Override

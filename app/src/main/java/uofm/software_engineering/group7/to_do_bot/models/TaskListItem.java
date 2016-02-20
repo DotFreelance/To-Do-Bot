@@ -11,8 +11,10 @@ public class TaskListItem implements ListItem {
     private TaskListDBHelper taskListDB;
     private String taskDescription;
     private boolean checked = false;
+    private long id;
 
-    public TaskListItem(TaskListDBHelper dbHelper, String newTaskDescription) {
+    public TaskListItem(TaskListDBHelper dbHelper, long itemID, String newTaskDescription) {
+        id = itemID;
         taskListDB = dbHelper;
         taskDescription = newTaskDescription;
     }
@@ -36,4 +38,7 @@ public class TaskListItem implements ListItem {
         // TODO: DB Integration
     }
 
+    public long getId() {
+        return id;
+    }
 }
