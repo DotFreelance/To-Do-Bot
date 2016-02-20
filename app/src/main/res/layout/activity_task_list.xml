@@ -8,7 +8,7 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="16dp"
-    tools:context="com.softeng1.todolist.MainActivity"
+    tools:context=".TaskListActivity"
     android:orientation="vertical">
 
     <ListView
@@ -25,7 +25,8 @@
         android:layout_weight="1"
         android:background="#00ffffff"
         android:scaleType="fitXY"
-        android:contentDescription="@string/add_button_description" />
+        android:contentDescription="@string/add_button_description"
+        android:onClick="onAddClick" />
 
 
 </LinearLayout>

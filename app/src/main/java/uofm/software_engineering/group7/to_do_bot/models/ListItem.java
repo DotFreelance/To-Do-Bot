@@ -5,7 +5,7 @@ package uofm.software_engineering.group7.to_do_bot.models;
  *
  */
 public interface ListItem {
-    public void editValue(String newValue);
-    public String getValue();
-    public void clear();
+    public void editTaskDescription(String newTaskDescription);
+    public String getTaskDescription();
+    public void clearTaskDescription();
 }
