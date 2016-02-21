@@ -6,7 +6,7 @@ import android.content.Context;
 /**
  * Created by Faye on 2/8/2016.
  */
-public class ComponentsCreator {
+class ComponentsCreator {
     public TaskListManager listManager;
 
     public void run(Context context) {

@@ -10,27 +10,23 @@ import android.content.Context;
 public class TaskListDBHelper extends SQLiteOpenHelper{
     private static final String DATABASE_NAME = "to-do-bot";
     private static final int DATABASE_VERSION = 3;
-
-    private String tableName;
-    private String tableCreateQuery;
-
-    public TaskListDBHelper(Context context, String newTableName){
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
-        this.tableName = newTableName;
-        // The table name is dynamic, so we need to assign at run-time
-        this.tableCreateQuery = "CREATE TABLE " + tableName + " (" +
+    private static final String TABLE_CREATE_QUERY = "CREATE TABLE " + TaskListContract.TABLE_NAME + " (" +
             TaskListContract.TaskListItemSchema._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
             TaskListContract.TaskListItemSchema.COL_NAME_CREATED + " DATETIME DEFAULT CURRENT_TIMESTAMP," +
+            TaskListContract.TaskListItemSchema.COL_NAME_CATEGORY + " TEXT NOT NULL," +
             TaskListContract.TaskListItemSchema.COL_NAME_DESCRIPTION + " TEXT NOT NULL," +
             TaskListContract.TaskListItemSchema.COL_NAME_CHECKED + " BOOLEAN NOT NULL" +
             " CHECK (" + TaskListContract.TaskListItemSchema.COL_NAME_CHECKED + " IN (0,1))," +
             TaskListContract.TaskListItemSchema.COL_NAME_ALARM + " DATETIME DEFAULT NULL" +
-        ");";
+            ");";
+
+    public TaskListDBHelper(Context context){
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db){
-        db.execSQL(tableCreateQuery);
+        db.execSQL(TABLE_CREATE_QUERY);
     }
 
     @Override

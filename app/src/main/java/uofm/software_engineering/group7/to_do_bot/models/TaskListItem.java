@@ -9,23 +9,33 @@ import uofm.software_engineering.group7.to_do_bot.services.TaskListDBHelper;
  */
 public class TaskListItem implements ListItem {
     private TaskListDBHelper taskListDB;
+    private TaskListManager taskListManager;
     private String taskDescription;
     private boolean checked = false;
     private long id;
 
-    public TaskListItem(TaskListDBHelper dbHelper, long itemID, String newTaskDescription) {
+    public TaskListItem(TaskListManager listManager, TaskListDBHelper dbHelper, long itemID, String newTaskDescription) {
         id = itemID;
+        taskListManager = listManager;
         taskListDB = dbHelper;
         taskDescription = newTaskDescription;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getTaskDescription() {
+        return taskDescription;
+    }
+
+    public String getCategory(){
+        return taskListManager.getCategory();
     }
 
     public void editTaskDescription(String newTaskDescription) {
         taskDescription = newTaskDescription;
         // TODO: DB Integration
-    }
-
-    public String getTaskDescription() {
-        return taskDescription;
     }
 
     public void clearTaskDescription() {
@@ -38,7 +48,5 @@ public class TaskListItem implements ListItem {
         // TODO: DB Integration
     }
 
-    public long getId() {
-        return id;
-    }
+
 }

@@ -15,7 +15,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/listView"
-        android:layout_weight="10"/>
+        android:layout_weight="10"
+        tools:listitem="@layout/list_item" />
 
     <ImageButton
         android:layout_width="25dp"
