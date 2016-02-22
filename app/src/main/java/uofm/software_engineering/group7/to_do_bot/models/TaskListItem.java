@@ -23,7 +23,6 @@ public class TaskListItem implements ListItem {
     private boolean checked = false;
     private String alarmTime = null;
 
-
     public TaskListItem(TaskListManager listManager, TaskListDBHelper dbHelper,
                         long itemID,
                         String dateCreated,
