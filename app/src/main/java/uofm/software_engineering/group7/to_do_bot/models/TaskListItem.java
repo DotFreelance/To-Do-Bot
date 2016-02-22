@@ -2,9 +2,7 @@ package uofm.software_engineering.group7.to_do_bot.models;
 
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
-import android.widget.Toast;
 
-import uofm.software_engineering.group7.to_do_bot.R;
 import uofm.software_engineering.group7.to_do_bot.services.TaskListContract;
 import uofm.software_engineering.group7.to_do_bot.services.TaskListDBHelper;
 
@@ -71,7 +69,6 @@ public class TaskListItem implements ListItem {
         db.update(TaskListContract.TABLE_NAME, dbValues, TaskListContract.TaskListItemSchema._ID + "=?", new String[]{ Long.toString(this.getId()) });
 
         taskListDB.close();
-        System.out.println("Update description: [" + newTaskDescription + "]");
     }
 
     public void clearTaskDescription() {

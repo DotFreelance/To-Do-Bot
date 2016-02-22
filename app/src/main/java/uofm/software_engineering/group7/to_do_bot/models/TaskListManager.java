@@ -12,8 +12,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.Cursor;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-
 /**
  * Created by Faye on 1/22/2016.
  */
@@ -70,12 +68,6 @@ public class TaskListManager {
                     );
             list.add(item);
             counter++;
-
-            // DEBUG
-            System.out.println("[ADDED Item " + item.getId() +
-                    "] Added. Description: [" +
-                    item.getTaskDescription() + "] Category: [" +
-                    item.getCategory() + "]");
         } else {
             Toast.makeText(context, context.getString(R.string.add_task_failed), Toast.LENGTH_SHORT).show();
         }

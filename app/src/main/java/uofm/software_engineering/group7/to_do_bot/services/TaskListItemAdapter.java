@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ListView;
@@ -15,7 +16,6 @@ import android.widget.Toast;
 import uofm.software_engineering.group7.to_do_bot.R;
 import uofm.software_engineering.group7.to_do_bot.models.TaskList;
 import uofm.software_engineering.group7.to_do_bot.models.TaskListItem;
-import uofm.software_engineering.group7.to_do_bot.models.TaskListManager;
 
 /**
  * Created by Paul J on 2016-02-21.
@@ -24,6 +24,8 @@ import uofm.software_engineering.group7.to_do_bot.models.TaskListManager;
  *
  */
 public class TaskListItemAdapter extends ArrayAdapter<TaskListItem>{
+    private boolean addMode = false;
+
     public TaskListItemAdapter(Context context, TaskList<TaskListItem> taskList){
         super(context, 0, taskList);
     }
@@ -35,8 +37,8 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem>{
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false);
         }
         // Get the elements of the list item
-        CheckBox itemChecked = (CheckBox)convertView.findViewById(R.id.itemChecked);
-        TextView itemDescription = (TextView) convertView.findViewById(R.id.list_item_String);
+        final CheckBox itemChecked = (CheckBox)convertView.findViewById(R.id.itemChecked);
+        final TextView itemDescription = (TextView)convertView.findViewById(R.id.list_item_String);
 
         // Add a listener for the soft keyboard's done button to be able to apply the changes
         itemDescription.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -50,6 +52,13 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem>{
                     // Update the item at that position
                     TaskListItem item = getItem(position);
                     item.setTaskDescription(v.getText().toString());
+                    // Notify the user that the update has been processed.
+                    Toast.makeText(getContext(), getContext().getString(R.string.update_task_success), Toast.LENGTH_SHORT).show();
+                    // Remove focus
+                    v.clearFocus();
+                    // Hide keyboard
+                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(itemDescription.getWindowToken(), 0);
                 }
                 return false;
             }
@@ -58,7 +67,25 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem>{
         // Populate the elements
         itemChecked.setChecked(item.getChecked());
         itemDescription.setText(item.getTaskDescription());
+
+        // Provide focus to the item that was added
+        if(addMode) {
+            itemDescription.post(new Runnable() {
+                public void run() {
+                    // Request focus
+                    itemDescription.requestFocus();
+                    // Show keyboard
+                    InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.showSoftInput(itemDescription, InputMethodManager.SHOW_IMPLICIT);
+                }
+            });
+            addMode = false;
+        }
         // Return the completed view
         return convertView;
+    }
+
+    public void setAddMode(){
+        this.addMode = true;
     }
 }
