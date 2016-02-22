@@ -24,6 +24,7 @@ import uofm.software_engineering.group7.to_do_bot.models.TaskListItem;
  *
  */
 public class TaskListItemAdapter extends ArrayAdapter<TaskListItem>{
+    // Add mode prevents the Adapter from setting focus during initialization
     private boolean addMode = false;
 
     public TaskListItemAdapter(Context context, TaskList<TaskListItem> taskList){
@@ -33,6 +34,7 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem>{
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
         TaskListItem item = getItem(position);
+        // This allows us to re-use views
         if(convertView == null){
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false);
         }
@@ -40,14 +42,18 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem>{
         final CheckBox itemChecked = (CheckBox)convertView.findViewById(R.id.itemChecked);
         final TextView itemDescription = (TextView)convertView.findViewById(R.id.list_item_String);
 
+        // Populate the elements
+        itemChecked.setChecked(item.getChecked());
+        itemDescription.setText(item.getTaskDescription());
+
         // Add a listener for the soft keyboard's done button to be able to apply the changes
         itemDescription.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE || event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
                     // Get the position of the parent
-                    View parentRow = (View)v.getParent();
-                    ListView listView = (ListView)parentRow.getParent();
+                    View parentRow = (View) v.getParent();
+                    ListView listView = (ListView) parentRow.getParent();
                     int position = listView.getPositionForView(parentRow);
                     // Update the item at that position
                     TaskListItem item = getItem(position);
@@ -64,10 +70,6 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem>{
             }
         });
 
-        // Populate the elements
-        itemChecked.setChecked(item.getChecked());
-        itemDescription.setText(item.getTaskDescription());
-
         // Provide focus to the item that was added
         if(addMode) {
             itemDescription.post(new Runnable() {
@@ -81,10 +83,12 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem>{
             });
             addMode = false;
         }
+
         // Return the completed view
         return convertView;
     }
 
+    // Public availability for setting the "Add Mode" which prevents applying focus on app start
     public void setAddMode(){
         this.addMode = true;
     }

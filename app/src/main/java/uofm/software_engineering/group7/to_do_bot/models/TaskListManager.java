@@ -21,11 +21,9 @@ public class TaskListManager {
     private TaskList<TaskListItem> list;
     private TaskListDBHelper taskListDB;
     TaskListItemAdapter adapter;
-    private int counter; // Probably not necessary, id is based on SQL _ID, kept for now
 
     public TaskListManager(Context context, String newName) {
         category = newName;
-        counter = 0;
         list = new TaskList<>();
         taskListDB = new TaskListDBHelper(context);
         adapter = new TaskListItemAdapter(context, list);
@@ -67,7 +65,6 @@ public class TaskListManager {
                     null
                     );
             list.add(item);
-            counter++;
         } else {
             Toast.makeText(context, context.getString(R.string.add_task_failed), Toast.LENGTH_SHORT).show();
         }
@@ -121,7 +118,6 @@ public class TaskListManager {
                     alarmTime
             );
             list.add(item);
-            counter++;
         }
 
         adapter.notifyDataSetChanged();
@@ -132,6 +128,5 @@ public class TaskListManager {
     public void removeTask(int index) {
         list.remove(index);
         // TODO: DB Integration
-        if(counter > 0) counter--;
     }
 }

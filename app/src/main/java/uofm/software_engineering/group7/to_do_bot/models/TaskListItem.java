@@ -41,6 +41,7 @@ public class TaskListItem implements ListItem {
         this.alarmTime = alarmTime;
     }
 
+    // Getters
     public long getId() {
         return id;
     }
@@ -57,6 +58,7 @@ public class TaskListItem implements ListItem {
         return taskListManager.getCategory();
     }
 
+    // Setters
     public void setTaskDescription(String newTaskDescription) {
         taskDescription = newTaskDescription;
 
@@ -71,6 +73,7 @@ public class TaskListItem implements ListItem {
         taskListDB.close();
     }
 
+    // Utility methods
     public void clearTaskDescription() {
         taskDescription = "";
         // TODO: DB Integration
