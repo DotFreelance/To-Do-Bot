@@ -129,4 +129,8 @@ public class TaskListManager {
         list.remove(index);
         // TODO: DB Integration
     }
+
+    public TaskListDBHelper getTaskListDB() {
+        return taskListDB;
+    }
 }
