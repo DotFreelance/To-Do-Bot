@@ -20,7 +20,7 @@ public class TaskListManager {
     private String category;
     private TaskList<TaskListItem> list;
     private TaskListDBHelper taskListDB;
-    TaskListItemAdapter adapter;
+    private TaskListItemAdapter adapter;
 
     public TaskListManager(Context context, String newName) {
         category = newName;
@@ -128,5 +128,9 @@ public class TaskListManager {
     public void removeTask(int index) {
         list.remove(index);
         // TODO: DB Integration
+    }
+
+    public TaskListDBHelper getTaskListDB() {
+        return taskListDB;
     }
 }
