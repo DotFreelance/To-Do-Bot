@@ -20,7 +20,7 @@ public class TaskListManager {
     private String category;
     private TaskList<TaskListItem> list;
     private TaskListDBHelper taskListDB;
-    TaskListItemAdapter adapter;
+    private TaskListItemAdapter adapter;
 
     public TaskListManager(Context context, String newName) {
         category = newName;

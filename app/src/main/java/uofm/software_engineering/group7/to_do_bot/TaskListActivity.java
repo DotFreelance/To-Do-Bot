@@ -23,7 +23,7 @@ public class TaskListActivity extends AppCompatActivity
         initList(findViewById(R.id.listView));
     }
 
-    public void initList(View v){
+    private void initList(View v){
         ListView listView = (ListView)v;
         ArrayAdapter adapter = creator.listManager.getAdapter();
         // Initialize the TaskList from the database
