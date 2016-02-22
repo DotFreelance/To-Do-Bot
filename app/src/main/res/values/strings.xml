@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">To-Do-Bot</string>
     <string name="add_button_description">Add Button</string>
+    <string name="delete_button_description">Delete Button</string>
+    <string name="add_task_failed">Adding your task failed!</string>
+    <string name="update_task_success">Task updated!</string>
 </resources>

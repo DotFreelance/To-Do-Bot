@@ -4,3 +4,4 @@ app/*.iml
 /local.properties
 .DS_Store
 /build
+/captures/*
