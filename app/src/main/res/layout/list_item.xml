@@ -5,6 +5,7 @@
     android:layout_height="match_parent">
 
 
+
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,7 +20,9 @@
         android:textSize="17sp"
         android:layout_weight="10"
         android:inputType="text"
-        android:theme="@style/AppTheme" />
+        android:theme="@style/AppTheme"
+        android:imeOptions="actionDone"
+        android:selectAllOnFocus="true"/>
 
     <ImageButton
         android:layout_width="25dp"

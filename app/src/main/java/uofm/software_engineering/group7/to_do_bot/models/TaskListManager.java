@@ -10,7 +10,6 @@ import android.content.Context;
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.Cursor;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -51,7 +50,7 @@ public class TaskListManager {
         SQLiteDatabase db = taskListDB.getWritableDatabase();
         ContentValues dbValues = new ContentValues();
         TaskListItem item;
-        long newItemID = 0;
+        long newItemID;
         String currentDate = "";
         // Set the values we need for this entry
         dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_CREATED, currentDate);

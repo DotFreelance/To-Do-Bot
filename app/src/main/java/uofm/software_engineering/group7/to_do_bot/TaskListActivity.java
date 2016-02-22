@@ -4,10 +4,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
-
-import uofm.software_engineering.group7.to_do_bot.services.TaskListItemAdapter;
 
 
 public class TaskListActivity extends AppCompatActivity
@@ -28,10 +27,12 @@ public class TaskListActivity extends AppCompatActivity
 
     public void initList(View v){
         ListView listView = (ListView)v;
-
+        ArrayAdapter adapter = creator.listManager.getAdapter();
+        // Initialize the TaskList from the database
         creator.listManager.initFromDB(v.getContext());
-
-        listView.setAdapter(creator.listManager.getAdapter());
+        // Apply an adapter for the TaskList -> ListView
+        listView.setAdapter(adapter);
+        // Add the footer that contains the '+' button
         listView.addFooterView(LayoutInflater.from(v.getContext()).inflate(R.layout.task_list_footer, null, false));
     }
 

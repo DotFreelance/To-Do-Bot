@@ -1,5 +1,11 @@
 package uofm.software_engineering.group7.to_do_bot.models;
 
+import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
+import android.widget.Toast;
+
+import uofm.software_engineering.group7.to_do_bot.R;
+import uofm.software_engineering.group7.to_do_bot.services.TaskListContract;
 import uofm.software_engineering.group7.to_do_bot.services.TaskListDBHelper;
 
 /**
@@ -53,9 +59,19 @@ public class TaskListItem implements ListItem {
         return taskListManager.getCategory();
     }
 
-    public void editTaskDescription(String newTaskDescription) {
+    public void setTaskDescription(String newTaskDescription) {
         taskDescription = newTaskDescription;
-        // TODO: DB Integration
+
+        // Apply the changes to the database
+        SQLiteDatabase db = taskListDB.getWritableDatabase();
+
+        ContentValues dbValues = new ContentValues();
+        dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_DESCRIPTION, newTaskDescription);
+
+        db.update(TaskListContract.TABLE_NAME, dbValues, TaskListContract.TaskListItemSchema._ID + "=?", new String[]{ Long.toString(this.getId()) });
+
+        taskListDB.close();
+        System.out.println("Update description: [" + newTaskDescription + "]");
     }
 
     public void clearTaskDescription() {
