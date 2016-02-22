@@ -126,8 +126,15 @@ public class TaskListManager {
     }
 
     public void removeTask(int index) {
-        list.remove(index);
+        SQLiteDatabase db = taskListDB.getWritableDatabase();
+        ContentValues dbValues = new ContentValues();
+        TaskListItem item = list.get(index);
+        long deleteId = item.getId();
+
+        // String whereClause = "_ID = " + deleteId;
         // TODO: DB Integration
+        //db.delete(TaskListContract.TABLE_NAME, whereClause, );
+        list.remove(index);
     }
 
     public TaskListDBHelper getTaskListDB() {
