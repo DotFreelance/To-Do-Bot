@@ -8,25 +8,14 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
     android:paddingTop="16dp"
-    tools:context="com.softeng1.todolist.MainActivity"
+    tools:context=".TaskListActivity"
     android:orientation="vertical">
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/listView"
-        android:layout_weight="10"/>
-
-    <ImageButton
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:id="@+id/addButton"
-        android:src="@mipmap/plus"
-        android:layout_weight="1"
-        android:background="#00ffffff"
-        android:scaleType="fitXY"
-        android:contentDescription="@string/add_button_description" />
-
+        tools:listitem="@layout/list_item" />
 
 </LinearLayout>
 
