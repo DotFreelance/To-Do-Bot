@@ -3,7 +3,7 @@
 
 **Group 7**
 
-* Matthew Brzezinsk
+* Matthew Brzezinski
 * Bailey Shirtliff
 * Paul Jarrow
 * Faye Lim
