@@ -8,14 +8,17 @@ package uofm.software_engineering.group7.to_do_bot.models;
  *
  * Basically, this is like an ArrayList but it's a Hashmap. You would use this
  * like how you would use an ArrayList or LinkedList or any data structures.
+ *
+ * Modified by Paul J on 2/21/2016.
+ *
+ * Refactored from HashMap to ArrayList.
+ *
  */
 
 
-import java.util.HashMap;
-
-import uofm.software_engineering.group7.to_do_bot.models.ListItem;
+import java.util.ArrayList;
 
 
-class TaskList extends HashMap<Integer, ListItem> {
+public class TaskList<TaskListItem> extends ArrayList<TaskListItem> {
 
 }

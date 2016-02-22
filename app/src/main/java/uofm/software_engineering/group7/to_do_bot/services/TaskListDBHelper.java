@@ -10,7 +10,7 @@ import android.content.Context;
 public class TaskListDBHelper extends SQLiteOpenHelper{
     private static final String DATABASE_NAME = "to-do-bot";
     private static final int DATABASE_VERSION = 3;
-    private static final String TABLE_CREATE_QUERY = "CREATE TABLE " + TaskListContract.TABLE_NAME + " (" +
+    private static final String TABLE_CREATE_QUERY = "CREATE TABLE IF NOT EXISTS " + TaskListContract.TABLE_NAME + " (" +
             TaskListContract.TaskListItemSchema._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
             TaskListContract.TaskListItemSchema.COL_NAME_CREATED + " DATETIME DEFAULT CURRENT_TIMESTAMP," +
             TaskListContract.TaskListItemSchema.COL_NAME_CATEGORY + " TEXT NOT NULL," +
@@ -26,6 +26,11 @@ public class TaskListDBHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db){
+        db.execSQL(TABLE_CREATE_QUERY);
+    }
+
+    @Override
+    public void onOpen(SQLiteDatabase db){
         db.execSQL(TABLE_CREATE_QUERY);
     }
 

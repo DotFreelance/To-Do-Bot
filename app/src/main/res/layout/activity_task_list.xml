@@ -13,22 +13,9 @@
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/listView"
-        android:layout_weight="10"
         tools:listitem="@layout/list_item" />
-
-    <ImageButton
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:id="@+id/addButton"
-        android:src="@mipmap/plus"
-        android:layout_weight="1"
-        android:background="#00ffffff"
-        android:scaleType="fitXY"
-        android:contentDescription="@string/add_button_description"
-        android:onClick="onAddClick" />
-
 
 </LinearLayout>
 

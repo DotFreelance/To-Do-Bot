@@ -8,17 +8,33 @@ import uofm.software_engineering.group7.to_do_bot.services.TaskListDBHelper;
  * This is what goes on in the list.
  */
 public class TaskListItem implements ListItem {
+    // References to containing objects required for category and DB integration
     private TaskListDBHelper taskListDB;
     private TaskListManager taskListManager;
+
+    // User values for this TaskListItem
+    private long id;
+    private String dateCreated;
     private String taskDescription;
     private boolean checked = false;
-    private long id;
+    private String alarmTime = null;
 
-    public TaskListItem(TaskListManager listManager, TaskListDBHelper dbHelper, long itemID, String newTaskDescription) {
-        id = itemID;
+
+    public TaskListItem(TaskListManager listManager, TaskListDBHelper dbHelper,
+                        long itemID,
+                        String dateCreated,
+                        String newTaskDescription,
+                        boolean isChecked,
+                        String alarmTime) {
+        // Set the reference values
         taskListManager = listManager;
         taskListDB = dbHelper;
-        taskDescription = newTaskDescription;
+        // Set the user values
+        this.id = itemID;
+        this.dateCreated = dateCreated;
+        this.taskDescription = newTaskDescription;
+        this.checked = isChecked;
+        this.alarmTime = alarmTime;
     }
 
     public long getId() {
@@ -27,6 +43,10 @@ public class TaskListItem implements ListItem {
 
     public String getTaskDescription() {
         return taskDescription;
+    }
+
+    public boolean getChecked(){
+        return checked;
     }
 
     public String getCategory(){

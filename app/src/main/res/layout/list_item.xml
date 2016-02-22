@@ -8,14 +8,18 @@
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:id="@+id/itemChecked"
+        android:theme="@style/AppTheme" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/list_item_String"
         android:textSize="17sp"
-        android:layout_weight="10"/>
+        android:layout_weight="10"
+        android:inputType="text"
+        android:theme="@style/AppTheme" />
 
     <ImageButton
         android:layout_width="25dp"
@@ -26,7 +30,8 @@
         android:background="#00000000"
         android:scaleType="fitXY"
         android:layout_gravity="top|center|end"
-        android:layout_marginTop="5dp" />
+        android:layout_marginTop="5dp"
+        android:contentDescription="@string/delete_button_description" />
 
 
 </LinearLayout>
