@@ -1,13 +1,16 @@
 package uofm.software_engineering.group7.to_do_bot;
 
 import uofm.software_engineering.group7.to_do_bot.models.TaskListManager;
+import android.content.Context;
 
 /**
  * Created by Faye on 2/8/2016.
  */
 class ComponentsCreator {
-    public void run() {
-        TaskListManager listManager = new TaskListManager("Default");
+    public TaskListManager listManager;
+
+    public void run(Context context) {
+        listManager = new TaskListManager(context, "DefaultList");
         // TODO: this is the view for the list panel. Check Asana for "InitialDesignLayout"
         // TaskListPanel listPanel = new TaskListPanel(); 
 
