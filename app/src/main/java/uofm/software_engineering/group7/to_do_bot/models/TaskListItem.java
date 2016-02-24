@@ -41,7 +41,7 @@ public class TaskListItem implements ListItem {
     }
 
     // Getters
-    private long getId() {
+    public long getId() {
         return id;
     }
 
@@ -79,8 +79,19 @@ public class TaskListItem implements ListItem {
     }
 
     public void check() {
-        checked = true;
+        checked = !checked;
         // TODO: DB Integration
+        SQLiteDatabase db = taskListDB.getWritableDatabase();
+        ContentValues dbValues = new ContentValues();
+        // Set the values we need for this entry
+        dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_CHECKED, TaskListContract.TaskListItemSchema.CHECKED_TRUE);
+        // Perform the database insert, returning the _ID primary key value
+
+        db.update(TaskListContract.TABLE_NAME, dbValues, TaskListContract.TaskListItemSchema._ID + "=?", new String[]{ Long.toString(this.getId()) });
+
+        this.taskListManager.getAdapter().notifyDataSetChanged();
+
+        db.close();
     }
 
 
