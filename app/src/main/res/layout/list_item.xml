@@ -11,7 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:id="@+id/itemChecked"
-        android:theme="@style/AppTheme" />
+        android:theme="@style/AppTheme"
+        android:onClick="onCheckClick" />
 
     <EditText
         android:layout_width="match_parent"

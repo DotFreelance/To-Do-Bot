@@ -1,10 +1,12 @@
 package uofm.software_engineering.group7.to_do_bot.services;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
@@ -33,7 +35,7 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem>{
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
-        TaskListItem item = getItem(position);
+        final TaskListItem item = getItem(position);
         // This allows us to re-use views
         if(convertView == null){
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false);
@@ -45,6 +47,24 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem>{
         // Populate the elements
         itemChecked.setChecked(item.getChecked());
         itemDescription.setText(item.getTaskDescription());
+
+        // Add a listener for the checkbox
+        itemChecked.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ViewParent parentView = v.getParent();
+                ListView listView = (ListView) parentView.getParent();
+                int posn = -1;
+
+                if(parentView instanceof View) {
+                    posn = listView.getPositionForView((View) parentView);
+                }
+
+                if(posn != -1) {
+                    item.check();
+                }
+            }
+        });
 
         // Add a listener for the soft keyboard's done button to be able to apply the changes
         itemDescription.setOnEditorActionListener(new TextView.OnEditorActionListener() {
