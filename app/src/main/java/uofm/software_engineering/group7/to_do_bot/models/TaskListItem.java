@@ -41,7 +41,7 @@ public class TaskListItem implements ListItem {
     }
 
     // Getters
-    private long getId() {
+    public long getId() {
         return id;
     }
 

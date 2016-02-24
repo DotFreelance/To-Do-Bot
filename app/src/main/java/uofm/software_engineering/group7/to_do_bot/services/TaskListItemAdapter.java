@@ -1,6 +1,7 @@
 package uofm.software_engineering.group7.to_do_bot.services;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.content.DialogInterface;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +20,7 @@ import android.widget.Toast;
 import uofm.software_engineering.group7.to_do_bot.R;
 import uofm.software_engineering.group7.to_do_bot.models.TaskList;
 import uofm.software_engineering.group7.to_do_bot.models.TaskListItem;
+import uofm.software_engineering.group7.to_do_bot.models.TaskListManager;
 
 /**
  * Created by Paul J on 2016-02-21.
@@ -28,9 +31,13 @@ import uofm.software_engineering.group7.to_do_bot.models.TaskListItem;
 public class TaskListItemAdapter extends ArrayAdapter<TaskListItem>{
     // Add mode prevents the Adapter from setting focus during initialization
     private boolean addMode = false;
+    private TaskListManager taskListManager = null;
+    private TaskListDBHelper taskListDB;
+    // TODO: Create a task list manager
 
     public TaskListItemAdapter(Context context, TaskList<TaskListItem> taskList){
         super(context, 0, taskList);
+        //taskListDB = new TaskListDBHelper(context);
     }
 
     @Override
@@ -43,6 +50,7 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem>{
         // Get the elements of the list item
         final CheckBox itemChecked = (CheckBox)convertView.findViewById(R.id.itemChecked);
         final TextView itemDescription = (TextView)convertView.findViewById(R.id.list_item_String);
+        final ImageButton itemDelete = (ImageButton)convertView.findViewById(R.id.deleteButton);
 
         // Populate the elements
         itemChecked.setChecked(item.getChecked());
@@ -62,6 +70,28 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem>{
 
                 if(posn != -1) {
                     item.check();
+                }
+            }
+        });
+
+
+        itemDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ViewParent parent = v.getParent();
+                ListView listView = (ListView) parent.getParent();
+
+                int index = -1;
+
+                if (parent instanceof View) {
+                    index = listView.getPositionForView((View) parent);
+                }
+                else {
+                    System.out.println("Not a List View");
+                }
+
+                if (index != -1) {
+                    // TODO: call removeTask()
                 }
             }
         });
