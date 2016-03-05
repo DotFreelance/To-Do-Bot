@@ -11,8 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:id="@+id/itemChecked"
-        android:theme="@style/AppTheme"
-        android:onClick="onCheckClick" />
+        android:theme="@style/AppTheme" />
 
     <EditText
         android:layout_width="match_parent"
@@ -27,7 +26,7 @@
 
     <ImageButton
         android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_height="20dp"
         android:id="@+id/deleteButton"
         android:src="@mipmap/delete"
         android:layout_weight="1"
