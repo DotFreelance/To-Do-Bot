@@ -58,17 +58,7 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem>{
         itemChecked.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ViewParent parentView = v.getParent();
-                ListView listView = (ListView) parentView.getParent();
-                int posn = -1;
-
-                if (parentView instanceof View) {
-                    posn = listView.getPositionForView((View) parentView);
-                }
-
-                if (posn != -1) {
-                    item.check();
-                }
+                item.check(itemChecked.isChecked());
             }
         });
 
@@ -117,7 +107,6 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem>{
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     updateTaskItemDescription((TextView) v, currentPosition);
-                    v.clearFocus();
                     // Remove the current focus
                     setCurrentFocus(-1);
                 } else {

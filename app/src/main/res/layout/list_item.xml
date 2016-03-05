@@ -22,7 +22,8 @@
         android:inputType="text"
         android:theme="@style/AppTheme"
         android:imeOptions="actionDone"
-        android:selectAllOnFocus="true" />
+        android:selectAllOnFocus="false"
+        android:overScrollMode="always"/>
 
     <ImageButton
         android:layout_width="25dp"
