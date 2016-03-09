@@ -35,9 +35,10 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem>{
     private TaskListDBHelper taskListDB;
     // TODO: Create a task list manager
 
-    public TaskListItemAdapter(Context context, TaskList<TaskListItem> taskList){
+    public TaskListItemAdapter(TaskListManager listManager, Context context, TaskList<TaskListItem> taskList){
         super(context, 0, taskList);
         //taskListDB = new TaskListDBHelper(context);
+        taskListManager = listManager;
     }
 
     @Override
