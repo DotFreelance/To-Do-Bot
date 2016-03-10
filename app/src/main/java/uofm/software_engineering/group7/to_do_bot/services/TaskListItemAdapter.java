@@ -69,7 +69,7 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem>{
                 }
 
                 if(posn != -1) {
-                    item.check();
+                    item.check(posn);//Temporary solution, we want to show the item is checked off before removing it
                 }
             }
         });

@@ -78,7 +78,7 @@ public class TaskListItem implements ListItem {
         // TODO: DB Integration
     }
 
-    public void check() {
+    public void check(int position) {
         checked = !checked;
         // TODO: DB Integration
         SQLiteDatabase db = taskListDB.getWritableDatabase();
@@ -87,11 +87,12 @@ public class TaskListItem implements ListItem {
         dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_CHECKED, TaskListContract.TaskListItemSchema.CHECKED_TRUE);
         // Perform the database insert, returning the _ID primary key value
 
-        db.update(TaskListContract.TABLE_NAME, dbValues, TaskListContract.TaskListItemSchema._ID + "=?", new String[]{ Long.toString(this.getId()) });
+        db.update(TaskListContract.TABLE_NAME, dbValues, TaskListContract.TaskListItemSchema._ID + "=?", new String[]{Long.toString(this.getId())});
 
         this.taskListManager.getAdapter().notifyDataSetChanged();
 
         db.close();
+        taskListManager.removeCheckedTask(position);//Temporary solution, we want to show the item is checked off before removing it
     }
 
 

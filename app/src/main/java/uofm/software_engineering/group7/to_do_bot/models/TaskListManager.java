@@ -137,6 +137,12 @@ public class TaskListManager {
         list.remove(index);
     }
 
+    //Remove task from local memory only (not db)
+    public void removeCheckedTask(int index) {
+        TaskListItem item = list.get(index);
+        list.remove(index);
+    }
+
     public TaskListDBHelper getTaskListDB() {
         return taskListDB;
     }
