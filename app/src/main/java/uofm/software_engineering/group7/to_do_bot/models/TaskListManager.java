@@ -26,7 +26,7 @@ public class TaskListManager {
         category = newName;
         list = new TaskList<>();
         taskListDB = new TaskListDBHelper(context);
-        adapter = new TaskListItemAdapter(context, list);
+        adapter = new TaskListItemAdapter(this, context, list);
     }
 
     public String getCategory(){
@@ -133,10 +133,13 @@ public class TaskListManager {
         TaskListItem item = list.get(index);
         long deleteId = item.getId();
 
-        // String whereClause = "_ID = " + deleteId;
-        // TODO: DB Integration
-        //db.delete(TaskListContract.TABLE_NAME, whereClause, );
+
+        db.delete(TaskListContract.TABLE_NAME, TaskListContract.TaskListItemSchema._ID + "=?", new String[]{Long.toString(item.getId())});
+
         list.remove(index);
+
+        adapter.notifyDataSetChanged();
+        db.close();
     }
 
     public TaskListDBHelper getTaskListDB() {

@@ -12,6 +12,7 @@ import android.widget.ListView;
 public class TaskListActivity extends AppCompatActivity
 {
     private ComponentsCreator creator;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -35,25 +36,9 @@ public class TaskListActivity extends AppCompatActivity
         listView.addFooterView(LayoutInflater.from(v.getContext()).inflate(R.layout.task_list_footer, null, false));
     }
 
-    public void onAddClick(View v){
+    public void onAddClick(View v) {
         creator.listManager.getAdapter().setAddMode();
         creator.listManager.addTask(v.getContext(), "");
-    }
-
-    public void onDeleteClick(View v){
-        ViewParent parent = v.getParent();
-        ListView listView  = (ListView) findViewById(R.id.listView);
-        int index = -1;
-        if (parent instanceof View) {
-            index = listView.getPositionForView((View) parent);
-        }
-        else {
-            System.out.println("Not a List View");
-        }
-
-        if (index != -1){
-            creator.listManager.removeTask(index);
-        }
     }
 
 }

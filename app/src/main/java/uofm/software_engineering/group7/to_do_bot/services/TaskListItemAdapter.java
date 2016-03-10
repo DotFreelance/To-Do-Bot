@@ -32,7 +32,7 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem>{
     private boolean addMode = false;
     // TODO: Create a task list manager
 
-    public TaskListItemAdapter(Context context, TaskList<TaskListItem> taskList){
+    public TaskListItemAdapter(TaskListManager listManager, Context context, TaskList<TaskListItem> taskList){
         super(context, 0, taskList);
         this.currentFocus = -1;
     }
