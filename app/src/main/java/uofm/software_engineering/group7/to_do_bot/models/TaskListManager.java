@@ -81,9 +81,11 @@ public class TaskListManager {
         String[] PROJECTION = {
                 "*"
         };
-        String SELECTION = TaskListContract.TaskListItemSchema.COL_NAME_CATEGORY + "=?";
+        String SELECTION = TaskListContract.TaskListItemSchema.COL_NAME_CATEGORY + "=?" +
+                " AND " + TaskListContract.TaskListItemSchema.COL_NAME_CHECKED + "=?";
         String[] SELECTION_ARGS = {
-                this.category
+                this.category,
+                String.valueOf(TaskListContract.TaskListItemSchema.CHECKED_FALSE)
         };
         String SORT_ORDER = TaskListContract.TaskListItemSchema._ID + " ASC";
 
