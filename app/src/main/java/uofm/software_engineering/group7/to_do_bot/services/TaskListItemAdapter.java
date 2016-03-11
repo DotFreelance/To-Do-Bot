@@ -18,6 +18,7 @@ import android.widget.Toast;
 import uofm.software_engineering.group7.to_do_bot.R;
 import uofm.software_engineering.group7.to_do_bot.models.TaskList;
 import uofm.software_engineering.group7.to_do_bot.models.TaskListItem;
+import uofm.software_engineering.group7.to_do_bot.models.TaskListManager;
 
 /**
  * Created by Paul J on 2016-02-21.
@@ -30,11 +31,13 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem>{
 
     // Add mode prevents the Adapter from setting focus during initialization
     private boolean addMode = false;
-    // TODO: Create a task list manager
+    private TaskListManager taskListManager = null;
+    private TaskListDBHelper taskListDB;
 
-    public TaskListItemAdapter(Context context, TaskList<TaskListItem> taskList){
+    public TaskListItemAdapter(TaskListManager listManager, Context context, TaskList<TaskListItem> taskList){
         super(context, 0, taskList);
-        this.currentFocus = -1;
+        //taskListDB = new TaskListDBHelper(context);
+        taskListManager = listManager;
     }
 
     @Override
@@ -69,16 +72,17 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem>{
                 ViewParent parent = v.getParent();
                 ListView listView = (ListView) parent.getParent();
 
-                int index = -1;
+                int posn = -1;
 
                 if (parent instanceof View) {
-                    index = listView.getPositionForView((View) parent);
-                } else {
+                    posn = listView.getPositionForView((View) parent);
+                }
+                else {
                     System.out.println("Not a List View");
                 }
 
-                if (index != -1) {
-                    // TODO: call removeTask()
+                if (posn != -1) {
+                    taskListManager.removeTask(posn);
                 }
             }
         });
