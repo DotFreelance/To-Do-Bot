@@ -12,6 +12,7 @@
         android:scaleType="fitXY"
         android:contentDescription="@string/add_button_description"
         android:onClick="onAddClick"
-        android:clickable="false" />
+        android:clickable="false"
+        android:layout_marginTop="5dp" />
 
 </LinearLayout>

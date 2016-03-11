@@ -1,8 +1,6 @@
 package uofm.software_engineering.group7.to_do_bot.services;
 
 import android.content.Context;
-import android.os.Bundle;
-import android.content.DialogInterface;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,20 +27,23 @@ import uofm.software_engineering.group7.to_do_bot.models.TaskListManager;
  *
  */
 public class TaskListItemAdapter extends ArrayAdapter<TaskListItem>{
+    private int currentFocus;
+
     // Add mode prevents the Adapter from setting focus during initialization
     private boolean addMode = false;
     private TaskListManager taskListManager = null;
     private TaskListDBHelper taskListDB;
-    // TODO: Create a task list manager
 
-    public TaskListItemAdapter(Context context, TaskList<TaskListItem> taskList){
+    public TaskListItemAdapter(TaskListManager listManager, Context context, TaskList<TaskListItem> taskList){
         super(context, 0, taskList);
         //taskListDB = new TaskListDBHelper(context);
+        taskListManager = listManager;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
         final TaskListItem item = getItem(position);
+        final int currentPosition = position;
         // This allows us to re-use views
         if(convertView == null){
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false);
@@ -60,17 +61,7 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem>{
         itemChecked.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ViewParent parentView = v.getParent();
-                ListView listView = (ListView) parentView.getParent();
-                int posn = -1;
-
-                if(parentView instanceof View) {
-                    posn = listView.getPositionForView((View) parentView);
-                }
-
-                if(posn != -1) {
-                    item.check();
-                }
+                item.check(itemChecked.isChecked());
             }
         });
 
@@ -81,17 +72,17 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem>{
                 ViewParent parent = v.getParent();
                 ListView listView = (ListView) parent.getParent();
 
-                int index = -1;
+                int posn = -1;
 
                 if (parent instanceof View) {
-                    index = listView.getPositionForView((View) parent);
+                    posn = listView.getPositionForView((View) parent);
                 }
                 else {
                     System.out.println("Not a List View");
                 }
 
-                if (index != -1) {
-                    // TODO: call removeTask()
+                if (posn != -1) {
+                    taskListManager.removeTask(posn);
                 }
             }
         });
@@ -101,27 +92,36 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem>{
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE || event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
-                    // Get the position of the parent
-                    View parentRow = (View) v.getParent();
-                    ListView listView = (ListView) parentRow.getParent();
-                    int position = listView.getPositionForView(parentRow);
-                    // Update the item at that position
-                    TaskListItem item = getItem(position);
-                    item.setTaskDescription(v.getText().toString());
-                    // Notify the user that the update has been processed.
-                    Toast.makeText(getContext(), getContext().getString(R.string.update_task_success), Toast.LENGTH_SHORT).show();
-                    // Remove focus
+                    updateTaskItemDescription(v, currentPosition);
+                    // Clear focus
                     v.clearFocus();
                     // Hide keyboard
                     InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(itemDescription.getWindowToken(), 0);
+                    // Remove the current focus
+                    setCurrentFocus(-1);
                 }
                 return false;
             }
         });
 
-        // Provide focus to the item that was added
-        if(addMode) {
+        // Update the item when focus is lost
+        itemDescription.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    updateTaskItemDescription((TextView) v, currentPosition);
+                    // Remove the current focus
+                    setCurrentFocus(-1);
+                } else {
+                    // Set the current focus
+                    setCurrentFocus(currentPosition);
+                }
+            }
+        });
+
+        // Provide focus to the item that was added or the appropriate item
+        if(this.getCount()-1 == position && addMode) {
             itemDescription.post(new Runnable() {
                 public void run() {
                     // Request focus
@@ -129,17 +129,43 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem>{
                     // Show keyboard
                     InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.showSoftInput(itemDescription, InputMethodManager.SHOW_IMPLICIT);
+                    // Set the current focus
+                    setCurrentFocus(currentPosition);
                 }
             });
             addMode = false;
+        } else if(this.getCurrentFocus() == -1){
+            // Hide keyboard
+            InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(itemDescription.getWindowToken(), 0);
         }
 
         // Return the completed view
         return convertView;
     }
 
+    private void updateTaskItemDescription(TextView v, int position) {
+        // Update the item at that position if it has been changed
+        String enteredText = v.getText().toString();
+        TaskListItem item = getItem(position);
+        if(!enteredText.equals(item.getTaskDescription())) {
+            item.setTaskDescription(enteredText);
+            // Notify the user that the update has been processed.
+            Toast.makeText(getContext(), getContext().getString(R.string.update_task_success), Toast.LENGTH_SHORT).show();
+        }
+    }
+
     // Public availability for setting the "Add Mode" which prevents applying focus on app start
     public void setAddMode(){
         this.addMode = true;
     }
+
+    public void setCurrentFocus(int index){
+        this.currentFocus = index;
+    }
+
+    public int getCurrentFocus(){
+        return this.currentFocus;
+    }
+
 }
