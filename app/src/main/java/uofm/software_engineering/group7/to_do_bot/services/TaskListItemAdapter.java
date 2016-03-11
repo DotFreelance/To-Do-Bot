@@ -33,7 +33,6 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem>{
     private boolean addMode = false;
     private TaskListManager taskListManager = null;
     private TaskListDBHelper taskListDB;
-    // TODO: Create a task list manager
 
     public TaskListItemAdapter(TaskListManager listManager, Context context, TaskList<TaskListItem> taskList){
         super(context, 0, taskList);
@@ -82,17 +81,17 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem>{
                 ViewParent parent = v.getParent();
                 ListView listView = (ListView) parent.getParent();
 
-                int index = -1;
+                int posn = -1;
 
                 if (parent instanceof View) {
-                    index = listView.getPositionForView((View) parent);
+                    posn = listView.getPositionForView((View) parent);
                 }
                 else {
                     System.out.println("Not a List View");
                 }
 
-                if (index != -1) {
-                    // TODO: call removeTask()
+                if (posn != -1) {
+                    taskListManager.removeTask(posn);
                 }
             }
         });
