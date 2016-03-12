@@ -62,7 +62,8 @@ public class TaskListManager {
                     currentDate,
                     taskDescription,
                     false,
-                    null
+                    null,
+                    0
                     );
             list.add(item);
         } else {
@@ -105,6 +106,8 @@ public class TaskListManager {
             boolean checked = readCursor.getInt(
                     readCursor.getColumnIndexOrThrow(TaskListContract.TaskListItemSchema.COL_NAME_CHECKED))
                     == TaskListContract.TaskListItemSchema.CHECKED_TRUE;
+            int priority = readCursor.getInt(
+                    readCursor.getColumnIndexOrThrow(TaskListContract.TaskListItemSchema.COL_NAME_PRIORITY));
             String alarmTime = null;
             int alarmTimeIndex = readCursor.getColumnIndexOrThrow(TaskListContract.TaskListItemSchema.COL_NAME_ALARM);
             if(!readCursor.isNull(alarmTimeIndex)) {
@@ -117,7 +120,8 @@ public class TaskListManager {
                     dateCreated,
                     description,
                     checked,
-                    alarmTime
+                    alarmTime,
+                    priority
             );
             list.add(item);
         }

@@ -8,10 +8,13 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +36,8 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem>{
     private boolean addMode = false;
     private TaskListManager taskListManager = null;
     private TaskListDBHelper taskListDB;
+    private Spinner spinner;
+    private int imgData[] = {R.mipmap.delete, R.mipmap.delete, R.mipmap.delete};
 
     public TaskListItemAdapter(TaskListManager listManager, Context context, TaskList<TaskListItem> taskList){
         super(context, 0, taskList);
@@ -52,10 +57,34 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem>{
         final CheckBox itemChecked = (CheckBox)convertView.findViewById(R.id.itemChecked);
         final TextView itemDescription = (TextView)convertView.findViewById(R.id.list_item_String);
         final ImageButton itemDelete = (ImageButton)convertView.findViewById(R.id.deleteButton);
+        final Spinner spinner = (Spinner)convertView.findViewById(R.id.prioritySpinner);
 
         // Populate the elements
         itemChecked.setChecked(item.getChecked());
         itemDescription.setText(item.getTaskDescription());
+        spinner.setAdapter(this);
+        //populate item in spinner!
+        //spinner.getText();?<--change this
+
+        /*spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });*/
+
+        // Add a listener for the spinnerButton
+        /*spinnerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int priority = item.getPriority();
+            }
+        });*/
 
         // Add a listener for the checkbox
         itemChecked.setOnClickListener(new View.OnClickListener() {
@@ -64,7 +93,6 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem>{
                 item.check(itemChecked.isChecked());
             }
         });
-
 
         itemDelete.setOnClickListener(new View.OnClickListener() {
             @Override

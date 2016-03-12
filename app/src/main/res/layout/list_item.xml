@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
     <CheckBox
         android:layout_width="wrap_content"
@@ -37,5 +40,43 @@
         android:layout_marginTop="5dp"
         android:contentDescription="@string/delete_button_description" />
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Spinner
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/prioritySpinner"
+        android:layout_weight="10" />
+
+        <EditText
+        android:id="@+id/list_item_date"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="10"
+        android:imeOptions="actionDone"
+        android:inputType="date"
+        android:overScrollMode="always"
+        android:selectAllOnFocus="false"
+        android:focusable="false"
+        android:textSize="17sp"
+        android:theme="@style/AppTheme"/>
+
+        <!-- This is a comment: Dan says that maybe you might want to add a android:onclick="somemethod" have -->
+
+    </LinearLayout>
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add priority"
+        android:id="@+id/spinnerButton"
+        android:layout_gravity="center_horizontal"
+        android:longClickable="false" />
 
 </LinearLayout>

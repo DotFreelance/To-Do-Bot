@@ -22,13 +22,15 @@ public class TaskListItem implements ListItem {
     private String taskDescription;
     private boolean checked = false;
     private String alarmTime = null;
+    private int priority = 0;
 
     public TaskListItem(TaskListManager listManager, TaskListDBHelper dbHelper,
                         long itemID,
                         String dateCreated,
                         String newTaskDescription,
                         boolean isChecked,
-                        String alarmTime) {
+                        String alarmTime,
+                        int priority) {
         // Set the reference values
         taskListManager = listManager;
         taskListDB = dbHelper;
@@ -38,6 +40,7 @@ public class TaskListItem implements ListItem {
         this.taskDescription = newTaskDescription;
         this.checked = isChecked;
         this.alarmTime = alarmTime;
+        this.priority = priority;
     }
 
     // Getters
@@ -45,9 +48,7 @@ public class TaskListItem implements ListItem {
         return id;
     }
 
-    public String getTaskDescription() {
-        return taskDescription;
-    }
+    public String getTaskDescription() { return taskDescription; }
 
     public boolean getChecked(){
         return checked;
@@ -56,6 +57,8 @@ public class TaskListItem implements ListItem {
     public String getCategory(){
         return taskListManager.getCategory();
     }
+
+    public int getPriority() { return priority; }
 
     // Setters
     public void setTaskDescription(String newTaskDescription) {
