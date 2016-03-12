@@ -5,22 +5,23 @@ import uofm.software_engineering.group7.to_do_bot.R;
 import uofm.software_engineering.group7.to_do_bot.services.TaskListContract;
 import uofm.software_engineering.group7.to_do_bot.services.TaskListDBHelper;
 import uofm.software_engineering.group7.to_do_bot.services.TaskListItemAdapter;
-
 import android.content.Context;
 import android.content.ContentValues;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.Cursor;
 import android.widget.Toast;
 
+
 /**
  * Created by Faye on 1/22/2016.
  */
 
-public class TaskListManager {
+public class TaskListManager  {
     private String category;
     private TaskList<TaskListItem> list;
     private TaskListDBHelper taskListDB;
     private TaskListItemAdapter adapter;
+
 
     public TaskListManager(Context context, String newName) {
         category = newName;
@@ -29,11 +30,11 @@ public class TaskListManager {
         adapter = new TaskListItemAdapter(this, context, list);
     }
 
-    public String getCategory(){
+    public String getCategory() {
         return this.category;
     }
 
-    public TaskListItemAdapter getAdapter(){
+    public TaskListItemAdapter getAdapter() {
         return this.adapter;
     }
 
@@ -56,14 +57,14 @@ public class TaskListManager {
         // Perform the database insert, returning the _ID primary key value
         newItemID = db.insert(TaskListContract.TABLE_NAME, null, dbValues);
         // Instantiate a new TaskListItem using the new ID we just received from the DB, if we were successful
-        if(newItemID >= 0){
+        if (newItemID >= 0) {
             item = new TaskListItem(this, this.taskListDB,
                     newItemID,
                     currentDate,
                     taskDescription,
                     false,
                     null
-                    );
+            );
             list.add(item);
         } else {
             Toast.makeText(context, context.getString(R.string.add_task_failed), Toast.LENGTH_SHORT).show();
@@ -74,7 +75,7 @@ public class TaskListManager {
     }
 
     // Retrieves all tasks from the DB for the category
-    public void initFromDB(Context context){
+    public void initFromDB(Context context) {
         SQLiteDatabase db = taskListDB.getReadableDatabase();
 
         // Build the query
@@ -93,7 +94,7 @@ public class TaskListManager {
         Cursor readCursor = db.query(TaskListContract.TABLE_NAME, PROJECTION, SELECTION, SELECTION_ARGS, null, null, SORT_ORDER);
 
         // Go through the cursor to fill the task list
-        while(readCursor.moveToNext()){
+        while (readCursor.moveToNext()) {
             long itemId = readCursor.getLong(
                     readCursor.getColumnIndexOrThrow(TaskListContract.TaskListItemSchema._ID));
             String dateCreated = readCursor.getString(
@@ -107,7 +108,7 @@ public class TaskListManager {
                     == TaskListContract.TaskListItemSchema.CHECKED_TRUE;
             String alarmTime = null;
             int alarmTimeIndex = readCursor.getColumnIndexOrThrow(TaskListContract.TaskListItemSchema.COL_NAME_ALARM);
-            if(!readCursor.isNull(alarmTimeIndex)) {
+            if (!readCursor.isNull(alarmTimeIndex)) {
                 alarmTime = readCursor.getString(alarmTimeIndex);
             }
 
@@ -145,4 +146,7 @@ public class TaskListManager {
     public TaskListDBHelper getTaskListDB() {
         return taskListDB;
     }
+
+
 }
+
