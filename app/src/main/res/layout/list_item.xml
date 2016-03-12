@@ -1,41 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
 
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:id="@+id/itemChecked"
         android:theme="@style/AppTheme" />
+    <Spinner
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/spinner"
+        android:drawSelectorOnTop="true"
+        android:background="#ffffff"
+        android:spinnerMode="dropdown"
+        android:visibility="visible"
+        android:layout_gravity="center"
+        android:clickable="true"
+         />
 
     <EditText
-        android:layout_width="match_parent"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:id="@+id/list_item_String"
         android:textSize="17sp"
-        android:layout_weight="10"
         android:inputType="text"
         android:theme="@style/AppTheme"
         android:imeOptions="actionDone"
         android:selectAllOnFocus="false"
-        android:overScrollMode="always"/>
+        android:overScrollMode="always"
+        android:layout_weight="10" />
+
+
 
     <ImageButton
-        android:layout_width="25dp"
+        android:layout_width="20dp"
         android:layout_height="20dp"
         android:id="@+id/deleteButton"
         android:src="@mipmap/delete"
-        android:layout_weight="1"
         android:background="#00000000"
         android:scaleType="fitXY"
         android:layout_gravity="top|center|end"
         android:layout_marginTop="5dp"
         android:contentDescription="@string/delete_button_description" />
+    </LinearLayout>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="17sp"
+        android:id="@+id/datetime"
+        android:hint="@string/add_datetime"
+        android:inputType="datetime"
+        android:background="#efb660"
+        android:focusable="false"
+        />
 
 
 </LinearLayout>
