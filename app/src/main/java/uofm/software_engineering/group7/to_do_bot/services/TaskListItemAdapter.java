@@ -8,13 +8,11 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +27,7 @@ import uofm.software_engineering.group7.to_do_bot.models.TaskListManager;
  * This is where the TaskList is converted to a view element in the list.
  *
  */
-public class TaskListItemAdapter extends ArrayAdapter<TaskListItem>{
+public class TaskListItemAdapter extends ArrayAdapter<TaskListItem> {
     private int currentFocus;
 
     // Add mode prevents the Adapter from setting focus during initialization
@@ -37,7 +35,6 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem>{
     private TaskListManager taskListManager = null;
     private TaskListDBHelper taskListDB;
     private Spinner spinner;
-    private int imgData[] = {R.mipmap.delete, R.mipmap.delete, R.mipmap.delete};
 
     public TaskListItemAdapter(TaskListManager listManager, Context context, TaskList<TaskListItem> taskList){
         super(context, 0, taskList);
@@ -57,12 +54,17 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem>{
         final CheckBox itemChecked = (CheckBox)convertView.findViewById(R.id.itemChecked);
         final TextView itemDescription = (TextView)convertView.findViewById(R.id.list_item_String);
         final ImageButton itemDelete = (ImageButton)convertView.findViewById(R.id.deleteButton);
-        final Spinner spinner = (Spinner)convertView.findViewById(R.id.prioritySpinner);
+
+        //priority spinner
+        SpinnerAdapter adapter = new SpinnerAdapter(getContext(),
+                new Integer[]{R.mipmap.none, R.mipmap.medium, R.mipmap.high});
+        spinner=(Spinner)convertView.findViewById(R.id.spinner);
+        spinner.setAdapter(adapter);
+
 
         // Populate the elements
         itemChecked.setChecked(item.getChecked());
         itemDescription.setText(item.getTaskDescription());
-        spinner.setAdapter(this);
         //populate item in spinner!
         //spinner.getText();?<--change this
 
@@ -97,7 +99,7 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem>{
         itemDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ViewParent parent = v.getParent();
+                ViewParent parent = v.getParent().getParent();
                 ListView listView = (ListView) parent.getParent();
 
                 int posn = -1;

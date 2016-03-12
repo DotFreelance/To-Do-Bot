@@ -1,20 +1,24 @@
 package uofm.software_engineering.group7.to_do_bot;
 
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 
-public class TaskListActivity extends AppCompatActivity
-{
+
+public class TaskListActivity extends AppCompatActivity  {
+
     private ComponentsCreator creator;
 
+    Spinner spinner;
+
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_list);
 
@@ -22,7 +26,14 @@ public class TaskListActivity extends AppCompatActivity
         creator.run(getApplicationContext());
 
         initList(findViewById(R.id.listView));
+
+
     }
+
+
+
+
+
 
     private void initList(View v){
         ListView listView = (ListView)v;
