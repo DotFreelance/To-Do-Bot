@@ -26,7 +26,7 @@ public class TaskListManager {
         category = newName;
         list = new TaskList<>();
         taskListDB = new TaskListDBHelper(context);
-        adapter = new TaskListItemAdapter(context, list);
+        adapter = new TaskListItemAdapter(this, context, list);
     }
 
     public String getCategory(){
