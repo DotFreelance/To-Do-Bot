@@ -54,6 +54,7 @@ public class TaskListManager  {
         dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_DESCRIPTION, taskDescription);
         dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_CATEGORY, this.category);
         dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_CHECKED, TaskListContract.TaskListItemSchema.CHECKED_FALSE);
+        dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_PRIORITY, TaskListContract.TaskListItemSchema.PRIORITY_NONE);
         // Perform the database insert, returning the _ID primary key value
         newItemID = db.insert(TaskListContract.TABLE_NAME, null, dbValues);
         // Instantiate a new TaskListItem using the new ID we just received from the DB, if we were successful
@@ -63,7 +64,8 @@ public class TaskListManager  {
                     currentDate,
                     taskDescription,
                     false,
-                    null
+                    null,
+                    TaskListContract.TaskListItemSchema.PRIORITY_NONE
             );
             list.add(item);
         } else {
@@ -106,6 +108,8 @@ public class TaskListManager  {
             boolean checked = readCursor.getInt(
                     readCursor.getColumnIndexOrThrow(TaskListContract.TaskListItemSchema.COL_NAME_CHECKED))
                     == TaskListContract.TaskListItemSchema.CHECKED_TRUE;
+            int priority = readCursor.getInt(
+                    readCursor.getColumnIndexOrThrow(TaskListContract.TaskListItemSchema.COL_NAME_PRIORITY));
             String alarmTime = null;
             int alarmTimeIndex = readCursor.getColumnIndexOrThrow(TaskListContract.TaskListItemSchema.COL_NAME_ALARM);
             if (!readCursor.isNull(alarmTimeIndex)) {
@@ -118,7 +122,8 @@ public class TaskListManager  {
                     dateCreated,
                     description,
                     checked,
-                    alarmTime
+                    alarmTime,
+                    priority
             );
             list.add(item);
         }

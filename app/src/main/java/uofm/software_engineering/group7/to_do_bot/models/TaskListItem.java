@@ -22,13 +22,15 @@ public class TaskListItem implements ListItem {
     private String taskDescription;
     private boolean checked = false;
     private String alarmTime = null;
+    private int priority = 0;
 
     public TaskListItem(TaskListManager listManager, TaskListDBHelper dbHelper,
                         long itemID,
                         String dateCreated,
                         String newTaskDescription,
                         boolean isChecked,
-                        String alarmTime) {
+                        String alarmTime,
+                        int priorityLevel) {
         // Set the reference values
         taskListManager = listManager;
         taskListDB = dbHelper;
@@ -38,6 +40,7 @@ public class TaskListItem implements ListItem {
         this.taskDescription = newTaskDescription;
         this.checked = isChecked;
         this.alarmTime = alarmTime;
+        this.priority = priorityLevel;
     }
 
     // Getters
@@ -57,6 +60,10 @@ public class TaskListItem implements ListItem {
         return taskListManager.getCategory();
     }
 
+    public int getPriority(){
+        return priority;
+    }
+
     // Setters
     public void setTaskDescription(String newTaskDescription) {
         taskDescription = newTaskDescription;
@@ -66,6 +73,20 @@ public class TaskListItem implements ListItem {
 
         ContentValues dbValues = new ContentValues();
         dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_DESCRIPTION, newTaskDescription);
+
+        db.update(TaskListContract.TABLE_NAME, dbValues, TaskListContract.TaskListItemSchema._ID + "=?", new String[]{ Long.toString(this.getId()) });
+
+        taskListDB.close();
+    }
+
+    public void setPriority(int priorityLevel){
+        this.priority = priorityLevel;
+
+        // Apply the changes to the database
+        SQLiteDatabase db = taskListDB.getWritableDatabase();
+
+        ContentValues dbValues = new ContentValues();
+        dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_PRIORITY, priorityLevel);
 
         db.update(TaskListContract.TABLE_NAME, dbValues, TaskListContract.TaskListItemSchema._ID + "=?", new String[]{ Long.toString(this.getId()) });
 
@@ -95,6 +116,5 @@ public class TaskListItem implements ListItem {
 
         db.close();
     }
-
 
 }
