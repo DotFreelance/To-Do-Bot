@@ -1,8 +1,12 @@
 package uofm.software_engineering.group7.to_do_bot.models;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.Comparator;
+
+import uofm.software_engineering.group7.to_do_bot.services.SpinnerAdapter;
 import uofm.software_engineering.group7.to_do_bot.services.TaskListContract;
 import uofm.software_engineering.group7.to_do_bot.services.TaskListDBHelper;
 
@@ -22,13 +26,16 @@ public class TaskListItem implements ListItem {
     private String taskDescription;
     private boolean checked = false;
     private String alarmTime = null;
+    private int priority = 0;
 
     public TaskListItem(TaskListManager listManager, TaskListDBHelper dbHelper,
                         long itemID,
                         String dateCreated,
                         String newTaskDescription,
                         boolean isChecked,
-                        String alarmTime) {
+                        String alarmTime,
+                        int priorityLevel
+    ) {
         // Set the reference values
         taskListManager = listManager;
         taskListDB = dbHelper;
@@ -38,6 +45,7 @@ public class TaskListItem implements ListItem {
         this.taskDescription = newTaskDescription;
         this.checked = isChecked;
         this.alarmTime = alarmTime;
+        this.priority = priorityLevel;
     }
 
     // Getters
@@ -45,17 +53,13 @@ public class TaskListItem implements ListItem {
         return id;
     }
 
-    public String getTaskDescription() {
-        return taskDescription;
-    }
+    public String getTaskDescription() { return taskDescription; }
 
-    public boolean getChecked(){
-        return checked;
-    }
+    public boolean getChecked(){ return checked; }
 
-    public String getCategory(){
-        return taskListManager.getCategory();
-    }
+    public String getCategory(){ return taskListManager.getCategory(); }
+
+    public int getPriority() { return priority; }
 
     // Setters
     public void setTaskDescription(String newTaskDescription) {
@@ -67,15 +71,36 @@ public class TaskListItem implements ListItem {
         ContentValues dbValues = new ContentValues();
         dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_DESCRIPTION, newTaskDescription);
 
-        db.update(TaskListContract.TABLE_NAME, dbValues, TaskListContract.TaskListItemSchema._ID + "=?", new String[]{ Long.toString(this.getId()) });
+        db.update(TaskListContract.TABLE_NAME, dbValues, TaskListContract.TaskListItemSchema._ID + "=?", new String[]{Long.toString(this.getId())});
 
         taskListDB.close();
+    }
+
+    public void setPriority(int priorityLevel) {
+
+        // Apply the changes to the database
+        this.priority = priorityLevel;
+        SQLiteDatabase db = taskListDB.getWritableDatabase();
+        ContentValues dbValues = new ContentValues();
+
+        if(priorityLevel == 0) {
+            dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_PRIORITY, TaskListContract.TaskListItemSchema.PRIORITY_NONE);
+        }else if(priorityLevel == 1) {
+            dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_PRIORITY, TaskListContract.TaskListItemSchema.PRIORITY_MEDIUM);
+        }else if(priorityLevel == 2) {
+            dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_PRIORITY, TaskListContract.TaskListItemSchema.PRIORITY_HIGH);
+        }
+
+        db.update(TaskListContract.TABLE_NAME, dbValues, TaskListContract.TaskListItemSchema._ID + "=?", new String[]{Long.toString(this.getId())});
+
+        this.taskListManager.getAdapter().notifyDataSetChanged();
+
+        db.close();
     }
 
     // Utility methods
     public void clearTaskDescription() {
         taskDescription = "";
-        // TODO: DB Integration
     }
 
     public void check(boolean checked) {
@@ -90,11 +115,23 @@ public class TaskListItem implements ListItem {
         }
         // Perform the database insert
         db.update(TaskListContract.TABLE_NAME, dbValues, TaskListContract.TaskListItemSchema._ID + "=?", new String[]{ Long.toString(this.getId()) });
-        // Update the adapter
+
         this.taskListManager.getAdapter().notifyDataSetChanged();
 
         db.close();
     }
 
+    //Comparator for sorting purposes
+    public static Comparator<TaskListItem> PriorityComparator = new Comparator<TaskListItem>() {
+        public int compare(TaskListItem item1, TaskListItem item2) {
+            int item1Priority = item1.getPriority();
+            int item2Priority = item2.getPriority();
 
+            //ascending order
+            //return item1Priority - item2Priority;
+
+            //descending order
+            return item2Priority - item1Priority;
+        }
+    };
 }

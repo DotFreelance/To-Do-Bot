@@ -17,7 +17,8 @@ public class TaskListDBHelper extends SQLiteOpenHelper{
             TaskListContract.TaskListItemSchema.COL_NAME_DESCRIPTION + " TEXT NOT NULL," +
             TaskListContract.TaskListItemSchema.COL_NAME_CHECKED + " BOOLEAN NOT NULL" +
             " CHECK (" + TaskListContract.TaskListItemSchema.COL_NAME_CHECKED + " IN (0,1))," +
-            TaskListContract.TaskListItemSchema.COL_NAME_ALARM + " DATETIME DEFAULT NULL" +
+            TaskListContract.TaskListItemSchema.COL_NAME_ALARM + " DATETIME DEFAULT NULL," +
+            TaskListContract.TaskListItemSchema.COL_NAME_PRIORITY + " INTEGER NOT NULL DEFAULT " + TaskListContract.TaskListItemSchema.PRIORITY_NONE +
             ");";
 
     public TaskListDBHelper(Context context){

@@ -1,14 +1,6 @@
 package uofm.software_engineering.group7.to_do_bot.services;
 
-import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.app.TimePickerDialog;
 import android.content.Context;
-import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
-import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,23 +8,18 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
+import java.util.Collections;
 
 import uofm.software_engineering.group7.to_do_bot.R;
-import uofm.software_engineering.group7.to_do_bot.TaskListActivity;
 import uofm.software_engineering.group7.to_do_bot.models.TaskList;
 import uofm.software_engineering.group7.to_do_bot.models.TaskListItem;
 import uofm.software_engineering.group7.to_do_bot.models.TaskListManager;
@@ -45,15 +32,14 @@ import uofm.software_engineering.group7.to_do_bot.models.TaskListManager;
  */
 public class TaskListItemAdapter extends ArrayAdapter<TaskListItem> {
     private int currentFocus;
+
     // Add mode prevents the Adapter from setting focus during initialization
     private boolean addMode = false;
     private TaskListManager taskListManager = null;
-    private TaskListDBHelper taskListDB;
-    Spinner spinner;
-    private int imgData[]={R.mipmap.delete,R.mipmap.delete,R.mipmap.delete};
+    private SpinnerAdapter spinnerAdapter;
+
     public TaskListItemAdapter(TaskListManager listManager, Context context, TaskList<TaskListItem> taskList){
         super(context, 0, taskList);
-        //taskListDB = new TaskListDBHelper(context);
         taskListManager = listManager;
     }
 
@@ -69,17 +55,39 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem> {
         final CheckBox itemChecked = (CheckBox)convertView.findViewById(R.id.itemChecked);
         final TextView itemDescription = (TextView)convertView.findViewById(R.id.list_item_String);
         final ImageButton itemDelete = (ImageButton)convertView.findViewById(R.id.deleteButton);
-
-        //priority spinner
-        SpinnerAdapter adapter = new SpinnerAdapter(getContext(),
+        final Spinner itemSpinner = (Spinner)convertView.findViewById(R.id.spinner);
+        final SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getContext(),
                 new Integer[]{R.mipmap.none, R.mipmap.medium, R.mipmap.high});
-        spinner=(Spinner)convertView.findViewById(R.id.spinner);
-        spinner.setAdapter(adapter);
 
+        // Set the spinnerAdapter to items priority
+        itemSpinner.setAdapter(spinnerAdapter);
+        itemSpinner.setSelection(item.getPriority());
 
         // Populate the elements
         itemChecked.setChecked(item.getChecked());
         itemDescription.setText(item.getTaskDescription());
+
+        itemSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            int count = 0;
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(count >= 1) {
+                    item.setPriority(position);
+                    //Sort whenever we update items priority
+                    Collections.sort(taskListManager.getList(), TaskListItem.PriorityComparator);
+                    spinnerAdapter.notifyDataSetChanged();
+                }
+                count++;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                if(count >= 1) {
+                    item.setPriority(TaskListContract.TaskListItemSchema.PRIORITY_NONE);
+                }
+                count++;
+            }
+        });
 
         // Add a listener for the checkbox
         itemChecked.setOnClickListener(new View.OnClickListener() {
@@ -88,7 +96,6 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem> {
                 item.check(itemChecked.isChecked());
             }
         });
-
 
         itemDelete.setOnClickListener(new View.OnClickListener() {
             @Override

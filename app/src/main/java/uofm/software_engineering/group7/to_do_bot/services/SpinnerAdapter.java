@@ -25,7 +25,6 @@ public class SpinnerAdapter extends ArrayAdapter<Integer> {
         ImageView imageView = new ImageView(getContext());
         imageView.setBackgroundResource(images[position]);
         return imageView;
-
     }
 
     @Override
