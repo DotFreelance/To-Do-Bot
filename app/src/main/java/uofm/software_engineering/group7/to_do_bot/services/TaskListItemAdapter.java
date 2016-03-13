@@ -17,6 +17,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Collections;
+
 import uofm.software_engineering.group7.to_do_bot.R;
 import uofm.software_engineering.group7.to_do_bot.models.TaskList;
 import uofm.software_engineering.group7.to_do_bot.models.TaskListItem;
@@ -57,14 +59,9 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem> {
         final SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getContext(),
                 new Integer[]{R.mipmap.none, R.mipmap.medium, R.mipmap.high});
 
-        //Only set the spinnerAdaptor once per item
-        /*if(!item.getSpinAdaptorSet()) {
-            itemSpinner.setAdapter(spinnerAdapter);
-            itemSpinner.getItemAtPosition(item.getPriority());
-            item.setSpinAdaptor(true);
-        }*/
-
+        // Set the spinnerAdapter to items priority
         itemSpinner.setAdapter(spinnerAdapter);
+        itemSpinner.setSelection(item.getPriority());
 
         // Populate the elements
         itemChecked.setChecked(item.getChecked());
@@ -76,6 +73,8 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem> {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if(count >= 1) {
                     item.setPriority(position);
+                    //Sort whenever we update items priority
+                    Collections.sort(taskListManager.getList(), TaskListItem.PriorityComparator);
                     spinnerAdapter.notifyDataSetChanged();
                 }
                 count++;

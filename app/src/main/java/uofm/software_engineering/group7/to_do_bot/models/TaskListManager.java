@@ -12,6 +12,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.Cursor;
 import android.widget.Toast;
 
+import java.util.Collections;
+import java.util.Comparator;
+
 /**
  * Created by Faye on 1/22/2016.
  */
@@ -28,6 +31,8 @@ public class TaskListManager  {
         taskListDB = new TaskListDBHelper(context);
         adapter = new TaskListItemAdapter(this, context, list);
     }
+
+    public TaskList<TaskListItem> getList() { return list; }
 
     public TaskListDBHelper getTaskListDB() {
         return taskListDB;
@@ -93,7 +98,7 @@ public class TaskListManager  {
                 this.category,
                 String.valueOf(TaskListContract.TaskListItemSchema.CHECKED_FALSE)
         };
-        String SORT_ORDER = TaskListContract.TaskListItemSchema.PRIORITY_HIGH + " ASC";//Changed SORT_ORDER from ID to PRIORITY
+        String SORT_ORDER = TaskListContract.TaskListItemSchema._ID + " ASC";//Changed SORT_ORDER from ID to PRIORITY
 
         // Send the query
         Cursor readCursor = db.query(TaskListContract.TABLE_NAME, PROJECTION, SELECTION, SELECTION_ARGS, null, null, SORT_ORDER);
@@ -130,6 +135,9 @@ public class TaskListManager  {
             );
             list.add(item);
         }
+
+        //Now that everything is added to the list, we want to sort
+        Collections.sort(list, TaskListItem.PriorityComparator);
 
         adapter.notifyDataSetChanged();
         readCursor.close();

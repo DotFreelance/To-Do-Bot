@@ -4,6 +4,9 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.Comparator;
+
+import uofm.software_engineering.group7.to_do_bot.services.SpinnerAdapter;
 import uofm.software_engineering.group7.to_do_bot.services.TaskListContract;
 import uofm.software_engineering.group7.to_do_bot.services.TaskListDBHelper;
 
@@ -24,7 +27,6 @@ public class TaskListItem implements ListItem {
     private boolean checked = false;
     private String alarmTime = null;
     private int priority = 0;
-    private boolean spinAdaptorSet = false;
 
     public TaskListItem(TaskListManager listManager, TaskListDBHelper dbHelper,
                         long itemID,
@@ -44,15 +46,12 @@ public class TaskListItem implements ListItem {
         this.checked = isChecked;
         this.alarmTime = alarmTime;
         this.priority = priorityLevel;
-        this.spinAdaptorSet = false;
     }
 
     // Getters
     public long getId() {
         return id;
     }
-
-    public boolean getSpinAdaptorSet() { return spinAdaptorSet; }
 
     public String getTaskDescription() { return taskDescription; }
 
@@ -99,10 +98,6 @@ public class TaskListItem implements ListItem {
         db.close();
     }
 
-    public void setSpinAdaptor(boolean spinAdaptorSet) {
-        this.spinAdaptorSet = spinAdaptorSet;
-    }
-
     // Utility methods
     public void clearTaskDescription() {
         taskDescription = "";
@@ -126,5 +121,17 @@ public class TaskListItem implements ListItem {
         db.close();
     }
 
+    //Comparator for sorting purposes
+    public static Comparator<TaskListItem> PriorityComparator = new Comparator<TaskListItem>() {
+        public int compare(TaskListItem item1, TaskListItem item2) {
+            int item1Priority = item1.getPriority();
+            int item2Priority = item2.getPriority();
 
+            //ascending order
+            //return item1Priority - item2Priority;
+
+            //descending order
+            return item2Priority - item1Priority;
+        }
+    };
 }
