@@ -35,6 +35,7 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem> {
     private TaskListManager taskListManager = null;
     private TaskListDBHelper taskListDB;
     private Spinner spinner;
+    private int imgData[] = {R.mipmap.delete,R.mipmap.delete,R.mipmap.delete};
 
     public TaskListItemAdapter(TaskListManager listManager, Context context, TaskList<TaskListItem> taskList){
         super(context, 0, taskList);
@@ -65,8 +66,6 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem> {
         // Populate the elements
         itemChecked.setChecked(item.getChecked());
         itemDescription.setText(item.getTaskDescription());
-        //populate item in spinner!
-        //spinner.getText();?<--change this
 
         /*spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

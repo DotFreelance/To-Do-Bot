@@ -19,6 +19,7 @@ public class TaskListDBHelper extends SQLiteOpenHelper{
             " CHECK (" + TaskListContract.TaskListItemSchema.COL_NAME_CHECKED + " IN (0,1))," +
             TaskListContract.TaskListItemSchema.COL_NAME_ALARM + " DATETIME DEFAULT NULL" +
             ");";
+            //TODO: ADD PRIORITY TO DATABASE
 
     public TaskListDBHelper(Context context){
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

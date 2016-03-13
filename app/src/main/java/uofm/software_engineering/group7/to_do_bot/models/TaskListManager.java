@@ -48,11 +48,13 @@ public class TaskListManager  {
         TaskListItem item;
         long newItemID;
         String currentDate = "";
+        int priority;
         // Set the values we need for this entry
         dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_CREATED, currentDate);
         dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_DESCRIPTION, taskDescription);
         dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_CATEGORY, this.category);
         dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_CHECKED, TaskListContract.TaskListItemSchema.CHECKED_FALSE);
+        //dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_PRIORITY, 0); ADD LATER
         // Perform the database insert, returning the _ID primary key value
         newItemID = db.insert(TaskListContract.TABLE_NAME, null, dbValues);
         // Instantiate a new TaskListItem using the new ID we just received from the DB, if we were successful
@@ -62,8 +64,7 @@ public class TaskListManager  {
                     currentDate,
                     taskDescription,
                     false,
-                    null,
-                    0
+                    null//add priority default 0
                     );
             list.add(item);
         } else {
@@ -106,6 +107,9 @@ public class TaskListManager  {
             boolean checked = readCursor.getInt(
                     readCursor.getColumnIndexOrThrow(TaskListContract.TaskListItemSchema.COL_NAME_CHECKED))
                     == TaskListContract.TaskListItemSchema.CHECKED_TRUE;
+            //Add priority later
+            //int priority = readCursor.getInt(
+                    //readCursor.getColumnIndexOrThrow(TaskListContract.TaskListItemSchema.COL_NAME_PRIORITY));
             String alarmTime = null;
             int alarmTimeIndex = readCursor.getColumnIndexOrThrow(TaskListContract.TaskListItemSchema.COL_NAME_ALARM);
             if (!readCursor.isNull(alarmTimeIndex)) {
@@ -118,8 +122,7 @@ public class TaskListManager  {
                     dateCreated,
                     description,
                     checked,
-                    alarmTime,
-                    priority
+                    alarmTime//Add priority later
             );
             list.add(item);
         }
