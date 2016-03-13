@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
@@ -33,13 +34,10 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem> {
     // Add mode prevents the Adapter from setting focus during initialization
     private boolean addMode = false;
     private TaskListManager taskListManager = null;
-    private TaskListDBHelper taskListDB;
-    private Spinner spinner;
-    private int imgData[] = {R.mipmap.delete,R.mipmap.delete,R.mipmap.delete};
+    private SpinnerAdapter spinnerAdapter;
 
     public TaskListItemAdapter(TaskListManager listManager, Context context, TaskList<TaskListItem> taskList){
         super(context, 0, taskList);
-        //taskListDB = new TaskListDBHelper(context);
         taskListManager = listManager;
     }
 
@@ -55,37 +53,42 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem> {
         final CheckBox itemChecked = (CheckBox)convertView.findViewById(R.id.itemChecked);
         final TextView itemDescription = (TextView)convertView.findViewById(R.id.list_item_String);
         final ImageButton itemDelete = (ImageButton)convertView.findViewById(R.id.deleteButton);
-
-        //priority spinner
-        SpinnerAdapter adapter = new SpinnerAdapter(getContext(),
+        final Spinner itemSpinner = (Spinner)convertView.findViewById(R.id.spinner);
+        final SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getContext(),
                 new Integer[]{R.mipmap.none, R.mipmap.medium, R.mipmap.high});
-        spinner=(Spinner)convertView.findViewById(R.id.spinner);
-        spinner.setAdapter(adapter);
 
+        //Only set the spinnerAdaptor once per item
+        /*if(!item.getSpinAdaptorSet()) {
+            itemSpinner.setAdapter(spinnerAdapter);
+            itemSpinner.getItemAtPosition(item.getPriority());
+            item.setSpinAdaptor(true);
+        }*/
+
+        itemSpinner.setAdapter(spinnerAdapter);
 
         // Populate the elements
         itemChecked.setChecked(item.getChecked());
         itemDescription.setText(item.getTaskDescription());
 
-        /*spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        itemSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            int count = 0;
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
+                if(count >= 1) {
+                    item.setPriority(position);
+                    spinnerAdapter.notifyDataSetChanged();
+                }
+                count++;
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
+                if(count >= 1) {
+                    item.setPriority(TaskListContract.TaskListItemSchema.PRIORITY_NONE);
+                }
+                count++;
             }
-        });*/
-
-        // Add a listener for the spinnerButton
-        /*spinnerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int priority = item.getPriority();
-            }
-        });*/
+        });
 
         // Add a listener for the checkbox
         itemChecked.setOnClickListener(new View.OnClickListener() {

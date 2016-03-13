@@ -29,6 +29,10 @@ public class TaskListManager  {
         adapter = new TaskListItemAdapter(this, context, list);
     }
 
+    public TaskListDBHelper getTaskListDB() {
+        return taskListDB;
+    }
+
     public String getCategory() {
         return this.category;
     }
@@ -39,7 +43,6 @@ public class TaskListManager  {
 
     public void editCategoryName(String newName) {
         category = newName;
-        // TODO: DB Integration
     }
 
     public void addTask(Context context, String taskDescription) {
@@ -54,7 +57,7 @@ public class TaskListManager  {
         dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_DESCRIPTION, taskDescription);
         dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_CATEGORY, this.category);
         dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_CHECKED, TaskListContract.TaskListItemSchema.CHECKED_FALSE);
-        //dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_PRIORITY, 0); ADD LATER
+        dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_PRIORITY, TaskListContract.TaskListItemSchema.PRIORITY_NONE);
         // Perform the database insert, returning the _ID primary key value
         newItemID = db.insert(TaskListContract.TABLE_NAME, null, dbValues);
         // Instantiate a new TaskListItem using the new ID we just received from the DB, if we were successful
@@ -64,7 +67,8 @@ public class TaskListManager  {
                     currentDate,
                     taskDescription,
                     false,
-                    null//add priority default 0
+                    null,
+                    TaskListContract.TaskListItemSchema.PRIORITY_NONE
                     );
             list.add(item);
         } else {
@@ -89,7 +93,7 @@ public class TaskListManager  {
                 this.category,
                 String.valueOf(TaskListContract.TaskListItemSchema.CHECKED_FALSE)
         };
-        String SORT_ORDER = TaskListContract.TaskListItemSchema._ID + " ASC";
+        String SORT_ORDER = TaskListContract.TaskListItemSchema.PRIORITY_HIGH + " ASC";//Changed SORT_ORDER from ID to PRIORITY
 
         // Send the query
         Cursor readCursor = db.query(TaskListContract.TABLE_NAME, PROJECTION, SELECTION, SELECTION_ARGS, null, null, SORT_ORDER);
@@ -107,9 +111,8 @@ public class TaskListManager  {
             boolean checked = readCursor.getInt(
                     readCursor.getColumnIndexOrThrow(TaskListContract.TaskListItemSchema.COL_NAME_CHECKED))
                     == TaskListContract.TaskListItemSchema.CHECKED_TRUE;
-            //Add priority later
-            //int priority = readCursor.getInt(
-                    //readCursor.getColumnIndexOrThrow(TaskListContract.TaskListItemSchema.COL_NAME_PRIORITY));
+            int priority = readCursor.getInt(
+                    readCursor.getColumnIndexOrThrow(TaskListContract.TaskListItemSchema.COL_NAME_PRIORITY));
             String alarmTime = null;
             int alarmTimeIndex = readCursor.getColumnIndexOrThrow(TaskListContract.TaskListItemSchema.COL_NAME_ALARM);
             if (!readCursor.isNull(alarmTimeIndex)) {
@@ -122,7 +125,8 @@ public class TaskListManager  {
                     dateCreated,
                     description,
                     checked,
-                    alarmTime//Add priority later
+                    alarmTime,
+                    priority
             );
             list.add(item);
         }
@@ -134,10 +138,7 @@ public class TaskListManager  {
 
     public void removeTask(int index) {
         SQLiteDatabase db = taskListDB.getWritableDatabase();
-        ContentValues dbValues = new ContentValues();
         TaskListItem item = list.get(index);
-        long deleteId = item.getId();
-
 
         db.delete(TaskListContract.TABLE_NAME, TaskListContract.TaskListItemSchema._ID + "=?", new String[]{Long.toString(item.getId())});
 
@@ -145,15 +146,5 @@ public class TaskListManager  {
 
         adapter.notifyDataSetChanged();
         db.close();
-    }
-
-    //Remove task from local memory only (not db)
-    public void removeCheckedTask(int index) {
-        TaskListItem item = list.get(index);
-        list.remove(index);
-    }
-
-    public TaskListDBHelper getTaskListDB() {
-        return taskListDB;
     }
 }

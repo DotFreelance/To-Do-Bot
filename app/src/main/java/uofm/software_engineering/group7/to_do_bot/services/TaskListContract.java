@@ -17,8 +17,13 @@ public final class TaskListContract {
         public static final String COL_NAME_DESCRIPTION = "taskDescription";
         public static final String COL_NAME_CHECKED = "checked";
         public static final String COL_NAME_ALARM = "alarmTime";
-        //public static final String COL_NAME_PRIORITY = "priority";
+        public static final String COL_NAME_PRIORITY = "priority";
+        // Checked constants
         public static final int CHECKED_TRUE = 1;
         public static final int CHECKED_FALSE = 0;
+        // Priority constants
+        public static final int PRIORITY_NONE = 0;
+        public static final int PRIORITY_MEDIUM = 1;
+        public static final int PRIORITY_HIGH = 2;
     }
 }
