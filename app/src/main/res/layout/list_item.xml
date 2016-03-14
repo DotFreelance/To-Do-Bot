@@ -15,13 +15,14 @@
         android:id="@+id/itemChecked"
         android:theme="@style/AppTheme" />
     <Spinner
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:id="@+id/spinner"
         android:drawSelectorOnTop="true"
-        android:background="#ffffff"
         android:spinnerMode="dropdown"
         android:visibility="visible"
+        android:background="@null"
+        android:popupBackground="#FFF"
         android:layout_gravity="center"
         android:clickable="true"
          />
@@ -36,7 +37,7 @@
         android:imeOptions="actionDone"
         android:selectAllOnFocus="false"
         android:overScrollMode="always"
-        android:layout_weight="10" />
+        android:layout_weight="9.71" />
 
 
 
@@ -51,17 +52,6 @@
         android:layout_marginTop="5dp"
         android:contentDescription="@string/delete_button_description" />
     </LinearLayout>
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="17sp"
-        android:id="@+id/datetime"
-        android:hint="@string/add_datetime"
-        android:inputType="datetime"
-        android:background="#efb660"
-        android:focusable="false"
-        />
 
 
 </LinearLayout>
