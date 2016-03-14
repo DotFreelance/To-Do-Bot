@@ -101,6 +101,13 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem> {
             @Override
             public void onClick(View v) {
                 taskListManager.removeTask(currentPosition);
+                // Clear focus
+                v.clearFocus();
+                // Hide keyboard
+                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(itemDescription.getWindowToken(), 0);
+                // Remove the current focus
+                setCurrentFocus(-1);
             }
         });
 
@@ -126,13 +133,15 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem> {
         itemDescription.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    updateTaskItemDescription((TextView) v, currentPosition);
-                    // Remove the current focus
-                    setCurrentFocus(-1);
-                } else {
-                    // Set the current focus
-                    setCurrentFocus(currentPosition);
+                if(getCurrentFocus() >= 0) {
+                    if (!hasFocus) {
+                        updateTaskItemDescription((TextView) v, currentPosition);
+                        // Remove the current focus
+                        setCurrentFocus(-1);
+                    } else {
+                        // Set the current focus
+                        setCurrentFocus(currentPosition);
+                    }
                 }
             }
         });
