@@ -100,21 +100,14 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem> {
         itemDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ViewParent parent = v.getParent().getParent();
-                ListView listView = (ListView) parent.getParent();
-
-                int posn = -1;
-
-                if (parent instanceof View) {
-                    posn = listView.getPositionForView((View) parent);
-                }
-                else {
-                    System.out.println("Not a List View");
-                }
-
-                if (posn != -1) {
-                    taskListManager.removeTask(posn);
-                }
+                taskListManager.removeTask(currentPosition);
+                // Clear focus
+                v.clearFocus();
+                // Hide keyboard
+                InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(itemDescription.getWindowToken(), 0);
+                // Remove the current focus
+                setCurrentFocus(-1);
             }
         });
 
@@ -140,13 +133,15 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem> {
         itemDescription.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    updateTaskItemDescription((TextView) v, currentPosition);
-                    // Remove the current focus
-                    setCurrentFocus(-1);
-                } else {
-                    // Set the current focus
-                    setCurrentFocus(currentPosition);
+                if(getCurrentFocus() >= 0) {
+                    if (!hasFocus) {
+                        updateTaskItemDescription((TextView) v, currentPosition);
+                        // Remove the current focus
+                        setCurrentFocus(-1);
+                    } else {
+                        // Set the current focus
+                        setCurrentFocus(currentPosition);
+                    }
                 }
             }
         });
