@@ -53,13 +53,21 @@ public class TaskListItem implements ListItem {
         return id;
     }
 
-    public String getTaskDescription() { return taskDescription; }
+    public String getTaskDescription() {
+        return taskDescription;
+    }
 
-    public boolean getChecked(){ return checked; }
+    public boolean getChecked(){
+        return checked;
+    }
 
-    public String getCategory(){ return taskListManager.getCategory(); }
+    public String getCategory(){
+        return taskListManager.getCategory();
+    }
 
-    public int getPriority() { return priority; }
+    public int getPriority(){
+        return priority;
+    }
 
     // Setters
     public void setTaskDescription(String newTaskDescription) {
@@ -71,7 +79,7 @@ public class TaskListItem implements ListItem {
         ContentValues dbValues = new ContentValues();
         dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_DESCRIPTION, newTaskDescription);
 
-        db.update(TaskListContract.TABLE_NAME, dbValues, TaskListContract.TaskListItemSchema._ID + "=?", new String[]{Long.toString(this.getId())});
+        db.update(TaskListContract.TABLE_NAME, dbValues, TaskListContract.TaskListItemSchema._ID + "=?", new String[]{ Long.toString(this.getId()) });
 
         taskListDB.close();
     }
