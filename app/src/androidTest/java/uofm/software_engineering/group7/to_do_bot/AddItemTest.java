@@ -12,13 +12,27 @@ import uofm.software_engineering.group7.to_do_bot.services.TaskListContract;
  * Created by Matt on 2016-02-22.
  */
 public class AddItemTest extends TestCase {
-    private TaskListManager taskManager = new TaskListManager(null, "List");
+    private final int AMOUNT_OF_ITEMS = 10000;
 
-    public void addItemTest() {
-        SQLiteDatabase db = taskManager.getTaskListDB().getReadableDatabase();
-        taskManager.addTask(null, "Test");
+    public void addItemTest00(TaskListManager taskListManager) {
+        SQLiteDatabase db = taskListManager.getTaskListDB().getReadableDatabase();
+        taskListManager.addTask(null, "Test");
         String countQuery = "SELECT count(*) FROM " + TaskListContract.TaskListItemSchema.COL_NAME_DESCRIPTION;
 
+        Cursor cursor = db.rawQuery(countQuery, null);
+        cursor.moveToFirst();
+        int count = cursor.getInt(0);
+        assert(count > 0);
+    }
+
+    public void addItemTest01(TaskListManager taskListManager) {
+        SQLiteDatabase db = taskListManager.getTaskListDB().getReadableDatabase();
+
+        for(int i = 0; i < AMOUNT_OF_ITEMS; i++) {
+            taskListManager.addTask(null, "Item");
+        }
+
+        String countQuery = "SELECT count(*) FROM " + TaskListContract.TaskListItemSchema.COL_NAME_DESCRIPTION;
         Cursor cursor = db.rawQuery(countQuery, null);
         cursor.moveToFirst();
         int count = cursor.getInt(0);
