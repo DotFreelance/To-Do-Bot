@@ -30,11 +30,6 @@ public class TaskListActivity extends AppCompatActivity  {
 
     }
 
-
-
-
-
-
     private void initList(View v){
         ListView listView = (ListView)v;
         ArrayAdapter adapter = creator.listManager.getAdapter();
