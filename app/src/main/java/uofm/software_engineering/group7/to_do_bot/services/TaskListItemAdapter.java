@@ -100,21 +100,7 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem> {
         itemDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ViewParent parent = v.getParent().getParent();
-                ListView listView = (ListView) parent.getParent();
-
-                int posn = -1;
-
-                if (parent instanceof View) {
-                    posn = listView.getPositionForView((View) parent);
-                }
-                else {
-                    System.out.println("Not a List View");
-                }
-
-                if (posn != -1) {
-                    taskListManager.removeTask(posn);
-                }
+                taskListManager.removeTask(currentPosition);
             }
         });
 
