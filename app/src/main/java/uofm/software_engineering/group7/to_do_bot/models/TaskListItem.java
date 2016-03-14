@@ -1,8 +1,12 @@
 package uofm.software_engineering.group7.to_do_bot.models;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.util.Comparator;
+
+import uofm.software_engineering.group7.to_do_bot.services.SpinnerAdapter;
 import uofm.software_engineering.group7.to_do_bot.services.TaskListContract;
 import uofm.software_engineering.group7.to_do_bot.services.TaskListDBHelper;
 
@@ -30,7 +34,8 @@ public class TaskListItem implements ListItem {
                         String newTaskDescription,
                         boolean isChecked,
                         String alarmTime,
-                        int priorityLevel) {
+                        int priorityLevel
+    ) {
         // Set the reference values
         taskListManager = listManager;
         taskListDB = dbHelper;
@@ -79,24 +84,31 @@ public class TaskListItem implements ListItem {
         taskListDB.close();
     }
 
-    public void setPriority(int priorityLevel){
-        this.priority = priorityLevel;
+    public void setPriority(int priorityLevel) {
 
         // Apply the changes to the database
+        this.priority = priorityLevel;
         SQLiteDatabase db = taskListDB.getWritableDatabase();
-
         ContentValues dbValues = new ContentValues();
-        dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_PRIORITY, priorityLevel);
 
-        db.update(TaskListContract.TABLE_NAME, dbValues, TaskListContract.TaskListItemSchema._ID + "=?", new String[]{ Long.toString(this.getId()) });
+        if(priorityLevel == 0) {
+            dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_PRIORITY, TaskListContract.TaskListItemSchema.PRIORITY_NONE);
+        }else if(priorityLevel == 1) {
+            dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_PRIORITY, TaskListContract.TaskListItemSchema.PRIORITY_MEDIUM);
+        }else if(priorityLevel == 2) {
+            dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_PRIORITY, TaskListContract.TaskListItemSchema.PRIORITY_HIGH);
+        }
 
-        taskListDB.close();
+        db.update(TaskListContract.TABLE_NAME, dbValues, TaskListContract.TaskListItemSchema._ID + "=?", new String[]{Long.toString(this.getId())});
+
+        this.taskListManager.getAdapter().notifyDataSetChanged();
+
+        db.close();
     }
 
     // Utility methods
     public void clearTaskDescription() {
         taskDescription = "";
-        // TODO: DB Integration
     }
 
     public void check(boolean checked) {
@@ -111,10 +123,23 @@ public class TaskListItem implements ListItem {
         }
         // Perform the database insert
         db.update(TaskListContract.TABLE_NAME, dbValues, TaskListContract.TaskListItemSchema._ID + "=?", new String[]{ Long.toString(this.getId()) });
-        // Update the adapter
+
         this.taskListManager.getAdapter().notifyDataSetChanged();
 
         db.close();
     }
 
+    //Comparator for sorting purposes
+    public static Comparator<TaskListItem> PriorityComparator = new Comparator<TaskListItem>() {
+        public int compare(TaskListItem item1, TaskListItem item2) {
+            int item1Priority = item1.getPriority();
+            int item2Priority = item2.getPriority();
+
+            //ascending order
+            //return item1Priority - item2Priority;
+
+            //descending order
+            return item2Priority - item1Priority;
+        }
+    };
 }
