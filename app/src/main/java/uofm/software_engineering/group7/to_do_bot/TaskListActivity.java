@@ -1,5 +1,6 @@
 package uofm.software_engineering.group7.to_do_bot;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,11 +8,13 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
+
+import uofm.software_engineering.group7.to_do_bot.models.AlarmManagerBroadcastReceiver;
 
 public class TaskListActivity extends AppCompatActivity  {
-
+    private AlarmManagerBroadcastReceiver alarm;
     private ComponentsCreator creator;
-
     Spinner spinner;
 
     @Override
@@ -19,12 +22,11 @@ public class TaskListActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_list);
 
+        alarm = new AlarmManagerBroadcastReceiver();
         creator = new ComponentsCreator();
         creator.run(getApplicationContext());
 
         initList(findViewById(R.id.listView));
-
-
     }
 
     private void initList(View v){
@@ -43,4 +45,12 @@ public class TaskListActivity extends AppCompatActivity  {
         creator.listManager.addTask(v.getContext(), "");
     }
 
+    public void onetimeTimer(View v) {
+        Context context = this.getApplicationContext();
+        if(alarm != null) {
+            alarm.setOnetimeTimer(context);
+        } else {
+            Toast.makeText(context, "Alarm is null", Toast.LENGTH_SHORT).show();
+        }
+    }
 }
