@@ -6,13 +6,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Spinner;
 
-public class TaskListActivity extends AppCompatActivity  {
+
+
+
+
+public class TaskListActivity extends AppCompatActivity {
 
     private ComponentsCreator creator;
 
-    Spinner spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,7 +22,7 @@ public class TaskListActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_task_list);
 
         creator = new ComponentsCreator();
-        creator.run(getApplicationContext());
+        creator.run(TaskListActivity.this);
 
         initList(findViewById(R.id.listView));
 

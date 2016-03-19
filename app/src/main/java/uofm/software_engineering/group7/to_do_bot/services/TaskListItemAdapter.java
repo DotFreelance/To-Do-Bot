@@ -1,24 +1,26 @@
 package uofm.software_engineering.group7.to_do_bot.services;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
-
+import java.util.Calendar;
 import java.util.Collections;
-
 import uofm.software_engineering.group7.to_do_bot.R;
 import uofm.software_engineering.group7.to_do_bot.models.TaskList;
 import uofm.software_engineering.group7.to_do_bot.models.TaskListItem;
@@ -32,7 +34,7 @@ import uofm.software_engineering.group7.to_do_bot.models.TaskListManager;
  */
 public class TaskListItemAdapter extends ArrayAdapter<TaskListItem> {
     private int currentFocus;
-
+    private Context ctxt;
     // Add mode prevents the Adapter from setting focus during initialization
     private boolean addMode = false;
     private TaskListManager taskListManager = null;
@@ -41,6 +43,7 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem> {
     public TaskListItemAdapter(TaskListManager listManager, Context context, TaskList<TaskListItem> taskList){
         super(context, 0, taskList);
         taskListManager = listManager;
+        ctxt=context;
     }
 
     @Override
@@ -58,6 +61,51 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem> {
         final Spinner itemSpinner = (Spinner)convertView.findViewById(R.id.spinner);
         final SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getContext(),
                 new Integer[]{R.mipmap.none, R.mipmap.medium, R.mipmap.high});
+
+        final EditText dateTime=(EditText)convertView.findViewById(R.id.dateTime);
+
+        //date and time picker dialogs
+        dateTime.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v) {
+                Calendar c = Calendar.getInstance();
+
+                new DatePickerDialog(ctxt,
+
+                        new DatePickerDialog.OnDateSetListener()
+                        {
+                            @Override
+                            public void onDateSet(DatePicker dp, int year,
+                                                  int month, int dayOfMonth)
+                            {
+                                 //use year,month,day here
+                                 dateTime.setText(dateTime.getText()+" "+year+" "+month+" "+dayOfMonth);
+                            }
+                        }
+
+                        , c.get(Calendar.YEAR)
+                        , c.get(Calendar.MONTH)
+                        , c.get(Calendar.DAY_OF_MONTH)).show();
+
+                new TimePickerDialog(ctxt,
+
+                        new TimePickerDialog.OnTimeSetListener() {
+
+                            @Override
+                            public void onTimeSet(TimePicker view,
+                                                  int hourOfDay, int minute) {
+                                dateTime.setText(hourOfDay + " " + minute);
+                            }
+                        }
+
+                        , c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE),
+                        true).show();
+            }
+
+        });
+
+
 
         // Set the spinnerAdapter to items priority
         itemSpinner.setAdapter(spinnerAdapter);

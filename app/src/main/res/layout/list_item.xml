@@ -53,5 +53,12 @@
         android:contentDescription="@string/delete_button_description" />
     </LinearLayout>
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/dateTime"
+        android:focusable="false"
+        />
+
 
 </LinearLayout>
