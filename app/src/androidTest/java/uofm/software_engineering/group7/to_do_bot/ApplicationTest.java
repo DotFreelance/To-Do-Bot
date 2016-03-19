@@ -9,9 +9,9 @@ import uofm.software_engineering.group7.to_do_bot.models.TaskListManager;
  */
 public class ApplicationTest extends TestCase {
     private static final int AMOUNT_OF_ITEMS = 100;
-    private static AddItemTest addItemTest = new AddItemTest();
-    private static RemoveItemTest removeItemTest = new RemoveItemTest();
-    private static TaskListManager taskListManager = new TaskListManager(null, "Test Category");
+    private static final AddItemTest addItemTest = new AddItemTest();
+    private static final RemoveItemTest removeItemTest = new RemoveItemTest();
+    private static final TaskListManager taskListManager = new TaskListManager(null, "Test Category");
 
     public static void main(String[] args) {
         populate();

@@ -5,14 +5,12 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -186,11 +184,11 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem> {
         this.addMode = true;
     }
 
-    public void setCurrentFocus(int index){
+    private void setCurrentFocus(int index){
         this.currentFocus = index;
     }
 
-    public int getCurrentFocus(){
+    private int getCurrentFocus(){
         return this.currentFocus;
     }
 

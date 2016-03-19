@@ -17,7 +17,7 @@ import java.util.Date;
  * Created by Matt on 2016-03-16.
  */
 public class AlarmManagerBroadcastReceiver extends BroadcastReceiver {
-    final public static String ONE_TIME = "onetime";
+    private final static String ONE_TIME = "onetime";
 
     @Override
     public void onReceive(Context context, Intent intent) {

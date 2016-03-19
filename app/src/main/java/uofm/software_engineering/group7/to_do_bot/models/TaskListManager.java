@@ -13,7 +13,6 @@ import android.database.Cursor;
 import android.widget.Toast;
 
 import java.util.Collections;
-import java.util.Comparator;
 
 /**
  * Created by Faye on 1/22/2016.
@@ -21,9 +20,9 @@ import java.util.Comparator;
 
 public class TaskListManager  {
     private String category;
-    private TaskList<TaskListItem> list;
-    private TaskListDBHelper taskListDB;
-    private TaskListItemAdapter adapter;
+    private final TaskList<TaskListItem> list;
+    private final TaskListDBHelper taskListDB;
+    private final TaskListItemAdapter adapter;
 
     public TaskListManager(Context context, String newName) {
         category = newName;

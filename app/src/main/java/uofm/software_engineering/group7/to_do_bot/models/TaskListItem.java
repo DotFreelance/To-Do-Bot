@@ -1,12 +1,10 @@
 package uofm.software_engineering.group7.to_do_bot.models;
 
 import android.content.ContentValues;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.Comparator;
 
-import uofm.software_engineering.group7.to_do_bot.services.SpinnerAdapter;
 import uofm.software_engineering.group7.to_do_bot.services.TaskListContract;
 import uofm.software_engineering.group7.to_do_bot.services.TaskListDBHelper;
 
@@ -17,12 +15,12 @@ import uofm.software_engineering.group7.to_do_bot.services.TaskListDBHelper;
  */
 public class TaskListItem implements ListItem {
     // References to containing objects required for category and DB integration
-    private TaskListDBHelper taskListDB;
-    private TaskListManager taskListManager;
+    private final TaskListDBHelper taskListDB;
+    private final TaskListManager taskListManager;
 
     // User values for this TaskListItem
-    private long id;
-    private String dateCreated;
+    private final long id;
+    private final String dateCreated;
     private String taskDescription;
     private boolean checked = false;
     private String alarmTime = null;
@@ -130,7 +128,7 @@ public class TaskListItem implements ListItem {
     }
 
     //Comparator for sorting purposes
-    public static Comparator<TaskListItem> PriorityComparator = new Comparator<TaskListItem>() {
+    public static final Comparator<TaskListItem> PriorityComparator = new Comparator<TaskListItem>() {
         public int compare(TaskListItem item1, TaskListItem item2) {
             int item1Priority = item1.getPriority();
             int item2Priority = item2.getPriority();
