@@ -172,7 +172,13 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem> {
         // Update the item at that position if it has been changed
         String enteredText = v.getText().toString();
         TaskListItem item = getItem(position);
+
         if(!enteredText.equals(item.getTaskDescription())) {
+            if(enteredText.isEmpty()) {
+                taskListManager.removeTask(position);
+                Toast.makeText(getContext(), "Task Removed!", Toast.LENGTH_SHORT).show();
+            }
+
             item.setTaskDescription(enteredText);
             // Notify the user that the update has been processed.
             Toast.makeText(getContext(), getContext().getString(R.string.update_task_success), Toast.LENGTH_SHORT).show();
