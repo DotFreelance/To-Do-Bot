@@ -23,7 +23,8 @@ public final class TaskListContract {
         public static final int CHECKED_FALSE = 0;
         // Priority constants
         public static final int PRIORITY_NONE = 0;
-        public static final int PRIORITY_MEDIUM = 1;
-        public static final int PRIORITY_HIGH = 2;
+        public static final int PRIORITY_LOW = 1;
+        public static final int PRIORITY_MEDIUM = 2;
+        public static final int PRIORITY_HIGH = 3;
     }
 }
