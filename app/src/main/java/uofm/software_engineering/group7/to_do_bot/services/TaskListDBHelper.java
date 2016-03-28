@@ -1,8 +1,8 @@
 package uofm.software_engineering.group7.to_do_bot.services;
 
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.content.Context;
 
 /**
  * Created by Paul J on 2016-02-18.

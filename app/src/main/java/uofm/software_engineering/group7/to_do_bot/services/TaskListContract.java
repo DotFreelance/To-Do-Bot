@@ -11,7 +11,7 @@ public final class TaskListContract {
     public static final String TABLE_NAME = "tasks";
 
     // Inner class defines the actual schema
-    public static abstract class TaskListItemSchema implements BaseColumns{
+    public static abstract class TaskListItemSchema implements BaseColumns {
         public static final String COL_NAME_CREATED = "createdAt";
         public static final String COL_NAME_CATEGORY = "taskCategory";
         public static final String COL_NAME_DESCRIPTION = "taskDescription";

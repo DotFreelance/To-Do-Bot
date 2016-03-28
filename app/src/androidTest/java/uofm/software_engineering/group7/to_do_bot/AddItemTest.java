@@ -16,7 +16,7 @@ public class AddItemTest extends TestCase {
 
     public void addItemTest00(TaskListManager taskListManager) {
         SQLiteDatabase db = taskListManager.getTaskListDB().getReadableDatabase();
-        taskListManager.addTask(null, "Test");
+        taskListManager.addTask("Description", 0, null);
         String countQuery = "SELECT count(*) FROM " + TaskListContract.TaskListItemSchema.COL_NAME_DESCRIPTION;
 
         Cursor cursor = db.rawQuery(countQuery, null);
@@ -29,7 +29,7 @@ public class AddItemTest extends TestCase {
         SQLiteDatabase db = taskListManager.getTaskListDB().getReadableDatabase();
 
         for(int i = 0; i < AMOUNT_OF_ITEMS; i++) {
-            taskListManager.addTask(null, "Item");
+            taskListManager.addTask("Description", 0, null);
         }
 
         String countQuery = "SELECT count(*) FROM " + TaskListContract.TaskListItemSchema.COL_NAME_DESCRIPTION;
