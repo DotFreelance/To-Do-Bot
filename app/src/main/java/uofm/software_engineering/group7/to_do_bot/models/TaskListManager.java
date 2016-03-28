@@ -49,6 +49,7 @@ public class TaskListManager  {
         category = newName;
     }
 
+    // This writes to DB before taskDescription is even set
     public void addTask(Context context, String taskDescription) {
         SQLiteDatabase db = taskListDB.getWritableDatabase();
         ContentValues dbValues = new ContentValues();
