@@ -1,8 +1,7 @@
 package uofm.software_engineering.group7.to_do_bot;
 
-import android.content.Context;
-
 import uofm.software_engineering.group7.to_do_bot.models.TaskListManager;
+import android.content.Context;
 
 /**
  * Created by Faye on 2/8/2016.
