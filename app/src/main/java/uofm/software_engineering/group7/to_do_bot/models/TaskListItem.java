@@ -10,7 +10,7 @@ import uofm.software_engineering.group7.to_do_bot.services.TaskListDBHelper;
 
 /**
  * Created by Faye on 1/22/2016.
- *
+ * <p>
  * This is what goes on in the list.
  */
 public class TaskListItem implements ListItem {
@@ -55,7 +55,7 @@ public class TaskListItem implements ListItem {
         return taskDescription;
     }
 
-    public boolean getChecked(){
+    public boolean getChecked() {
         return checked;
     }
 
@@ -63,7 +63,7 @@ public class TaskListItem implements ListItem {
         return taskListManager.getCategory();
     }
 
-    public int getPriority(){
+    public int getPriority() {
         return priority;
     }
 
@@ -77,7 +77,7 @@ public class TaskListItem implements ListItem {
         ContentValues dbValues = new ContentValues();
         dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_DESCRIPTION, newTaskDescription);
 
-        db.update(TaskListContract.TABLE_NAME, dbValues, TaskListContract.TaskListItemSchema._ID + "=?", new String[]{ Long.toString(this.getId()) });
+        db.update(TaskListContract.TABLE_NAME, dbValues, TaskListContract.TaskListItemSchema._ID + "=?", new String[]{Long.toString(this.getId())});
 
         taskListDB.close();
     }
@@ -89,11 +89,11 @@ public class TaskListItem implements ListItem {
         SQLiteDatabase db = taskListDB.getWritableDatabase();
         ContentValues dbValues = new ContentValues();
 
-        if(priorityLevel == 0) {
+        if (priorityLevel == 0) {
             dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_PRIORITY, TaskListContract.TaskListItemSchema.PRIORITY_NONE);
-        }else if(priorityLevel == 1) {
+        } else if (priorityLevel == 1) {
             dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_PRIORITY, TaskListContract.TaskListItemSchema.PRIORITY_MEDIUM);
-        }else if(priorityLevel == 2) {
+        } else if (priorityLevel == 2) {
             dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_PRIORITY, TaskListContract.TaskListItemSchema.PRIORITY_HIGH);
         }
 
@@ -114,13 +114,13 @@ public class TaskListItem implements ListItem {
         SQLiteDatabase db = taskListDB.getWritableDatabase();
         ContentValues dbValues = new ContentValues();
         // Set the checked value
-        if(checked) {
+        if (checked) {
             dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_CHECKED, TaskListContract.TaskListItemSchema.CHECKED_TRUE);
         } else {
             dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_CHECKED, TaskListContract.TaskListItemSchema.CHECKED_FALSE);
         }
         // Perform the database insert
-        db.update(TaskListContract.TABLE_NAME, dbValues, TaskListContract.TaskListItemSchema._ID + "=?", new String[]{ Long.toString(this.getId()) });
+        db.update(TaskListContract.TABLE_NAME, dbValues, TaskListContract.TaskListItemSchema._ID + "=?", new String[]{Long.toString(this.getId())});
 
         this.taskListManager.getAdapter().notifyDataSetChanged();
 
