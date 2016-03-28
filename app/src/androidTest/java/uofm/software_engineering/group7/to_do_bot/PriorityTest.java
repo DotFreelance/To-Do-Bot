@@ -1,8 +1,5 @@
 package uofm.software_engineering.group7.to_do_bot;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-
 import uofm.software_engineering.group7.to_do_bot.models.TaskList;
 import uofm.software_engineering.group7.to_do_bot.models.TaskListItem;
 import uofm.software_engineering.group7.to_do_bot.models.TaskListManager;
@@ -20,7 +17,7 @@ public class PriorityTest {
         int priority = TaskListContract.TaskListItemSchema.PRIORITY_MEDIUM;
         taskList = taskListManager.getList();
 
-        taskListManager.addTask(null, "Test");
+        taskListManager.addTask("Description", 0, null);
         TaskListItem currItem = (TaskListItem) taskList.get(0);
         currItem.setPriority(priority);
 

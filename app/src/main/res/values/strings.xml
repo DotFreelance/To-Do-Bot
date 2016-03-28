@@ -1,8 +1,40 @@
 <resources>
     <string name="app_name">To-Do-Bot</string>
+    <string name="action_settings">Settings</string>
     <string name="add_button_description">Add Button</string>
     <string name="delete_button_description">Delete Button</string>
     <string name="add_task_failed">Adding your task failed!</string>
     <string name="update_task_success">Task updated!</string>
     <string name="add_datetime">Add date and time!</string>
+    <string name="emptyTasksList">No tasks</string>
+
+    <string name="add_task">Add Task</string>
+    <string name="delete_task">Delete Task</string>
+
+    <string name="taskDetails">Task Details</string>
+    <string name="taskPriority">Task Priority</string>
+
+    <string name="hintTaskName">Task Name</string>
+    <string name="hintTaskDescription">Task Description</string>
+
+    <string name="taskHighPriority">High</string>
+    <string name="taskLowPriority">Medium</string>
+    <string name="taskNonePriority">None</string>
+
+    <string name="saveTask">Save</string>
+    <string name="cancelTask">Cancel</string>
+    <string name="taskCategory">Category</string>
+    <string name="categoryPrompt">Choose a category</string>
+    <string name="taskAlarm">Set alarm</string>
+    <string name="yourTime">Your Date</string>
+    <string name="pick_a_date">Pick a date</string>
+    <string name="your_time">Your time</string>
+    <string name="pick_a_time">Pick a time</string>
+    <string name="error_field_empty">This field cannot be blank</string>
+    <string-array name="taskCategory">
+        <item>Business</item>
+        <item>Work</item>
+        <item>Personal</item>
+    </string-array>
 </resources>
+

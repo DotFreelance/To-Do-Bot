@@ -22,7 +22,7 @@ public class ApplicationTest extends TestCase {
 
     private static void populate() {
         for(int i = 0; i < AMOUNT_OF_ITEMS; i++) {
-            taskListManager.addTask(null, "Item # " + i);
+            taskListManager.addTask("Description", 0, null);
         }
     }
 }
