@@ -1,8 +1,8 @@
 package uofm.software_engineering.group7.to_do_bot.services;
 
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.content.Context;
 
 /**
  * Created by Paul J on 2016-02-18.
@@ -13,7 +13,7 @@ public class TaskListDBHelper extends SQLiteOpenHelper{
     private static final String TABLE_CREATE_QUERY = "CREATE TABLE IF NOT EXISTS " + TaskListContract.TABLE_NAME + " (" +
             TaskListContract.TaskListItemSchema._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
             TaskListContract.TaskListItemSchema.COL_NAME_CREATED + " DATETIME DEFAULT CURRENT_TIMESTAMP," +
-            TaskListContract.TaskListItemSchema.COL_NAME_CATEGORY + " TEXT NOT NULL," +
+            TaskListContract.TaskListItemSchema.COL_NAME_TASK_NAME + " TEXT NOT NULL," +
             TaskListContract.TaskListItemSchema.COL_NAME_DESCRIPTION + " TEXT NOT NULL," +
             TaskListContract.TaskListItemSchema.COL_NAME_CHECKED + " BOOLEAN NOT NULL" +
             " CHECK (" + TaskListContract.TaskListItemSchema.COL_NAME_CHECKED + " IN (0,1))," +
