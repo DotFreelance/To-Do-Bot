@@ -11,7 +11,7 @@ class ComponentsCreator {
     public TaskListManager listManager;
 
     public void run(Context context) {
-        listManager = new TaskListManager(context, "DefaultList");
+        listManager = new TaskListManager(context);
         // TODO: this is the view for the list panel. Check Asana for "InitialDesignLayout"
         // TaskListPanel listPanel = new TaskListPanel(); 
 

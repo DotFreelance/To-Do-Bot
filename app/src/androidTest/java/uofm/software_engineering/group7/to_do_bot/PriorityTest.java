@@ -17,7 +17,7 @@ public class PriorityTest {
         int priority = TaskListContract.TaskListItemSchema.PRIORITY_MEDIUM;
         taskList = taskListManager.getList();
 
-        taskListManager.addTask("Description", 0, null);
+        taskListManager.addTask("Item", "Description", 0, null);
         TaskListItem currItem = (TaskListItem) taskList.get(0);
         currItem.setPriority(priority);
 

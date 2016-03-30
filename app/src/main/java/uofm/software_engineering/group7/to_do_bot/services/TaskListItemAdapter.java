@@ -7,16 +7,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.Collections;
 
 import uofm.software_engineering.group7.to_do_bot.R;
 import uofm.software_engineering.group7.to_do_bot.models.TaskList;
@@ -25,18 +21,21 @@ import uofm.software_engineering.group7.to_do_bot.models.TaskListManager;
 
 /**
  * Created by Paul J on 2016-02-21.
- * <p/>
+ * <p>
  * This is where the TaskList is converted to a view element in the list.
  */
 public class TaskListItemAdapter extends ArrayAdapter<TaskListItem> {
+    private final Context context;
     private int currentFocus;
 
     // Add mode prevents the Adapter from setting focus during initialization
     private boolean addMode = false;
     private TaskListManager taskListManager = null;
+    private OnItemClickListener onItemClickListener;
 
     public TaskListItemAdapter(TaskListManager listManager, Context context, TaskList<TaskListItem> taskList) {
         super(context, 0, taskList);
+        this.context = context;
         taskListManager = listManager;
     }
 
@@ -50,52 +49,42 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem> {
         }
         // Get the elements of the list item
         final CheckBox itemChecked = (CheckBox) convertView.findViewById(R.id.itemChecked);
-        final TextView itemDescription = (TextView)convertView.findViewById(R.id.list_item_String);
+        final TextView itemName = (TextView) convertView.findViewById(R.id.textTaskName);
+        final TextView itemDescription = (TextView) convertView.findViewById(R.id.textTaskDescription);
+        final TextView itemAlarm = (TextView) convertView.findViewById(R.id.textTaskAlarm);
         final ImageButton itemDelete = (ImageButton) convertView.findViewById(R.id.deleteButton);
-        final Spinner itemSpinner = (Spinner)convertView.findViewById(R.id.spinner);
-        final SpinnerAdapter spinnerAdapter = new SpinnerAdapter(getContext(),
-                new Integer[]{R.mipmap.none, R.mipmap.medium, R.mipmap.high});
+        final ImageView imagePriority = (ImageView) convertView.findViewById(R.id.imagePriority);
 
-
-        // Set the spinnerAdapter to items priority
-        itemSpinner.setAdapter(spinnerAdapter);
-        itemSpinner.setSelection(item.getPriority());
 
         // Populate the elements
         itemChecked.setChecked(item.getChecked());
+        itemName.setText(item.getTaskName());
         itemDescription.setText(item.getTaskDescription());
 
+        // Set alarm time
+        if (item.getAlarmTime().equalsIgnoreCase("Your Date;Your Time")) {
+            itemAlarm.setText("");
+        }
+        else {
+            itemAlarm.setText(item.getAlarmTime());
+        }
 
-        // TODO: Make the task list item automatically switched based on its priority
         switch (item.getPriority()) {
             case 0:
+                imagePriority.setImageResource(R.mipmap.none);
                 break;
             case 1:
+                imagePriority.setImageResource(R.mipmap.medium);
                 break;
             case 2:
+                imagePriority.setImageResource(R.mipmap.high);
                 break;
         }
 
-
-        itemSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            int count = 0;
+        convertView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(count >= 1) {
-                    item.setPriority(position);
-                    //Sort whenever we update items priority
-                    Collections.sort(taskListManager.getList(), TaskListItem.PriorityComparator);
-                    spinnerAdapter.notifyDataSetChanged();
-                }
-                count++;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                if(count >= 1) {
-                    item.setPriority(TaskListContract.TaskListItemSchema.PRIORITY_NONE);
-                }
-                count++;
+            public void onClick(View v) {
+                onItemClickListener.onItemClick(item);
             }
         });
 
@@ -115,14 +104,14 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem> {
                 v.clearFocus();
                 // Hide keyboard
                 InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(itemDescription.getWindowToken(), 0);
+                imm.hideSoftInputFromWindow(itemName.getWindowToken(), 0);
                 // Remove the current focus
                 setCurrentFocus(-1);
             }
         });
 
         // Add a listener for the soft keyboard's done button to be able to apply the changes
-        itemDescription.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        itemName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE || event.getKeyCode() == KeyEvent.KEYCODE_ENTER) {
@@ -131,7 +120,7 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem> {
                     v.clearFocus();
                     // Hide keyboard
                     InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(itemDescription.getWindowToken(), 0);
+                    imm.hideSoftInputFromWindow(itemName.getWindowToken(), 0);
                     // Remove the current focus
                     setCurrentFocus(-1);
                 }
@@ -140,7 +129,7 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem> {
         });
 
         // Update the item when focus is lost
-        itemDescription.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        itemName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (getCurrentFocus() >= 0) {
@@ -158,13 +147,13 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem> {
 
         // Provide focus to the item that was added or the appropriate item
         if (this.getCount() - 1 == position && addMode) {
-            itemDescription.post(new Runnable() {
+            itemName.post(new Runnable() {
                 public void run() {
                     // Request focus
-                    itemDescription.requestFocus();
+                    itemName.requestFocus();
                     // Show keyboard
                     InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.showSoftInput(itemDescription, InputMethodManager.SHOW_IMPLICIT);
+                    imm.showSoftInput(itemName, InputMethodManager.SHOW_IMPLICIT);
                     // Set the current focus
                     setCurrentFocus(currentPosition);
                 }
@@ -173,7 +162,7 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem> {
         } else if (this.getCurrentFocus() == -1) {
             // Hide keyboard
             InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(itemDescription.getWindowToken(), 0);
+            imm.hideSoftInputFromWindow(itemName.getWindowToken(), 0);
         }
 
         // Return the completed view
@@ -204,4 +193,12 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem> {
         return this.currentFocus;
     }
 
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public interface OnItemClickListener {
+
+        void onItemClick(TaskListItem item);
+    }
 }
