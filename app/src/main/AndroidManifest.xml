@@ -28,7 +28,7 @@
         </activity>
 
         <receiver
-            android:name=".models.AlarmManagerBroadcastReceiver"
+            android:name=".services.AlarmManagerBroadcastReceiver"
             android:enabled="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

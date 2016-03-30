@@ -20,7 +20,11 @@ import com.android.datetimepicker.time.TimePickerDialog;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Locale;
+
+import uofm.software_engineering.group7.to_do_bot.models.TaskListItem;
+import uofm.software_engineering.group7.to_do_bot.models.TaskListManager;
 
 /**
  * Created by thuongle on 3/27/16.
@@ -43,6 +47,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
     private DateFormat dateFormat;
     private SimpleDateFormat timeFormat;
     private long mId;
+    private TaskListManager taskListManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -163,6 +168,7 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
             intent.putExtra(EXTRA_TASK_ALARM_TIME, alarmDate + ";" + alarmTime);
 
             setResult(RESULT_OK, intent);
+
             finish();
         }
     }

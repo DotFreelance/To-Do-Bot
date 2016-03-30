@@ -18,8 +18,8 @@
 
         <ImageView
             android:id="@+id/imagePriority"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:layout_centerVertical="true"
             android:layout_gravity="center"
             android:layout_toEndOf="@+id/itemChecked"
@@ -70,13 +70,13 @@
 
         <ImageButton
             android:id="@+id/deleteButton"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_gravity="center_vertical"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:background="#00000000"
             android:contentDescription="@string/delete_button_description"
             android:scaleType="fitXY"
