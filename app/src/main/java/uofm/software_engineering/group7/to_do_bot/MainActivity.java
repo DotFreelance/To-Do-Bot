@@ -117,11 +117,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         try {
             Date alarm = simpleDateFormat.parse(alarmTime);
             Calendar cal = Calendar.getInstance();
-            cal.set(Calendar.MONTH, alarm.getMonth());
-            cal.set(Calendar.YEAR, alarm.getYear());
-            cal.set(Calendar.DAY_OF_MONTH, alarm.getDay());
-            cal.set(Calendar.HOUR_OF_DAY, alarm.getHours());
-            cal.set(Calendar.MINUTE, alarm.getMinutes());
 
             Intent intent = new Intent(this, AlarmManagerBroadcastReceiver.class);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(this.getApplicationContext(), 1253, intent, PendingIntent.FLAG_UPDATE_CURRENT | Intent.FILL_IN_DATA);
