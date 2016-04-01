@@ -129,10 +129,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
             alarmManager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
-            Toast.makeText(this, "Alarm worked.", Toast.LENGTH_LONG).show();
         } catch (ParseException e) {
             e.printStackTrace();
-            Toast.makeText(this, "Alarm not set.", Toast.LENGTH_LONG).show();
         }
     }
 }

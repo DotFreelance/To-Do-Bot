@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -40,8 +41,8 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
     private EditText inputTaskName;
     private EditText inputTaskDescription;
     private RadioGroup radioTaskPriority;
-    private TextView textYourDate;
-    private TextView textYourTime;
+    private Button yourDateButton;
+    private Button yourTimeButton;
     private Calendar calendar;
     private DateFormat dateFormat;
     private SimpleDateFormat timeFormat;
@@ -59,15 +60,13 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
         inputTaskName = (EditText) findViewById(R.id.taskName);
         inputTaskDescription = (EditText) findViewById(R.id.taskDescription);
         radioTaskPriority = (RadioGroup) findViewById(R.id.radioTaskPriority);
-        textYourDate = (TextView) findViewById(R.id.textYourDate);
-        textYourTime = (TextView) findViewById(R.id.textYourTime);
+        yourDateButton = (Button) findViewById(R.id.button_pick_day);
+        yourTimeButton = (Button) findViewById(R.id.button_pick_time);
 
         calendar = Calendar.getInstance();
         dateFormat = DateFormat.getDateInstance(DateFormat.LONG, Locale.getDefault());
         timeFormat = new SimpleDateFormat(TIME_PATTERN, Locale.getDefault());
 
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
 
         if (savedInstanceState == null) {
             mId = getIntent().getLongExtra(EXTRA_TASK_ID, -1);
@@ -87,14 +86,15 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
             String alarmTime = getIntent().getStringExtra(EXTRA_TASK_ALARM_TIME);
             if (alarmTime != null) {
                 String[] alarmTimeSplit = alarmTime.split(";");
-                textYourDate.setText(alarmTimeSplit[0]);
+                yourDateButton.setText(alarmTimeSplit[0]);
                 if (alarmTime.length() > 0) {
-                    textYourTime.setText(alarmTimeSplit[1]);
+                    yourTimeButton.setText(alarmTimeSplit[1]);
                 }
             }
         } else {
             mId = savedInstanceState.getLong(EXTRA_TASK_ID);
         }
+
     }
 
     @Override
@@ -125,11 +125,11 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
     }
 
     public void removeAlarm(View view){
-        textYourDate.setText("" + "Your Date");
-        textYourTime.setText("" + "Your Time");
+        yourDateButton.setText(R.string.pick_a_date);
+        yourTimeButton.setText(R.string.pick_a_time);
 
-        String alarmDate = textYourDate.getText().toString();
-        String alarmTime = textYourTime.getText().toString();
+        String alarmDate = yourDateButton.getText().toString();
+        String alarmTime = yourTimeButton.getText().toString();
 
         Intent intent = getIntent();
         intent.putExtra(EXTRA_TASK_ALARM_TIME, alarmDate + ";" + alarmTime);
@@ -156,8 +156,8 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
                 priority = 0;
             }
 
-            String alarmDate = textYourDate.getText().toString();
-            String alarmTime = textYourTime.getText().toString();
+            String alarmDate = yourDateButton.getText().toString();
+            String alarmTime = yourTimeButton.getText().toString();
 
             Intent intent = getIntent();
 
@@ -178,8 +178,8 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
     }
 
     private void update() {
-        textYourDate.setText(dateFormat.format(calendar.getTime()));
-        textYourTime.setText(timeFormat.format(calendar.getTime()));
+        yourDateButton.setText(dateFormat.format(calendar.getTime()));
+        yourTimeButton.setText(timeFormat.format(calendar.getTime()));
     }
 
 
