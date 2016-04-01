@@ -89,29 +89,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(data != null) {
-            String taskName = data.getStringExtra(AddTaskActivity.EXTRA_TASK_NAME);
-            String taskDescription = data.getStringExtra(AddTaskActivity.EXTRA_TASK_DESCRIPTION);
-            int priority = data.getIntExtra(AddTaskActivity.EXTRA_TASK_PRIORITY, 0);
-            String alarmTime = data.getStringExtra(AddTaskActivity.EXTRA_TASK_ALARM_TIME);
-            long taskId = data.getLongExtra(AddTaskActivity.EXTRA_TASK_ID, -1);
-            creator.listManager.getAdapter().setAddMode();
 
-            if (requestCode == REQUEST_ADD_NEW_TASK) {
+        if (requestCode == REQUEST_ADD_NEW_TASK) {
 
-                if (resultCode == RESULT_OK) {
-                    creator.listManager.addTask(taskName, taskDescription, priority, alarmTime);
-                }
-            } else if (requestCode == REQUEST_EDIT_TASK) {
-                if (resultCode == RESULT_OK) {
-                    creator.listManager.updateTask(taskId, taskName, taskDescription, priority, alarmTime);
-                    Toast.makeText(this, R.string.update_task_success, Toast.LENGTH_SHORT).show();
-                }
+            if (resultCode == RESULT_OK) {
+                String taskName = data.getStringExtra(AddTaskActivity.EXTRA_TASK_NAME);
+                String taskDescription = data.getStringExtra(AddTaskActivity.EXTRA_TASK_DESCRIPTION);
+                int priority = data.getIntExtra(AddTaskActivity.EXTRA_TASK_PRIORITY, 0);
+                String alarmTime = data.getStringExtra(AddTaskActivity.EXTRA_TASK_ALARM_TIME);
+                creator.listManager.getAdapter().setAddMode();
+                creator.listManager.addTask(taskName, taskDescription, priority, alarmTime);
+                setAlarmTime(alarmTime);
             }
-
-            Collections.sort(creator.listManager.getList(), TaskListItem.PriorityComparator);
-            setAlarmTime(alarmTime);
+        } else if (requestCode == REQUEST_EDIT_TASK) {
+            if (resultCode == RESULT_OK) {
+                String taskName = data.getStringExtra(AddTaskActivity.EXTRA_TASK_NAME);
+                String taskDescription = data.getStringExtra(AddTaskActivity.EXTRA_TASK_DESCRIPTION);
+                int priority = data.getIntExtra(AddTaskActivity.EXTRA_TASK_PRIORITY, 0);
+                String alarmTime = data.getStringExtra(AddTaskActivity.EXTRA_TASK_ALARM_TIME);
+                long taskId = data.getLongExtra(AddTaskActivity.EXTRA_TASK_ID, -1);
+                creator.listManager.getAdapter().setAddMode();
+                creator.listManager.updateTask(taskId, taskName, taskDescription, priority, alarmTime);
+                setAlarmTime(alarmTime);
+            }
         }
+
+        Collections.sort(creator.listManager.getList(),TaskListItem.PriorityComparator);
     }
 
     private void setAlarmTime(String alarmTime) {
@@ -119,11 +122,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         try {
             Date alarm = simpleDateFormat.parse(alarmTime);
             Calendar cal = Calendar.getInstance();
-            cal.set(Calendar.MONTH, alarm.getMonth());
-            cal.set(Calendar.YEAR, alarm.getYear());
-            cal.set(Calendar.DAY_OF_MONTH, alarm.getDay());
-            cal.set(Calendar.HOUR_OF_DAY, alarm.getHours());
-            cal.set(Calendar.MINUTE, alarm.getMinutes());
 
             Intent intent = new Intent(this, AlarmManagerBroadcastReceiver.class);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(this.getApplicationContext(), 1253, intent, PendingIntent.FLAG_UPDATE_CURRENT | Intent.FILL_IN_DATA);

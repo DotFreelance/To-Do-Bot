@@ -23,7 +23,6 @@ public class TaskListItem implements ListItem {
     private final String dateCreated;
     private  String taskName;
     private String taskDescription;
-   // private int category;
     private boolean checked = false;
     private String alarmTime = null;
     private int priority = 0;
@@ -71,16 +70,8 @@ public class TaskListItem implements ListItem {
         return taskName;
     }
 
-    public void setTaskName(String taskName) {
-        this.taskName = taskName;
-    }
-
     public String getAlarmTime() {
         return alarmTime;
-    }
-
-    public void setAlarmTime(String alarmTime) {
-        this.alarmTime = alarmTime;
     }
 
     // Setters
@@ -148,9 +139,6 @@ public class TaskListItem implements ListItem {
         public int compare(TaskListItem item1, TaskListItem item2) {
             int item1Priority = item1.getPriority();
             int item2Priority = item2.getPriority();
-
-            //ascending order
-            //return item1Priority - item2Priority;
 
             //descending order
             return item2Priority - item1Priority;
