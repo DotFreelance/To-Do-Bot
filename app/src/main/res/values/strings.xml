@@ -26,9 +26,10 @@
     <string name="taskCategory">Category</string>
     <string name="categoryPrompt">Choose a category</string>
     <string name="taskAlarm">Set alarm</string>
-    <string name="yourTime">Your Date</string>
+    <string name="no_alarm_set">No alarm set</string>
+    <string name="yourTime">Click to set a time</string>
+    <string name="yourDate">Click to set a date</string>
     <string name="pick_a_date">Pick a date</string>
-    <string name="your_time">Your time</string>
     <string name="pick_a_time">Pick a time</string>
     <string name="error_field_empty">This field cannot be blank</string>
     <string-array name="taskCategory">

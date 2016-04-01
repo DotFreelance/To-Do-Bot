@@ -89,27 +89,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if(data != null) {
+            String taskName = data.getStringExtra(AddTaskActivity.EXTRA_TASK_NAME);
+            String taskDescription = data.getStringExtra(AddTaskActivity.EXTRA_TASK_DESCRIPTION);
+            int priority = data.getIntExtra(AddTaskActivity.EXTRA_TASK_PRIORITY, 0);
+            String alarmTime = data.getStringExtra(AddTaskActivity.EXTRA_TASK_ALARM_TIME);
+            long taskId = data.getLongExtra(AddTaskActivity.EXTRA_TASK_ID, -1);
+            creator.listManager.getAdapter().setAddMode();
 
-        String taskName = data.getStringExtra(AddTaskActivity.EXTRA_TASK_NAME);
-        String taskDescription = data.getStringExtra(AddTaskActivity.EXTRA_TASK_DESCRIPTION);
-        int priority = data.getIntExtra(AddTaskActivity.EXTRA_TASK_PRIORITY, 0);
-        String alarmTime = data.getStringExtra(AddTaskActivity.EXTRA_TASK_ALARM_TIME);
-        long taskId = data.getLongExtra(AddTaskActivity.EXTRA_TASK_ID, -1);
-        creator.listManager.getAdapter().setAddMode();
+            if (requestCode == REQUEST_ADD_NEW_TASK) {
 
-        if (requestCode == REQUEST_ADD_NEW_TASK) {
-
-            if (resultCode == RESULT_OK) {
-                creator.listManager.addTask(taskName, taskDescription, priority, alarmTime);
+                if (resultCode == RESULT_OK) {
+                    creator.listManager.addTask(taskName, taskDescription, priority, alarmTime);
+                }
+            } else if (requestCode == REQUEST_EDIT_TASK) {
+                if (resultCode == RESULT_OK) {
+                    creator.listManager.updateTask(taskId, taskName, taskDescription, priority, alarmTime);
+                    Toast.makeText(this, R.string.update_task_success, Toast.LENGTH_SHORT).show();
+                }
             }
-        } else if (requestCode == REQUEST_EDIT_TASK) {
-            if (resultCode == RESULT_OK) {
-                creator.listManager.updateTask(taskId, taskName, taskDescription, priority, alarmTime);
-            }
+
+            Collections.sort(creator.listManager.getList(), TaskListItem.PriorityComparator);
+            setAlarmTime(alarmTime);
         }
-
-        Collections.sort(creator.listManager.getList(),TaskListItem.PriorityComparator);
-        setAlarmTime(alarmTime);
     }
 
     private void setAlarmTime(String alarmTime) {
@@ -129,10 +131,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
             alarmManager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
-            Toast.makeText(this, "Alarm worked.", Toast.LENGTH_LONG).show();
         } catch (ParseException e) {
             e.printStackTrace();
-            Toast.makeText(this, "Alarm not set.", Toast.LENGTH_LONG).show();
         }
     }
 }

@@ -21,6 +21,7 @@
         <activity
             android:name=".AddTaskActivity"
             android:label="@string/add_task"
+            android:windowSoftInputMode="stateVisible"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

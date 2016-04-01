@@ -62,11 +62,12 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem> {
         itemDescription.setText(item.getTaskDescription());
 
         // Set alarm time
-        if (item.getAlarmTime().equalsIgnoreCase("Your Date;Your Time")) {
-            itemAlarm.setText("");
-        }
-        else {
-            itemAlarm.setText(item.getAlarmTime());
+        if (item.getAlarmTime().equalsIgnoreCase(context.getString(R.string.pick_a_date) + ";" + context.getString(R.string.pick_a_time))) {
+            itemAlarm.setText(R.string.no_alarm_set);
+        } else {
+            String[] alarmTime = item.getAlarmTime().split(";");
+            String formattedDate = alarmTime[1] + " on " + alarmTime[0];
+            itemAlarm.setText(formattedDate);
         }
 
         switch (item.getPriority()) {
