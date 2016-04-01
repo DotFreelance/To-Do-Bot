@@ -66,7 +66,7 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem> {
             itemAlarm.setText("");
         }
         else {
-            itemAlarm.setText(item.getAlarmTime());
+            itemAlarm.setText(item.getAlarmTime().replace(';', ' '));
         }
 
         switch (item.getPriority()) {

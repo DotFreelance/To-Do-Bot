@@ -1,16 +1,19 @@
 package uofm.software_engineering.group7.to_do_bot;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.android.datetimepicker.date.DatePickerDialog;
@@ -20,14 +23,10 @@ import com.android.datetimepicker.time.TimePickerDialog;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Locale;
 
-import uofm.software_engineering.group7.to_do_bot.models.TaskListItem;
-import uofm.software_engineering.group7.to_do_bot.models.TaskListManager;
-
 /**
- * Created by thuongle on 3/27/16.
+ * Created by Lam Doan on 3/27/16.
  * Version
  */
 public class AddTaskActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
@@ -47,7 +46,6 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
     private DateFormat dateFormat;
     private SimpleDateFormat timeFormat;
     private long mId;
-    private TaskListManager taskListManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,6 +66,8 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
         dateFormat = DateFormat.getDateInstance(DateFormat.LONG, Locale.getDefault());
         timeFormat = new SimpleDateFormat(TIME_PATTERN, Locale.getDefault());
 
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
 
         if (savedInstanceState == null) {
             mId = getIntent().getLongExtra(EXTRA_TASK_ID, -1);
@@ -135,7 +135,6 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
         intent.putExtra(EXTRA_TASK_ALARM_TIME, alarmDate + ";" + alarmTime);
 
         setResult(RESULT_OK, intent);
-        //finish();
     }
 
     public void save(View view) {
@@ -181,5 +180,24 @@ public class AddTaskActivity extends AppCompatActivity implements DatePickerDial
     private void update() {
         textYourDate.setText(dateFormat.format(calendar.getTime()));
         textYourTime.setText(timeFormat.format(calendar.getTime()));
+    }
+
+
+    //Keyboard minimize when clicking outside of text box
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if ( v instanceof EditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+        }
+        return super.dispatchTouchEvent( event );
     }
 }
