@@ -43,7 +43,7 @@ public class TaskListManager {
         return this.adapter;
     }
 
-    public void addTask(String name, String description, int priority, String alarmTime) {
+    public void addTask(String name, String description, int priority, int category, String alarmTime) {
         SQLiteDatabase db = taskListDB.getWritableDatabase();
         ContentValues dbValues = new ContentValues();
         TaskListItem item;
@@ -53,6 +53,7 @@ public class TaskListManager {
         dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_CREATED, currentDate);
         dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_TASK_NAME, name);
         dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_DESCRIPTION, description);
+        dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_CATEGORY, category);
         dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_CHECKED, TaskListContract.TaskListItemSchema.CHECKED_FALSE);
         dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_PRIORITY, priority);
         dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_ALARM, alarmTime);
@@ -67,8 +68,8 @@ public class TaskListManager {
                     description,
                     false,
                     alarmTime,
-                    priority
-                    //category
+                    priority,
+                    category
 
             );
             list.add(item);
@@ -103,6 +104,8 @@ public class TaskListManager {
                     readCursor.getColumnIndexOrThrow(TaskListContract.TaskListItemSchema._ID));
             String dateCreated = readCursor.getString(
                     readCursor.getColumnIndexOrThrow(TaskListContract.TaskListItemSchema.COL_NAME_CREATED));
+            int taskCategory = readCursor.getInt(
+                    readCursor.getColumnIndexOrThrow(TaskListContract.TaskListItemSchema.COL_NAME_CATEGORY));
             String taskName = readCursor.getString(readCursor.getColumnIndex(TaskListContract.TaskListItemSchema.COL_NAME_TASK_NAME));
             String description = readCursor.getString(
                     readCursor.getColumnIndexOrThrow(TaskListContract.TaskListItemSchema.COL_NAME_DESCRIPTION));
@@ -125,7 +128,8 @@ public class TaskListManager {
                     description,
                     checked,
                     alarmTime,
-                    priority
+                    priority,
+                    taskCategory
             );
             list.add(item);
         }
@@ -150,7 +154,7 @@ public class TaskListManager {
         db.close();
     }
 
-    public void updateTask(long taskId, String name, String description, int priority, String alarmTime) {
+    public void updateTask(long taskId, String name, String description, int priority, int category, String alarmTime) {
         SQLiteDatabase db = taskListDB.getWritableDatabase();
         ContentValues dbValues = new ContentValues();
         String currentDate = "";
@@ -158,6 +162,7 @@ public class TaskListManager {
         dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_CREATED, currentDate);
         dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_TASK_NAME, name);
         dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_DESCRIPTION, description);
+        dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_CATEGORY, category);
         dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_CHECKED, TaskListContract.TaskListItemSchema.CHECKED_FALSE);
         dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_PRIORITY, priority);
         dbValues.put(TaskListContract.TaskListItemSchema.COL_NAME_ALARM, alarmTime);
@@ -173,7 +178,8 @@ public class TaskListManager {
                         description,
                         false,
                         alarmTime,
-                        priority
+                        priority,
+                        category
                 );
                 int index = 0;
                 for (int i = 0, size = list.size(); i < size; i++) {

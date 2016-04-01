@@ -14,6 +14,7 @@ public class TaskListDBHelper extends SQLiteOpenHelper{
             TaskListContract.TaskListItemSchema._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
             TaskListContract.TaskListItemSchema.COL_NAME_CREATED + " DATETIME DEFAULT CURRENT_TIMESTAMP," +
             TaskListContract.TaskListItemSchema.COL_NAME_TASK_NAME + " TEXT NOT NULL," +
+            TaskListContract.TaskListItemSchema.COL_NAME_CATEGORY + " INTEGER NOT NULL," +
             TaskListContract.TaskListItemSchema.COL_NAME_DESCRIPTION + " TEXT NOT NULL," +
             TaskListContract.TaskListItemSchema.COL_NAME_CHECKED + " BOOLEAN NOT NULL" +
             " CHECK (" + TaskListContract.TaskListItemSchema.COL_NAME_CHECKED + " IN (0,1))," +
