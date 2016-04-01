@@ -25,6 +25,7 @@ import uofm.software_engineering.group7.to_do_bot.models.TaskListManager;
  * This is where the TaskList is converted to a view element in the list.
  */
 public class TaskListItemAdapter extends ArrayAdapter<TaskListItem> {
+    private final String[] categories;
     private final Context context;
     private int currentFocus;
 
@@ -36,6 +37,7 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem> {
     public TaskListItemAdapter(TaskListManager listManager, Context context, TaskList<TaskListItem> taskList) {
         super(context, 0, taskList);
         this.context = context;
+        categories = context.getResources().getStringArray(R.array.taskCategory);
         taskListManager = listManager;
     }
 
@@ -51,6 +53,7 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem> {
         final CheckBox itemChecked = (CheckBox) convertView.findViewById(R.id.itemChecked);
         final TextView itemName = (TextView) convertView.findViewById(R.id.textTaskName);
         final TextView itemDescription = (TextView) convertView.findViewById(R.id.textTaskDescription);
+        final TextView itemCategory = (TextView) convertView.findViewById(R.id.textTaskCategory);
         final TextView itemAlarm = (TextView) convertView.findViewById(R.id.textTaskAlarm);
         final ImageButton itemDelete = (ImageButton) convertView.findViewById(R.id.deleteButton);
         final ImageView imagePriority = (ImageView) convertView.findViewById(R.id.imagePriority);
@@ -81,6 +84,8 @@ public class TaskListItemAdapter extends ArrayAdapter<TaskListItem> {
                 imagePriority.setImageResource(R.mipmap.high);
                 break;
         }
+
+        itemCategory.setText(categories[item.getCategory()]);
 
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override

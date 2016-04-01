@@ -33,9 +33,11 @@
     <string name="pick_a_time">Pick a time</string>
     <string name="error_field_empty">This field cannot be blank</string>
     <string-array name="taskCategory">
+        <item>None</item>
         <item>Business</item>
         <item>Work</item>
         <item>Personal</item>
+        <item>Others</item>
     </string-array>
 </resources>
 

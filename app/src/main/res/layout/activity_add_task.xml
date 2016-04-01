@@ -65,6 +65,23 @@
                 android:minLines="1" />
 
             <TextView
+                android:id="@+id/taskCategory"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/taskCategory"
+                android:textSize="20sp"
+                android:textColor="#FF007F"/>
+
+            <Spinner
+                android:id="@+id/spinnerCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/taskCategory"
+                android:prompt="@string/categoryPrompt"
+                android:scrollIndicators="end" />
+
+            <TextView
                 android:id="@+id/taskPriority"
                 android:layout_width="fill_parent"
                 android:layout_height="34dp"
@@ -114,15 +131,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:weightSum="1">
 
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
 
                 <Button
                 android:id="@+id/button_pick_day"
@@ -130,9 +141,8 @@
                 android:layout_height="wrap_content"
                     android:onClick="pickDate"
                 android:text="@string/pick_a_date"
-                android:textColor="#FF007F" />
-
-            </LinearLayout>
+                android:textColor="#FF007F"
+                    android:layout_weight="0.42" />
 
             <Button
                 android:id="@+id/button_pick_time"
@@ -140,7 +150,8 @@
                 android:layout_height="wrap_content"
                 android:onClick="pickTime"
                 android:text="@string/pick_a_time"
-                android:textColor="#FF007F" />
+                android:textColor="#FF007F"
+                android:layout_weight="0.49" />
 
             <Button
                 android:id="@+id/button_Remove_alarm"
@@ -149,6 +160,8 @@
                 android:onClick="removeAlarm"
                 android:text="Remove Alarm"
                 android:textColor="#FF007F" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

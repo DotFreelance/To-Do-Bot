@@ -57,6 +57,16 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/textTaskCategory"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|start"
+                    android:drawableLeft="@mipmap/ic_card"
+                    android:paddingRight="10dp"
+                    android:textColor="#ffb6c1"
+                    android:textSize="14sp" />
+
+                <TextView
                     android:id="@+id/textTaskAlarm"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
