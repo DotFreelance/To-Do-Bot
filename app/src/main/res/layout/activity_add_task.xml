@@ -75,11 +75,11 @@
 
             <Spinner
                 android:id="@+id/spinnerCategory"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:entries="@array/taskCategory"
-                android:prompt="@string/categoryPrompt"
-                android:scrollIndicators="end" />
+                android:prompt="@string/categoryPrompt" />
+
 
             <TextView
                 android:id="@+id/taskPriority"
@@ -141,7 +141,6 @@
                 android:layout_height="wrap_content"
                     android:onClick="pickDate"
                 android:text="@string/pick_a_date"
-                android:textColor="#FF007F"
                     android:layout_weight="0.42" />
 
             <Button
@@ -150,7 +149,6 @@
                 android:layout_height="wrap_content"
                 android:onClick="pickTime"
                 android:text="@string/pick_a_time"
-                android:textColor="#FF007F"
                 android:layout_weight="0.49" />
 
             <Button
@@ -158,8 +156,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="removeAlarm"
-                android:text="Remove Alarm"
-                android:textColor="#FF007F" />
+                android:text="Remove Alarm" />
 
             </LinearLayout>
 
@@ -178,7 +175,8 @@
                     android:layout_weight="1"
                     android:onClick="cancel"
                     android:paddingRight="15dp"
-                    android:text="@string/cancelTask" />
+                    android:text="@string/cancelTask"
+                    android:textColor="#FF007F"/>
 
                 <Button
                     android:id="@+id/saveTask"
@@ -187,7 +185,8 @@
                     android:layout_weight="1"
                     android:onClick="save"
                     android:paddingLeft="15dp"
-                    android:text="@string/saveTask" />
+                    android:text="@string/saveTask"
+                    android:textColor="#FF007F"/>
 
             </LinearLayout>
 
