@@ -138,10 +138,11 @@ public class TaskListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             } else {
                 imageDescription.setVisibility(View.GONE);
             }
+
             itemChecked.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    task.setChecked(true);
+                    task.setChecked(itemChecked.isChecked());
                     taskModel.check(task);
                     notifyDataSetChanged();
                 }
