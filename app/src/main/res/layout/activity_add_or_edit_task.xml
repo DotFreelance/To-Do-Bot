@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:context=".ui.AddOrEditTaskActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/taskDetails"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/taskDetails"
+                android:textColor="#FF007F"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/input_task_name"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:hint="@string/hintTaskName"
+                android:imeOptions="actionNext"
+                android:singleLine="true"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/task_description"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/task_description"
+                android:textColor="#FF007F"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:id="@+id/image_description"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:scaleType="centerCrop"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/layout_button_pick_picture"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/button_take_picture"
+                    android:layout_width="0dp"
+                    android:onClick="takePicture"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/take_a_picture" />
+
+                <Button
+                    android:id="@+id/button_pick_a_picture"
+                    android:layout_width="0dp"
+                    android:onClick="pickPhoto"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/pick_your_picture" />
+
+                <Button
+                    android:id="@+id/button_remove_picture"
+                    android:layout_width="0dp"
+                    android:onClick="removePic"
+                    android:visibility="gone"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/remove_picture" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/taskPriority"
+                android:layout_width="fill_parent"
+                android:layout_height="34dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/taskPriority"
+                android:textColor="#FF007F"
+                android:textSize="20sp" />
+
+            <RadioGroup
+                android:id="@+id/radioTaskPriority"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/radioTaskHigh"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="@string/taskHighPriority" />
+
+                <RadioButton
+                    android:id="@+id/radioTaskMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="false"
+                    android:text="@string/taskLowPriority" />
+
+                <RadioButton
+                    android:id="@+id/radioTaskNone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="@string/taskNonePriority" />
+
+            </RadioGroup>
+
+            <TextView
+                android:id="@+id/taskAlarm"
+                android:layout_width="184dp"
+                android:layout_height="34dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/taskAlarm"
+                android:textColor="#FF007F"
+                android:textSize="20sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+
+                <Button
+                    android:id="@+id/button_pick_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.33"
+                    android:onClick="pickDate"
+                    android:text="@string/pick_a_date"
+                    android:textColor="#FF007F" />
+
+                <Button
+                    android:id="@+id/button_pick_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.33"
+                    android:onClick="pickTime"
+                    android:text="@string/pick_a_time"
+                    android:textColor="#FF007F" />
+
+                <Button
+                    android:id="@+id/button_Remove_alarm"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.33"
+                    android:onClick="removeAlarm"
+                    android:text="Remove Alarm"
+                    android:textColor="#FF007F" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/cancelTask"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="cancel"
+                    android:paddingRight="15dp"
+                    android:text="@string/cancelTask" />
+
+                <Button
+                    android:id="@+id/saveTask"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:onClick="save"
+                    android:paddingLeft="15dp"
+                    android:text="@string/saveTask" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <CheckBox
+            android:id="@+id/itemChecked"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:theme="@style/AppTheme" />
+
+        <ImageView
+            android:id="@+id/imagePriority"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_toEndOf="@+id/itemChecked"
+            android:layout_toRightOf="@+id/itemChecked"
+            android:background="@null"
+            android:clickable="true" />
+
+        <ImageView
+            android:id="@+id/image_description"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_toEndOf="@+id/imagePriority"
+            android:layout_toRightOf="@+id/imagePriority"
+            android:background="@null"
+            android:clickable="true"
+            android:scaleType="centerCrop" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="15dp"
+            android:layout_toEndOf="@+id/image_description"
+            android:layout_toLeftOf="@+id/deleteButton"
+            android:layout_toRightOf="@+id/image_description"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textTaskName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:textSize="26sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/textTaskAlarm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@mipmap/ic_access_alarm"
+                android:textColor="#ffb6c1"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+
+        <ImageButton
+            android:id="@+id/deleteButton"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="10dp"
+            android:background="#00000000"
+            android:contentDescription="@string/delete_button_description"
+            android:scaleType="fitXY"
+            android:src="@android:drawable/ic_delete" />
+    </RelativeLayout>
+</LinearLayout>

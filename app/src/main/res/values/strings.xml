@@ -32,7 +32,21 @@
     <string name="pick_a_date">Pick a date</string>
     <string name="pick_a_time">Pick a time</string>
     <string name="error_field_empty">This field cannot be blank</string>
-    <string-array name="taskCategory">
+    <string name="take_a_picture">Take a picture</string>
+    <string name="pick_your_picture">Pick your picture</string>
+    <string name="task_description">Task Description</string>
+    <string name="add_category">Add Category</string>
+    <string name="no_tasks">No tasks</string>
+    <string name="remove_picture">Remove picture</string>
+    <string name="edit">Edit</string>
+    <string name="category_name">Category Name</string>
+    <string name="your_category_name">Your category name</string>
+    <string name="category_description">Category description</string>
+    <string name="delete">Delete</string>
+    <string name="add">Add</string>
+    <string name="add_new_category">Add New Category</string>
+    <string name="your_categories_title">Your Categories</string>
+    <string-array name="taskCategories">
         <item>None</item>
         <item>Business</item>
         <item>Work</item>

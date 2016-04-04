@@ -1,40 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="uofm.software_engineering.group7.to_do_bot">
 
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-feature android:name="android.hardware.camera" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.MainActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".AddTaskActivity"
-            android:label="@string/add_task"
-            android:windowSoftInputMode="stateVisible"
-            android:parentActivityName=".MainActivity">
+            android:name=".ui.TaskListActivity"
+            android:label="@string/app_name"
+            android:parentActivityName=".ui.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".ui.TaskListActivity" />
+        </activity>
+        <activity
+            android:name=".ui.AddOrEditTaskActivity"
+            android:label="@string/add_task"
+            android:parentActivityName=".ui.TaskListActivity"
+            android:windowSoftInputMode="stateVisible">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.TaskListActivity" />
+        </activity>
+
+        <activity
+            android:name=".ui.EditCategoryActivity"
+            android:label="@string/add_category"
+            android:parentActivityName=".ui.MainActivity"
+            android:windowSoftInputMode="stateVisible">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.MainActivity" />
+        </activity>
+
+        <activity
+            android:name=".ui.AddNewCategoryActivity"
+            android:label="@string/add_new_category"
+            android:parentActivityName=".ui.EditCategoryActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.EditCategoryActivity" />
         </activity>
 
         <receiver
-            android:name=".services.AlarmManagerBroadcastReceiver"
-            android:enabled="false">
+            android:name=".receiver.AlarmManagerBroadcastReceiver"
+            android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+        <receiver android:name=".ui.widget.SimpleWidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/simple_widget_info" />
+        </receiver>
+        <service android:name=".receiver.AlarmService"
+            android:enabled="true"></service>
+
     </application>
 
 </manifest>
