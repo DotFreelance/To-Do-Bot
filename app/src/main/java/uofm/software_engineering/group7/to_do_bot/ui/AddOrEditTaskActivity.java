@@ -288,7 +288,9 @@ public class AddOrEditTaskActivity extends AppCompatActivity implements DatePick
     public void removePic(View view) {
         buttonRemovePic.setVisibility(View.GONE);
         selectedBitmap = null;
-        task.setImageDescription(null);
+        if(task != null) {
+            task.setImageDescription(null);
+        }
         imageDescription.setVisibility(View.GONE);
     }
 
