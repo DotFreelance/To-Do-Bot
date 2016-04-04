@@ -9,9 +9,9 @@ import uofm.software_engineering.group7.to_do_bot.models.TaskListManager;
  */
 public class ApplicationTest extends TestCase {
     private static final int AMOUNT_OF_ITEMS = 100;
-    private static AddItemTest addItemTest = new AddItemTest();
-    private static RemoveItemTest removeItemTest = new RemoveItemTest();
-    private static TaskListManager taskListManager = new TaskListManager(null, "Test Category");
+    private static final AddItemTest addItemTest = new AddItemTest();
+    private static final RemoveItemTest removeItemTest = new RemoveItemTest();
+    private static final TaskListManager taskListManager = new TaskListManager(null);
 
     public static void main(String[] args) {
         populate();
@@ -22,7 +22,7 @@ public class ApplicationTest extends TestCase {
 
     private static void populate() {
         for(int i = 0; i < AMOUNT_OF_ITEMS; i++) {
-            taskListManager.addTask(null, "Item # " + i);
+            taskListManager.addTask("Item #", "Description", 0, null);
         }
     }
 }
