@@ -4,10 +4,7 @@ import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by thuongle on 4/4/16.
- * Version
- */
+
 public class Task implements Parcelable, Comparable {
     // User values for this TaskListItem
     private long id;

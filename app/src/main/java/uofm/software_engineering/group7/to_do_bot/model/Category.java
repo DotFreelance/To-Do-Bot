@@ -4,10 +4,6 @@ import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by thuongle on 4/3/16.
- * Version 1.0
- */
 public class Category implements Parcelable {
     private long mId;
     private String mName;
@@ -15,6 +11,10 @@ public class Category implements Parcelable {
     private int mNumberOfTasks;
 
     public Category() {
+        mId = -1;
+        mName = null;
+        mDescription = null;
+        mNumberOfTasks = -1;
     }
 
     public Category(String name, String description) {

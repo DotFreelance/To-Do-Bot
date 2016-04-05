@@ -21,10 +21,6 @@ import java.util.TimeZone;
 import uofm.software_engineering.group7.to_do_bot.receiver.AlarmManagerBroadcastReceiver;
 import uofm.software_engineering.group7.to_do_bot.receiver.AlarmService;
 
-/**
- * Created by thuongle on 4/3/16.
- * Version 1.0
- */
 public class AppUtils {
     private AppUtils() {
     }

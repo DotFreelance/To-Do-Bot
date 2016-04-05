@@ -29,10 +29,6 @@ import uofm.software_engineering.group7.to_do_bot.db.CategoryModelImpl;
 import uofm.software_engineering.group7.to_do_bot.db.DbHelper;
 import uofm.software_engineering.group7.to_do_bot.model.Category;
 
-/**
- * Created by thuongle on 4/3/16.
- * Version
- */
 public class EditCategoryActivity extends AppCompatActivity {
     private static final int REQUEST_ADD_NEW_CATEGORY = 1;
 

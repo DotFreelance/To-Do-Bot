@@ -10,10 +10,7 @@ import java.util.List;
 import uofm.software_engineering.group7.to_do_bot.model.Category;
 import uofm.software_engineering.group7.to_do_bot.model.Task;
 
-/**
- * Created by thuongle on 4/3/16.
- * Version
- */
+
 public class CategoryModelImpl implements CategoryModel {
 
     private final DbHelper mDbHelper;
