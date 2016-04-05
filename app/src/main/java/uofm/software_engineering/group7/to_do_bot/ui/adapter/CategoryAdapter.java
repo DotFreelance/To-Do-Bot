@@ -16,10 +16,6 @@ import uofm.software_engineering.group7.to_do_bot.model.Category;
 import uofm.software_engineering.group7.to_do_bot.model.Task;
 import uofm.software_engineering.group7.to_do_bot.ui.TaskListActivity;
 
-/**
- * Created by thuongle on 4/3/16.
- * Version
- */
 public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final Context context;
     private final List<Category> categories;

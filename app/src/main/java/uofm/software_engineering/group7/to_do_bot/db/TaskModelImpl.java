@@ -13,10 +13,6 @@ import java.util.List;
 import uofm.software_engineering.group7.to_do_bot.model.Task;
 import uofm.software_engineering.group7.to_do_bot.utils.AppUtils;
 
-/**
- * Created by thuongle on 4/4/16.
- * Version
- */
 public class TaskModelImpl implements TaskModel {
 
     private final DbHelper mDbHelper;

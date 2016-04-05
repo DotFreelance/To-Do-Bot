@@ -16,10 +16,7 @@ import android.widget.EditText;
 import uofm.software_engineering.group7.to_do_bot.R;
 import uofm.software_engineering.group7.to_do_bot.model.Category;
 
-/**
- * Created by thuongle on 4/3/16.
- * Version
- */
+
 public class AddNewCategoryActivity extends AppCompatActivity {
     public static final String EXTRA_CATEGORY = "category";
     private EditText inputCategoryName;

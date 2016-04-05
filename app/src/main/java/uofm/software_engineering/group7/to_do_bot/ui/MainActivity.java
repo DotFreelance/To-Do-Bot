@@ -21,10 +21,7 @@ import uofm.software_engineering.group7.to_do_bot.model.Category;
 import uofm.software_engineering.group7.to_do_bot.ui.adapter.CategoryAdapter;
 import uofm.software_engineering.group7.to_do_bot.ui.widget.DividerItemDecoration;
 
-/**
- * Created by thuongle on 4/3/16.
- * Version 1.0
- */
+
 public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_ADD_CATEGORY = 1;
     private static final int REQUEST_ADD_OR_EDIT_CATEGORY = 2;

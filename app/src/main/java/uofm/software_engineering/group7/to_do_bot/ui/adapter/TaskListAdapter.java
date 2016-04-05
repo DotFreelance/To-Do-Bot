@@ -18,10 +18,6 @@ import uofm.software_engineering.group7.to_do_bot.db.TaskListContract;
 import uofm.software_engineering.group7.to_do_bot.db.TaskModel;
 import uofm.software_engineering.group7.to_do_bot.model.Task;
 
-/**
- * Created by thuongle on 4/4/16.
- * Version
- */
 public class TaskListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final Context context;
