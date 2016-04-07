@@ -29,7 +29,7 @@ import uofm.software_engineering.group7.to_do_bot.db.CategoryModelImpl;
 import uofm.software_engineering.group7.to_do_bot.db.DbHelper;
 import uofm.software_engineering.group7.to_do_bot.model.Category;
 
-public class EditCategoryActivity extends AppCompatActivity {
+public class EditCategoryActivity extends KeyboardActivity {
     private static final int REQUEST_ADD_NEW_CATEGORY = 1;
 
     public static final String EXTRA_CATEGORIES = "categories";
@@ -49,7 +49,8 @@ public class EditCategoryActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if(getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTitle(getString(R.string.your_categories_title));
         categoryModel = new CategoryModelImpl(new DbHelper(this));
 
@@ -172,20 +173,4 @@ public class EditCategoryActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
-        if (event.getAction() == MotionEvent.ACTION_DOWN) {
-            View v = getCurrentFocus();
-            if ( v instanceof EditText) {
-                Rect outRect = new Rect();
-                v.getGlobalVisibleRect(outRect);
-                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
-                    v.clearFocus();
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
-                }
-            }
-        }
-        return super.dispatchTouchEvent( event );
-    }
 }
