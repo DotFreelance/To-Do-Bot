@@ -22,6 +22,7 @@ import uofm.software_engineering.group7.to_do_bot.receiver.AlarmManagerBroadcast
 import uofm.software_engineering.group7.to_do_bot.receiver.AlarmService;
 
 public class AppUtils {
+    private static int requestCode=0;
     private AppUtils() {
     }
 
@@ -89,7 +90,8 @@ public class AppUtils {
             } else {
                 Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);
                 intent.putExtra("TaskName",taskName);
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+                requestCode++;
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(context, requestCode, intent, 0);
                 AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
                 alarmManager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
                 Toast.makeText(context, "Alarm set", Toast.LENGTH_SHORT).show();

@@ -18,17 +18,18 @@ import uofm.software_engineering.group7.to_do_bot.ui.MainActivity;
  */
 public class AlarmService extends Service {
     MediaPlayer rings;
-
+    private static int rc=0;
     public IBinder onBind(Intent arg0){
         return null;
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public int onStartCommand(Intent intent,int flags,int startId){
-        String taskName=intent.getExtras().getString("TaskName");
+        String taskName = intent.getExtras().getString("TaskName");
         NotificationManager notificationManager=(NotificationManager)getSystemService(NOTIFICATION_SERVICE);
         Intent intent1=new Intent(this.getApplicationContext(), MainActivity.class);
-        PendingIntent pendingIntent=PendingIntent.getActivity(this, 0, intent1, 0);
+        rc++;
+        PendingIntent pendingIntent=PendingIntent.getActivity(this, rc, intent1, 0);
 
         Notification notification=new Notification.Builder(this)
                 .setContentTitle("Are you ready for:")
@@ -37,7 +38,7 @@ public class AlarmService extends Service {
                 .setSmallIcon(R.mipmap.ic_business)
                 .setAutoCancel(true)
                 .build();
-        notificationManager.notify(0,notification);
+        notificationManager.notify(rc,notification);
 
         rings=MediaPlayer.create(this,R.raw.q);
         rings.start();
