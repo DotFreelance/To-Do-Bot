@@ -35,7 +35,7 @@ public class AlarmService extends Service {
                 .setContentTitle("Are you ready for:")
                 .setContentText(taskName)
                 .setContentIntent(pendingIntent)
-                .setSmallIcon(R.mipmap.ic_business)
+                .setSmallIcon(R.mipmap.ic_access_alarm)
                 .setAutoCancel(true)
                 .build();
         notificationManager.notify(rc,notification);

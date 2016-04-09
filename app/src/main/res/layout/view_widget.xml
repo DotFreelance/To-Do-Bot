@@ -6,18 +6,24 @@
     android:clickable="true"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:text="TO-DO-BOT"
-        android:textColor="#FF007F"
-        android:textSize="20sp" />
+    <!--<TextView-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:gravity="center"-->
+        <!--android:text="TO-DO-BOT"-->
+        <!--android:textColor="#FF007F"-->
+        <!--android:textSize="20sp" />-->
 
-    <Button
+    <ImageButton
         android:id="@+id/open_button"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Open app" />
+        android:src="@mipmap/ic_launcher"/>
+
+    <!--<Button-->
+        <!--android:id="@+id/open_button"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Open app" />-->
 </LinearLayout>
