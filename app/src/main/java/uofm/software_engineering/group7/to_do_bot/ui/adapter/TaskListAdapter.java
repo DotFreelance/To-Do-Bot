@@ -118,7 +118,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
             switch (task.getPriority()) {
                 case TaskListContract.TaskListItemSchema.PRIORITY_NONE:
-                    imagePriority.setImageResource(R.mipmap.none);
+                    imagePriority.setImageResource(R.mipmap.low);
                     break;
                 case TaskListContract.TaskListItemSchema.PRIORITY_MEDIUM:
                     imagePriority.setImageResource(R.mipmap.medium);
