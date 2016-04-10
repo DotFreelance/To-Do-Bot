@@ -78,11 +78,14 @@ public class AppUtils {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("MMMM dd, yyyy;HH:mm");
         try {
             Date alarm = simpleDateFormat.parse(alarmTime);
+
             Calendar current = Calendar.getInstance();
+
             Calendar cal = Calendar.getInstance();
             cal.setTime(alarm);
 
             if (cal.compareTo(current) <= 0) {
+                //The set Date/Time already passed
                 Toast.makeText(context, "Invalid Date/Time. Alarm in the past", Toast.LENGTH_LONG).show();
             } else {
                 Intent intent = new Intent(context, AlarmManagerBroadcastReceiver.class);

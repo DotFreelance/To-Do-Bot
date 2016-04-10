@@ -10,7 +10,25 @@ public class Category implements Parcelable {
     private String mDescription;
     private int mNumberOfTasks;
 
+    public Category() {
+        mId = -1;
+        mName = null;
+        mDescription = null;
+        mNumberOfTasks = -1;
+    }
+
     public Category(String name, String description) {
+        this.mName = name;
+        this.mDescription = description;
+    }
+
+    public Category(String name, String description, Bitmap icon) {
+        this.mName = name;
+        this.mDescription = description;
+    }
+
+    public Category(long id, String name, String description, Bitmap icon) {
+        this.mId = id;
         this.mName = name;
         this.mDescription = description;
     }
