@@ -47,12 +47,13 @@ public class CategoryModelImpl implements CategoryModel {
     @Override
     public Category add(Category object) {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
-
         ContentValues dbValues = new ContentValues();
         long newItemID;
+
         // Set the values we need for this entry
         dbValues.put(CategoryContract.CategoryItemSchema.COL_CATEGORY_NAME, object.getName());
         dbValues.put(CategoryContract.CategoryItemSchema.COL_CATEGORY_DESCRIPTION, object.getDescription());
+
         // Perform the database insert, returning the _ID primary key value
         newItemID = db.insert(CategoryContract.TABLE_NAME, null, dbValues);
         db.close();
@@ -72,9 +73,11 @@ public class CategoryModelImpl implements CategoryModel {
         //delete tasks first
         TaskModelImpl taskModel = new TaskModelImpl(mDbHelper);
         List<Task> tasksByCategory = taskModel.getTasksByCategory(object.getId());
+
         for (Task task : tasksByCategory) {
             taskModel.remove(task);
         }
+
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
         int rowAffect = db.delete(CategoryContract.TABLE_NAME, CategoryContract.CategoryItemSchema._ID + "=?", new String[]{Long.toString(object.getId())});
         db.close();

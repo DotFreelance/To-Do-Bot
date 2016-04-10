@@ -40,15 +40,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         return categories != null ? categories.size() : 0;
     }
 
-    public void update(Task task) {
-        for (Category category : categories) {
-            if (task.getId() == category.getId()) {
-                category.setNumberOfTasks(category.getNumberOfTasks() + 1);
-                notifyDataSetChanged();
-            }
-        }
-    }
-
     public void refresh(List categories) {
         this.categories.clear();
         this.categories.addAll(categories);
@@ -89,7 +80,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             } else {
                 textCategoryDescription.setVisibility(View.GONE);
             }
-
             textNumberOfTasks.setText(category.getNumberOfTasks() + " tasks");
         }
     }
