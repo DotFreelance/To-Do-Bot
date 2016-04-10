@@ -81,35 +81,31 @@ public class TaskListActivity extends AppCompatActivity {
                     }
                     //if task is an update from the original task
                     if (task.getAlarmTime() != null) {
-                        AppUtils.setAlarmTime(this, task.getAlarmTime(), task.getName());
+                        AppUtils.setAlarmTime(this, task.getAlarmTime(),task.getName());
                     }
-                    onActivity2(task);
+                    if (task.getId() != 0) {
+                        taskModel.update(task);
+                        adapter.update(task);
+                    } else {//if it is new task
+                        taskModel.add(task);
+                        if (adapter.getItemCount() == 0) {
+                            findViewById(R.id.view_empty).setVisibility(View.GONE);
+                            recyclerView.setVisibility(View.VISIBLE);
+                        }
+                        adapter.add(task);
+                    }
+                    if (task.getCategoryId() != mCategory.getId()) {//it is not in this category
+                        adapter.remove(task);
+                        mCategory.setNumberOfTasks(mCategory.getNumberOfTasks() - 1);
+                        if (adapter.getItemCount() == 0) {
+                            findViewById(R.id.view_empty).setVisibility(View.VISIBLE);
+                            recyclerView.setVisibility(View.GONE);
+                        }
+                    } else {
+                        mCategory.setNumberOfTasks(mCategory.getNumberOfTasks() + 1);
+                    }
                 }
                 break;
-        }
-    }
-
-    private void onActivity2(Task task){
-        if (task.getId() != 0) {
-            taskModel.update(task);
-            adapter.update(task);
-        } else {//if it is new task
-            taskModel.add(task);
-            if (adapter.getItemCount() == 0) {
-                findViewById(R.id.view_empty).setVisibility(View.GONE);
-                recyclerView.setVisibility(View.VISIBLE);
-            }
-            adapter.add(task);
-        }
-        if (task.getCategoryId() != mCategory.getId()) {//it is not in this category
-            adapter.remove(task);
-            mCategory.setNumberOfTasks(mCategory.getNumberOfTasks() - 1);
-            if (adapter.getItemCount() == 0) {
-                findViewById(R.id.view_empty).setVisibility(View.VISIBLE);
-                recyclerView.setVisibility(View.GONE);
-            }
-        } else {
-            mCategory.setNumberOfTasks(mCategory.getNumberOfTasks() + 1);
         }
     }
 

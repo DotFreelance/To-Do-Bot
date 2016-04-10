@@ -4,13 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -74,6 +77,7 @@ public class AddOrEditTaskActivity extends KeyboardActivity implements DatePicke
         if(getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
 
@@ -83,14 +87,10 @@ public class AddOrEditTaskActivity extends KeyboardActivity implements DatePicke
         radioTaskPriority = (RadioGroup) findViewById(R.id.radioTaskPriority);
         yourDateButton = (Button) findViewById(R.id.button_pick_day);
         yourTimeButton = (Button) findViewById(R.id.button_pick_time);
+
         calendar = Calendar.getInstance();
         dateFormat = DateFormat.getDateInstance(DateFormat.LONG, Locale.getDefault());
         timeFormat = new SimpleDateFormat(TIME_PATTERN, Locale.getDefault());
-
-        setUp(savedInstanceState);
-    }
-
-    private void setUp(@Nullable Bundle savedInstanceState) {
         byte[] imageByte;
         if (savedInstanceState == null) {
             task = getIntent().getParcelableExtra(EXTRA_TASK);
@@ -114,29 +114,25 @@ public class AddOrEditTaskActivity extends KeyboardActivity implements DatePicke
                 selectedBitmap = task.getImageDescription();
                 buttonRemovePic.setVisibility(View.VISIBLE);
             }
-            setUp2();
-        }
-    }
+            switch (task.getPriority()) {
+                case TaskListContract.TaskListItemSchema.PRIORITY_NONE:
+                    ((RadioButton) findViewById(R.id.radioTaskNone)).setChecked(true);
+                    break;
+                case TaskListContract.TaskListItemSchema.PRIORITY_MEDIUM:
+                    ((RadioButton) findViewById(R.id.radioTaskMedium)).setChecked(true);
+                    break;
+                case TaskListContract.TaskListItemSchema.PRIORITY_HIGH:
+                    ((RadioButton) findViewById(R.id.radioTaskHigh)).setChecked(true);
+                    break;
+            }
 
-    private void setUp2(){
-        switch (task.getPriority()) {
-            case TaskListContract.TaskListItemSchema.PRIORITY_NONE:
-                ((RadioButton) findViewById(R.id.radioTaskNone)).setChecked(true);
-                break;
-            case TaskListContract.TaskListItemSchema.PRIORITY_MEDIUM:
-                ((RadioButton) findViewById(R.id.radioTaskMedium)).setChecked(true);
-                break;
-            case TaskListContract.TaskListItemSchema.PRIORITY_HIGH:
-                ((RadioButton) findViewById(R.id.radioTaskHigh)).setChecked(true);
-                break;
-        }
-
-        String alarmTime = task.getAlarmTime();
-        if (alarmTime != null) {
-            String[] alarmTimeSplit = alarmTime.split(";");
-            yourDateButton.setText(alarmTimeSplit[0]);
-            if (alarmTime.length() > 0) {
-                yourTimeButton.setText(alarmTimeSplit[1]);
+            String alarmTime = task.getAlarmTime();
+            if (alarmTime != null) {
+                String[] alarmTimeSplit = alarmTime.split(";");
+                yourDateButton.setText(alarmTimeSplit[0]);
+                if (alarmTime.length() > 0) {
+                    yourTimeButton.setText(alarmTimeSplit[1]);
+                }
             }
         }
     }
@@ -203,6 +199,7 @@ public class AddOrEditTaskActivity extends KeyboardActivity implements DatePicke
         } else {
             inputTaskName.setError(null);
             task.setName(taskName);
+
             if (inCategoryId != -1) {
                 task.setCategoryId(inCategoryId);
             }
@@ -215,43 +212,36 @@ public class AddOrEditTaskActivity extends KeyboardActivity implements DatePicke
             } else {
                 priority = TaskListContract.TaskListItemSchema.PRIORITY_NONE;
             }
-            save2(task, priority);
-        }
-    }
+            task.setPriority(priority);
+            task.setImageDescription(selectedBitmap);
 
-    private void save2(Task task, int priority) {
-        task.setPriority(priority);
-        task.setImageDescription(selectedBitmap);
-        String alarmDate = yourDateButton.getText().toString();
-        String alarmTime = yourTimeButton.getText().toString();
-        boolean isAlarmValid = false;
-        String textPicDate = getString(R.string.pick_a_date);
-        String textPickTime = getString(R.string.pick_a_time);
-        if (!alarmDate.equals(textPicDate) && !alarmTime.equals(textPickTime)) {
-            isAlarmValid = true;
-            task.setAlarmTime(alarmDate + ";" + alarmTime);
-        } else if (alarmDate.equals(textPicDate) && !alarmTime.equals(textPickTime)) {
-            Toast.makeText(this, "Your alarm date cannot be empty", Toast.LENGTH_SHORT).show();
-        } else if (!alarmDate.equals(textPicDate) && alarmTime.equals(textPickTime)) {
-            Toast.makeText(this, "Your alarm time cannot be empty", Toast.LENGTH_SHORT).show();
-        } else {
-            //in case of alarmDate.equals(getString(R.string.pick_a_date)) && alarmTime.equals(getString(R.string.pick_a_time)
-            isAlarmValid = true;
-        }
-        save3(task, isAlarmValid);
-    }
-
-
-    private void save3(Task task, Boolean isAlarmValid){
-        if (isAlarmValid) {
-            Intent intent = new Intent();
-            intent.putExtra(EXTRA_TASK, task);
-            if (task.getImageDescription() != null) {
-                intent.putExtra(EXTRA_IMAGE_AS_BYTE, AppUtils.getBitmapAsByteArray(task.getImageDescription()));
-                task.setImageDescription(null);
+            String alarmDate = yourDateButton.getText().toString();
+            String alarmTime = yourTimeButton.getText().toString();
+            boolean isAlarmValid = false;
+            String textPicDate = getString(R.string.pick_a_date);
+            String textPickTime = getString(R.string.pick_a_time);
+            if (!alarmDate.equals(textPicDate) && !alarmTime.equals(textPickTime)) {
+                isAlarmValid = true;
+                task.setAlarmTime(alarmDate + ";" + alarmTime);
+            } else if (alarmDate.equals(textPicDate) && !alarmTime.equals(textPickTime)) {
+                Toast.makeText(this, "Your alarm date cannot be empty", Toast.LENGTH_SHORT).show();
+            } else if (!alarmDate.equals(textPicDate) && alarmTime.equals(textPickTime)) {
+                Toast.makeText(this, "Your alarm time cannot be empty", Toast.LENGTH_SHORT).show();
+            } else {
+                //in case of alarmDate.equals(getString(R.string.pick_a_date)) && alarmTime.equals(getString(R.string.pick_a_time)
+                isAlarmValid = true;
             }
-            setResult(RESULT_OK, intent);
-            finish();
+
+            if (isAlarmValid) {
+                Intent intent = new Intent();
+                intent.putExtra(EXTRA_TASK, task);
+                if (task.getImageDescription() != null) {
+                    intent.putExtra(EXTRA_IMAGE_AS_BYTE, AppUtils.getBitmapAsByteArray(task.getImageDescription()));
+                    task.setImageDescription(null);
+                }
+                setResult(RESULT_OK, intent);
+                finish();
+            }
         }
     }
 
@@ -308,23 +298,19 @@ public class AddOrEditTaskActivity extends KeyboardActivity implements DatePicke
                     }
                 }
                 break;
-                case REQUEST_TAKE_PICTURE:
-                onActivity2(resultCode, data);
-                    break;
+            case REQUEST_TAKE_PICTURE:
+                if (resultCode == RESULT_OK) {
+                    Bundle extras = data.getExtras();
+                    Bitmap imageBitmap = (Bitmap) extras.get("data");
+                    if (imageBitmap != null) {
+                        selectedBitmap = imageBitmap;
+                        imageDescription.setImageBitmap(imageBitmap);
+                        imageDescription.setVisibility(View.VISIBLE);
+                        buttonRemovePic.setVisibility(View.VISIBLE);
+                    }
+                }
+                break;
         }
-    }
 
-    private void onActivity2(int resultCode, Intent data)
-    {
-        if (resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            if (imageBitmap != null) {
-                selectedBitmap = imageBitmap;
-                imageDescription.setImageBitmap(imageBitmap);
-                imageDescription.setVisibility(View.VISIBLE);
-                buttonRemovePic.setVisibility(View.VISIBLE);
-            }
-        }
     }
 }
