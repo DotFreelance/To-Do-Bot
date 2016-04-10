@@ -22,17 +22,6 @@ public class Category implements Parcelable {
         this.mDescription = description;
     }
 
-    public Category(String name, String description, Bitmap icon) {
-        this.mName = name;
-        this.mDescription = description;
-    }
-
-    public Category(long id, String name, String description, Bitmap icon) {
-        this.mId = id;
-        this.mName = name;
-        this.mDescription = description;
-    }
-
     protected Category(Parcel in) {
         this.mId = in.readLong();
         this.mName = in.readString();
