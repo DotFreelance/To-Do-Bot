@@ -114,16 +114,15 @@ public class AddOrEditTaskActivity extends KeyboardActivity implements DatePicke
                 selectedBitmap = task.getImageDescription();
                 buttonRemovePic.setVisibility(View.VISIBLE);
             }
-            switch (task.getPriority()) {
-                case TaskListContract.TaskListItemSchema.PRIORITY_NONE:
-                    ((RadioButton) findViewById(R.id.radioTaskNone)).setChecked(true);
-                    break;
-                case TaskListContract.TaskListItemSchema.PRIORITY_MEDIUM:
-                    ((RadioButton) findViewById(R.id.radioTaskMedium)).setChecked(true);
-                    break;
-                case TaskListContract.TaskListItemSchema.PRIORITY_HIGH:
-                    ((RadioButton) findViewById(R.id.radioTaskHigh)).setChecked(true);
-                    break;
+            int priority = task.getPriority();
+            if (priority == TaskListContract.TaskListItemSchema.PRIORITY_NONE) {
+                ((RadioButton) findViewById(R.id.radioTaskNone)).setChecked(true);
+            }
+            else if (priority == TaskListContract.TaskListItemSchema.PRIORITY_MEDIUM) {
+                ((RadioButton) findViewById(R.id.radioTaskMedium)).setChecked(true);
+            }
+            else if (priority == TaskListContract.TaskListItemSchema.PRIORITY_HIGH) {
+                ((RadioButton) findViewById(R.id.radioTaskHigh)).setChecked(true);
             }
 
             String alarmTime = task.getAlarmTime();
