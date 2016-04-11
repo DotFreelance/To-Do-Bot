@@ -116,16 +116,15 @@ public class TaskListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 textAlarm.setText(R.string.no_alarm_set);
             }
 
-            switch (task.getPriority()) {
-                case TaskListContract.TaskListItemSchema.PRIORITY_NONE:
-                    imagePriority.setImageResource(R.mipmap.low);
-                    break;
-                case TaskListContract.TaskListItemSchema.PRIORITY_MEDIUM:
-                    imagePriority.setImageResource(R.mipmap.medium);
-                    break;
-                case TaskListContract.TaskListItemSchema.PRIORITY_HIGH:
-                    imagePriority.setImageResource(R.mipmap.high);
-                    break;
+            int priority = task.getPriority();
+            if (priority == TaskListContract.TaskListItemSchema.PRIORITY_NONE) {
+                imagePriority.setImageResource(R.mipmap.low);
+            }
+            else if (priority == TaskListContract.TaskListItemSchema.PRIORITY_MEDIUM) {
+                imagePriority.setImageResource(R.mipmap.medium);
+            }
+            else if (priority == TaskListContract.TaskListItemSchema.PRIORITY_HIGH) {
+                imagePriority.setImageResource(R.mipmap.high);
             }
 
             if (task.getImageDescription() != null) {

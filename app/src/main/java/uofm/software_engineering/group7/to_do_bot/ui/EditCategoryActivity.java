@@ -107,40 +107,43 @@ public class EditCategoryActivity extends KeyboardActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_add:
-                Intent intent = new Intent(this, AddNewCategoryActivity.class);
-                startActivityForResult(intent, REQUEST_ADD_NEW_CATEGORY);
-                return true;
-            case R.id.action_delete:
-                final Category currentCategory = (Category) spinnerCategory.getSelectedItem();
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage("Are you sure to delete " + currentCategory.getName());
-                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (categoryModel.remove(currentCategory)) {
-                            categories.remove(spinnerCategory.getSelectedItemPosition());
-                            ((ArrayAdapter) spinnerCategory.getAdapter()).notifyDataSetChanged();
-                            //Category currentCategory = (Category) spinnerCategory.getSelectedItem();
-                            refreshViewAfterChanged(currentCategory);
-                        } else {
-                            Toast.makeText(EditCategoryActivity.this, "Cannot delete this category", Toast.LENGTH_SHORT).show();
-                        }
-                        dialog.dismiss();
-                    }
-                });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                builder.create().show();
-                return true;
+        int itemID = item.getItemId();
 
+        if (itemID == R.id.action_add) {
+            Intent intent = new Intent(this, AddNewCategoryActivity.class);
+            startActivityForResult(intent, REQUEST_ADD_NEW_CATEGORY);
+            return true;
         }
-        return super.onOptionsItemSelected(item);
+        else if (itemID == R.id.action_delete) {
+            final Category currentCategory = (Category) spinnerCategory.getSelectedItem();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setMessage("Are you sure to delete " + currentCategory.getName());
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (categoryModel.remove(currentCategory)) {
+                        categories.remove(spinnerCategory.getSelectedItemPosition());
+                        ((ArrayAdapter) spinnerCategory.getAdapter()).notifyDataSetChanged();
+                        //Category currentCategory = (Category) spinnerCategory.getSelectedItem();
+                        refreshViewAfterChanged(currentCategory);
+                    } else {
+                        Toast.makeText(EditCategoryActivity.this, "Cannot delete this category", Toast.LENGTH_SHORT).show();
+                    }
+                    dialog.dismiss();
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            builder.create().show();
+            return true;
+        }
+        else {
+            return super.onOptionsItemSelected(item);
+        }
     }
 
     public void cancel(View view) {

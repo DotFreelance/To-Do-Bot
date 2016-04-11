@@ -114,16 +114,15 @@ public class AddOrEditTaskActivity extends KeyboardActivity implements DatePicke
                 selectedBitmap = task.getImageDescription();
                 buttonRemovePic.setVisibility(View.VISIBLE);
             }
-            switch (task.getPriority()) {
-                case TaskListContract.TaskListItemSchema.PRIORITY_NONE:
-                    ((RadioButton) findViewById(R.id.radioTaskNone)).setChecked(true);
-                    break;
-                case TaskListContract.TaskListItemSchema.PRIORITY_MEDIUM:
-                    ((RadioButton) findViewById(R.id.radioTaskMedium)).setChecked(true);
-                    break;
-                case TaskListContract.TaskListItemSchema.PRIORITY_HIGH:
-                    ((RadioButton) findViewById(R.id.radioTaskHigh)).setChecked(true);
-                    break;
+            int priority = task.getPriority();
+            if (priority == TaskListContract.TaskListItemSchema.PRIORITY_NONE) {
+                ((RadioButton) findViewById(R.id.radioTaskNone)).setChecked(true);
+            }
+            else if (priority == TaskListContract.TaskListItemSchema.PRIORITY_MEDIUM) {
+                ((RadioButton) findViewById(R.id.radioTaskMedium)).setChecked(true);
+            }
+            else if (priority == TaskListContract.TaskListItemSchema.PRIORITY_HIGH) {
+                ((RadioButton) findViewById(R.id.radioTaskHigh)).setChecked(true);
             }
 
             String alarmTime = task.getAlarmTime();
@@ -200,48 +199,59 @@ public class AddOrEditTaskActivity extends KeyboardActivity implements DatePicke
             inputTaskName.setError(null);
             task.setName(taskName);
 
-            if (inCategoryId != -1) {
-                task.setCategoryId(inCategoryId);
-            }
-            int checkedRadioButtonId = radioTaskPriority.getCheckedRadioButtonId();
-            int priority;
-            if (checkedRadioButtonId == R.id.radioTaskHigh) {
-                priority = TaskListContract.TaskListItemSchema.PRIORITY_HIGH;
-            } else if (checkedRadioButtonId == R.id.radioTaskMedium) {
-                priority = TaskListContract.TaskListItemSchema.PRIORITY_MEDIUM;
-            } else {
-                priority = TaskListContract.TaskListItemSchema.PRIORITY_NONE;
-            }
-            task.setPriority(priority);
-            task.setImageDescription(selectedBitmap);
+            saveCategory();
+            savePriority();
+            saveAlarm();
+        }
+    }
 
-            String alarmDate = yourDateButton.getText().toString();
-            String alarmTime = yourTimeButton.getText().toString();
-            boolean isAlarmValid = false;
-            String textPicDate = getString(R.string.pick_a_date);
-            String textPickTime = getString(R.string.pick_a_time);
-            if (!alarmDate.equals(textPicDate) && !alarmTime.equals(textPickTime)) {
-                isAlarmValid = true;
-                task.setAlarmTime(alarmDate + ";" + alarmTime);
-            } else if (alarmDate.equals(textPicDate) && !alarmTime.equals(textPickTime)) {
-                Toast.makeText(this, "Your alarm date cannot be empty", Toast.LENGTH_SHORT).show();
-            } else if (!alarmDate.equals(textPicDate) && alarmTime.equals(textPickTime)) {
-                Toast.makeText(this, "Your alarm time cannot be empty", Toast.LENGTH_SHORT).show();
-            } else {
-                //in case of alarmDate.equals(getString(R.string.pick_a_date)) && alarmTime.equals(getString(R.string.pick_a_time)
-                isAlarmValid = true;
-            }
+    private void saveCategory() {
+        if (inCategoryId != -1) {
+            task.setCategoryId(inCategoryId);
+        }
+    }
 
-            if (isAlarmValid) {
-                Intent intent = new Intent();
-                intent.putExtra(EXTRA_TASK, task);
-                if (task.getImageDescription() != null) {
-                    intent.putExtra(EXTRA_IMAGE_AS_BYTE, AppUtils.getBitmapAsByteArray(task.getImageDescription()));
-                    task.setImageDescription(null);
-                }
-                setResult(RESULT_OK, intent);
-                finish();
+    private void savePriority() {
+        int checkedRadioButtonId = radioTaskPriority.getCheckedRadioButtonId();
+        int priority;
+        if (checkedRadioButtonId == R.id.radioTaskHigh) {
+            priority = TaskListContract.TaskListItemSchema.PRIORITY_HIGH;
+        } else if (checkedRadioButtonId == R.id.radioTaskMedium) {
+            priority = TaskListContract.TaskListItemSchema.PRIORITY_MEDIUM;
+        } else {
+            priority = TaskListContract.TaskListItemSchema.PRIORITY_NONE;
+        }
+        task.setPriority(priority);
+        task.setImageDescription(selectedBitmap);
+    }
+
+    private void saveAlarm() {
+        String alarmDate = yourDateButton.getText().toString();
+        String alarmTime = yourTimeButton.getText().toString();
+        boolean isAlarmValid = false;
+        String textPicDate = getString(R.string.pick_a_date);
+        String textPickTime = getString(R.string.pick_a_time);
+        if (!alarmDate.equals(textPicDate) && !alarmTime.equals(textPickTime)) {
+            isAlarmValid = true;
+            task.setAlarmTime(alarmDate + ";" + alarmTime);
+        } else if (alarmDate.equals(textPicDate) && !alarmTime.equals(textPickTime)) {
+            Toast.makeText(this, "Your alarm date cannot be empty", Toast.LENGTH_SHORT).show();
+        } else if (!alarmDate.equals(textPicDate) && alarmTime.equals(textPickTime)) {
+            Toast.makeText(this, "Your alarm time cannot be empty", Toast.LENGTH_SHORT).show();
+        } else {
+            //in case of alarmDate.equals(getString(R.string.pick_a_date)) && alarmTime.equals(getString(R.string.pick_a_time)
+            isAlarmValid = true;
+        }
+
+        if (isAlarmValid) {
+            Intent intent = new Intent();
+            intent.putExtra(EXTRA_TASK, task);
+            if (task.getImageDescription() != null) {
+                intent.putExtra(EXTRA_IMAGE_AS_BYTE, AppUtils.getBitmapAsByteArray(task.getImageDescription()));
+                task.setImageDescription(null);
             }
+            setResult(RESULT_OK, intent);
+            finish();
         }
     }
 
@@ -280,37 +290,35 @@ public class AddOrEditTaskActivity extends KeyboardActivity implements DatePicke
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case REQUEST_PICK_PHOTO:
-                if (resultCode == RESULT_OK) {
-                    try {
-                        Uri selectedImage = data.getData();
-                        Bitmap bitmap = AppUtils.decodeUri(this, selectedImage);
-                        selectedBitmap = bitmap;
-                        if (imageDescription != null) {
-                            imageDescription.setImageBitmap(bitmap);
-                            imageDescription.setVisibility(View.VISIBLE);
-                            buttonRemovePic.setVisibility(View.VISIBLE);
-                        }
-                    } catch (FileNotFoundException e) {
-                        Log.e(TAG, "Error in choose avatar profile");
-                        Toast.makeText(this, "Your file not found", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                break;
-            case REQUEST_TAKE_PICTURE:
-                if (resultCode == RESULT_OK) {
-                    Bundle extras = data.getExtras();
-                    Bitmap imageBitmap = (Bitmap) extras.get("data");
-                    if (imageBitmap != null) {
-                        selectedBitmap = imageBitmap;
-                        imageDescription.setImageBitmap(imageBitmap);
+
+        if(requestCode == REQUEST_PICK_PHOTO) {
+            if (resultCode == RESULT_OK) {
+                try {
+                    Uri selectedImage = data.getData();
+                    Bitmap bitmap = AppUtils.decodeUri(this, selectedImage);
+                    selectedBitmap = bitmap;
+                    if (imageDescription != null) {
+                        imageDescription.setImageBitmap(bitmap);
                         imageDescription.setVisibility(View.VISIBLE);
                         buttonRemovePic.setVisibility(View.VISIBLE);
                     }
+                } catch (FileNotFoundException e) {
+                    Log.e(TAG, "Error in choose avatar profile");
+                    Toast.makeText(this, "Your file not found", Toast.LENGTH_SHORT).show();
                 }
-                break;
+            }
         }
-
+        else if(requestCode == REQUEST_TAKE_PICTURE) {
+            if (resultCode == RESULT_OK) {
+                Bundle extras = data.getExtras();
+                Bitmap imageBitmap = (Bitmap) extras.get("data");
+                if (imageBitmap != null) {
+                    selectedBitmap = imageBitmap;
+                    imageDescription.setImageBitmap(imageBitmap);
+                    imageDescription.setVisibility(View.VISIBLE);
+                    buttonRemovePic.setVisibility(View.VISIBLE);
+                }
+            }
+        }
     }
 }

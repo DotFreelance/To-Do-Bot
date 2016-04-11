@@ -70,42 +70,40 @@ public class TaskListActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case REQUEST_ADD_OR_EDIT_TASK:
-                if (resultCode == RESULT_OK) {
-                    Task task = data.getParcelableExtra(AddOrEditTaskActivity.EXTRA_TASK);
-                    byte[] imageByte = data.getByteArrayExtra(AddOrEditTaskActivity.EXTRA_IMAGE_AS_BYTE);
-                    if (imageByte != null) {
-                        Bitmap icon = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
-                        task.setImageDescription(icon);
-                    }
-                    //if task is an update from the original task
-                    if (task.getAlarmTime() != null) {
-                        AppUtils.setAlarmTime(this, task.getAlarmTime(),task.getName());
-                    }
-                    if (task.getId() != 0) {
-                        taskModel.update(task);
-                        adapter.update(task);
-                    } else {//if it is new task
-                        taskModel.add(task);
-                        if (adapter.getItemCount() == 0) {
-                            findViewById(R.id.view_empty).setVisibility(View.GONE);
-                            recyclerView.setVisibility(View.VISIBLE);
-                        }
-                        adapter.add(task);
-                    }
-                    if (task.getCategoryId() != mCategory.getId()) {//it is not in this category
-                        adapter.remove(task);
-                        mCategory.setNumberOfTasks(mCategory.getNumberOfTasks() - 1);
-                        if (adapter.getItemCount() == 0) {
-                            findViewById(R.id.view_empty).setVisibility(View.VISIBLE);
-                            recyclerView.setVisibility(View.GONE);
-                        }
-                    } else {
-                        mCategory.setNumberOfTasks(mCategory.getNumberOfTasks() + 1);
-                    }
+        if(requestCode == REQUEST_ADD_OR_EDIT_TASK) {
+            if (resultCode == RESULT_OK) {
+                Task task = data.getParcelableExtra(AddOrEditTaskActivity.EXTRA_TASK);
+                byte[] imageByte = data.getByteArrayExtra(AddOrEditTaskActivity.EXTRA_IMAGE_AS_BYTE);
+                if (imageByte != null) {
+                    Bitmap icon = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
+                    task.setImageDescription(icon);
                 }
-                break;
+                //if task is an update from the original task
+                if (task.getAlarmTime() != null) {
+                    AppUtils.setAlarmTime(this, task.getAlarmTime(),task.getName());
+                }
+                if (task.getId() != 0) {
+                    taskModel.update(task);
+                    adapter.update(task);
+                } else {//if it is new task
+                    taskModel.add(task);
+                    if (adapter.getItemCount() == 0) {
+                        findViewById(R.id.view_empty).setVisibility(View.GONE);
+                        recyclerView.setVisibility(View.VISIBLE);
+                    }
+                    adapter.add(task);
+                }
+                if (task.getCategoryId() != mCategory.getId()) {//it is not in this category
+                    adapter.remove(task);
+                    mCategory.setNumberOfTasks(mCategory.getNumberOfTasks() - 1);
+                    if (adapter.getItemCount() == 0) {
+                        findViewById(R.id.view_empty).setVisibility(View.VISIBLE);
+                        recyclerView.setVisibility(View.GONE);
+                    }
+                } else {
+                    mCategory.setNumberOfTasks(mCategory.getNumberOfTasks() + 1);
+                }
+            }
         }
     }
 
