@@ -188,6 +188,24 @@ public class AddOrEditTaskActivity extends KeyboardActivity implements DatePicke
         }
     }
 
+    public void save(View view) {
+        if (task == null) {
+            task = new Task();
+        }
+        String taskName = inputTaskName.getText().toString();
+        if (TextUtils.isEmpty(taskName)) {
+            inputTaskName.setError(getString(R.string.error_field_empty));
+            inputTaskName.requestFocus();
+        } else {
+            inputTaskName.setError(null);
+            task.setName(taskName);
+
+            saveCategory();
+            savePriority();
+            saveAlarm();
+        }
+    }
+
     private void saveCategory() {
         if (inCategoryId != -1) {
             task.setCategoryId(inCategoryId);
@@ -235,24 +253,6 @@ public class AddOrEditTaskActivity extends KeyboardActivity implements DatePicke
             }
             setResult(RESULT_OK, intent);
             finish();
-        }
-    }
-
-    public void save(View view) {
-        if (task == null) {
-            task = new Task();
-        }
-        String taskName = inputTaskName.getText().toString();
-        if (TextUtils.isEmpty(taskName)) {
-            inputTaskName.setError(getString(R.string.error_field_empty));
-            inputTaskName.requestFocus();
-        } else {
-            inputTaskName.setError(null);
-            task.setName(taskName);
-
-            saveCategory();
-            savePriority();
-            saveAlarm();
         }
     }
 
