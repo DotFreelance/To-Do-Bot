@@ -10,23 +10,34 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+        testApplicationId "uofm.software_engineering.group7.to_do_bot.test"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    testOptions {
-        unitTests.returnDefaultValues = true
-    }
+//    testOptions {
+//        unitTests.returnDefaultValues = true
+//    }
+//    sourceSets { main { java.srcDirs = ['src/main/java', 'src/androidTest/java'] } }
 }
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-core:1.10.19'
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.1.1'
     compile 'com.github.citux:datetimepicker:0.2.0'
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.mockito:mockito-core:1.10.19'
+    androidTestCompile('com.android.support.test:runner:0.3') {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+
+    // Unit testing dependencies
+    androidTestCompile 'com.jayway.android.robotium:robotium:5.5.4'
+    androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.2.1'
 }
