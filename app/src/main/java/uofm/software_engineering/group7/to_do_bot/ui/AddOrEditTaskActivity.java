@@ -188,6 +188,56 @@ public class AddOrEditTaskActivity extends KeyboardActivity implements DatePicke
         }
     }
 
+    private void saveCategory() {
+        if (inCategoryId != -1) {
+            task.setCategoryId(inCategoryId);
+        }
+    }
+
+    private void savePriority() {
+        int checkedRadioButtonId = radioTaskPriority.getCheckedRadioButtonId();
+        int priority;
+        if (checkedRadioButtonId == R.id.radioTaskHigh) {
+            priority = TaskListContract.TaskListItemSchema.PRIORITY_HIGH;
+        } else if (checkedRadioButtonId == R.id.radioTaskMedium) {
+            priority = TaskListContract.TaskListItemSchema.PRIORITY_MEDIUM;
+        } else {
+            priority = TaskListContract.TaskListItemSchema.PRIORITY_NONE;
+        }
+        task.setPriority(priority);
+        task.setImageDescription(selectedBitmap);
+    }
+
+    private void saveAlarm() {
+        String alarmDate = yourDateButton.getText().toString();
+        String alarmTime = yourTimeButton.getText().toString();
+        boolean isAlarmValid = false;
+        String textPicDate = getString(R.string.pick_a_date);
+        String textPickTime = getString(R.string.pick_a_time);
+        if (!alarmDate.equals(textPicDate) && !alarmTime.equals(textPickTime)) {
+            isAlarmValid = true;
+            task.setAlarmTime(alarmDate + ";" + alarmTime);
+        } else if (alarmDate.equals(textPicDate) && !alarmTime.equals(textPickTime)) {
+            Toast.makeText(this, "Your alarm date cannot be empty", Toast.LENGTH_SHORT).show();
+        } else if (!alarmDate.equals(textPicDate) && alarmTime.equals(textPickTime)) {
+            Toast.makeText(this, "Your alarm time cannot be empty", Toast.LENGTH_SHORT).show();
+        } else {
+            //in case of alarmDate.equals(getString(R.string.pick_a_date)) && alarmTime.equals(getString(R.string.pick_a_time)
+            isAlarmValid = true;
+        }
+
+        if (isAlarmValid) {
+            Intent intent = new Intent();
+            intent.putExtra(EXTRA_TASK, task);
+            if (task.getImageDescription() != null) {
+                intent.putExtra(EXTRA_IMAGE_AS_BYTE, AppUtils.getBitmapAsByteArray(task.getImageDescription()));
+                task.setImageDescription(null);
+            }
+            setResult(RESULT_OK, intent);
+            finish();
+        }
+    }
+
     public void save(View view) {
         if (task == null) {
             task = new Task();
@@ -200,48 +250,9 @@ public class AddOrEditTaskActivity extends KeyboardActivity implements DatePicke
             inputTaskName.setError(null);
             task.setName(taskName);
 
-            if (inCategoryId != -1) {
-                task.setCategoryId(inCategoryId);
-            }
-            int checkedRadioButtonId = radioTaskPriority.getCheckedRadioButtonId();
-            int priority;
-            if (checkedRadioButtonId == R.id.radioTaskHigh) {
-                priority = TaskListContract.TaskListItemSchema.PRIORITY_HIGH;
-            } else if (checkedRadioButtonId == R.id.radioTaskMedium) {
-                priority = TaskListContract.TaskListItemSchema.PRIORITY_MEDIUM;
-            } else {
-                priority = TaskListContract.TaskListItemSchema.PRIORITY_NONE;
-            }
-            task.setPriority(priority);
-            task.setImageDescription(selectedBitmap);
-
-            String alarmDate = yourDateButton.getText().toString();
-            String alarmTime = yourTimeButton.getText().toString();
-            boolean isAlarmValid = false;
-            String textPicDate = getString(R.string.pick_a_date);
-            String textPickTime = getString(R.string.pick_a_time);
-            if (!alarmDate.equals(textPicDate) && !alarmTime.equals(textPickTime)) {
-                isAlarmValid = true;
-                task.setAlarmTime(alarmDate + ";" + alarmTime);
-            } else if (alarmDate.equals(textPicDate) && !alarmTime.equals(textPickTime)) {
-                Toast.makeText(this, "Your alarm date cannot be empty", Toast.LENGTH_SHORT).show();
-            } else if (!alarmDate.equals(textPicDate) && alarmTime.equals(textPickTime)) {
-                Toast.makeText(this, "Your alarm time cannot be empty", Toast.LENGTH_SHORT).show();
-            } else {
-                //in case of alarmDate.equals(getString(R.string.pick_a_date)) && alarmTime.equals(getString(R.string.pick_a_time)
-                isAlarmValid = true;
-            }
-
-            if (isAlarmValid) {
-                Intent intent = new Intent();
-                intent.putExtra(EXTRA_TASK, task);
-                if (task.getImageDescription() != null) {
-                    intent.putExtra(EXTRA_IMAGE_AS_BYTE, AppUtils.getBitmapAsByteArray(task.getImageDescription()));
-                    task.setImageDescription(null);
-                }
-                setResult(RESULT_OK, intent);
-                finish();
-            }
+            saveCategory();
+            savePriority();
+            saveAlarm();
         }
     }
 
