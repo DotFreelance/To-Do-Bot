@@ -291,37 +291,35 @@ public class AddOrEditTaskActivity extends KeyboardActivity implements DatePicke
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case REQUEST_PICK_PHOTO:
-                if (resultCode == RESULT_OK) {
-                    try {
-                        Uri selectedImage = data.getData();
-                        Bitmap bitmap = AppUtils.decodeUri(this, selectedImage);
-                        selectedBitmap = bitmap;
-                        if (imageDescription != null) {
-                            imageDescription.setImageBitmap(bitmap);
-                            imageDescription.setVisibility(View.VISIBLE);
-                            buttonRemovePic.setVisibility(View.VISIBLE);
-                        }
-                    } catch (FileNotFoundException e) {
-                        Log.e(TAG, "Error in choose avatar profile");
-                        Toast.makeText(this, "Your file not found", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                break;
-            case REQUEST_TAKE_PICTURE:
-                if (resultCode == RESULT_OK) {
-                    Bundle extras = data.getExtras();
-                    Bitmap imageBitmap = (Bitmap) extras.get("data");
-                    if (imageBitmap != null) {
-                        selectedBitmap = imageBitmap;
-                        imageDescription.setImageBitmap(imageBitmap);
+
+        if(requestCode == REQUEST_PICK_PHOTO) {
+            if (resultCode == RESULT_OK) {
+                try {
+                    Uri selectedImage = data.getData();
+                    Bitmap bitmap = AppUtils.decodeUri(this, selectedImage);
+                    selectedBitmap = bitmap;
+                    if (imageDescription != null) {
+                        imageDescription.setImageBitmap(bitmap);
                         imageDescription.setVisibility(View.VISIBLE);
                         buttonRemovePic.setVisibility(View.VISIBLE);
                     }
+                } catch (FileNotFoundException e) {
+                    Log.e(TAG, "Error in choose avatar profile");
+                    Toast.makeText(this, "Your file not found", Toast.LENGTH_SHORT).show();
                 }
-                break;
+            }
         }
-
+        else if(requestCode == REQUEST_TAKE_PICTURE) {
+            if (resultCode == RESULT_OK) {
+                Bundle extras = data.getExtras();
+                Bitmap imageBitmap = (Bitmap) extras.get("data");
+                if (imageBitmap != null) {
+                    selectedBitmap = imageBitmap;
+                    imageDescription.setImageBitmap(imageBitmap);
+                    imageDescription.setVisibility(View.VISIBLE);
+                    buttonRemovePic.setVisibility(View.VISIBLE);
+                }
+            }
+        }
     }
 }
