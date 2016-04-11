@@ -109,7 +109,6 @@ public class EditCategoryActivity extends KeyboardActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemID = item.getItemId();
 
-
         if (itemID == R.id.action_add) {
             Intent intent = new Intent(this, AddNewCategoryActivity.class);
             startActivityForResult(intent, REQUEST_ADD_NEW_CATEGORY);

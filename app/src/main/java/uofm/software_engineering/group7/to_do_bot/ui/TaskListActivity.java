@@ -70,7 +70,7 @@ public class TaskListActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode ==  REQUEST_ADD_OR_EDIT_TASK) {
+        if(requestCode == REQUEST_ADD_OR_EDIT_TASK) {
             if (resultCode == RESULT_OK) {
                 Task task = data.getParcelableExtra(AddOrEditTaskActivity.EXTRA_TASK);
                 byte[] imageByte = data.getByteArrayExtra(AddOrEditTaskActivity.EXTRA_IMAGE_AS_BYTE);
