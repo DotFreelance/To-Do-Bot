@@ -11,7 +11,7 @@ import uofm.software_engineering.group7.to_do_bot.R;
  * Created by Paul J on 2016-02-18.
  */
 public class DbHelper extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME = "to-do-bot";
+    public static final String DATABASE_NAME = "to-do-bot";
     private static final int DATABASE_VERSION = 4;//for update category
     private static final StringBuffer TASK_TABLE_CREATE_QUERY = new StringBuffer()
             .append("CREATE TABLE IF NOT EXISTS ").append(TaskListContract.TABLE_NAME).append(" (")
