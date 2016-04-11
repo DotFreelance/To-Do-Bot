@@ -85,10 +85,6 @@ public class MainActivityTest extends ActivityInstrumentationTestCase2<MainActiv
         //should finish activity
         solo.assertCurrentActivity("wrong activity", MainActivity.class);
         assertTrue(solo.waitForActivity(MainActivity.class, 2000));
-        //new category should be added in the view
-        assertEquals(6, ((RecyclerView) solo.getView(R.id.recycler_view)).getAdapter().getItemCount());
-        assertTrue(solo.searchText("Edit Category"));
-        assertTrue(solo.searchText("Edit Description"));
     }
 
     public void testDeleteCategoryShouldReturn() {
